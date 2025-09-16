@@ -1,0 +1,968 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script><script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif']
+            }
+          }
+        }
+      };
+    </script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        body { font-family: 'Inter', sans-serif; }
+        
+        @keyframes neonGlow {
+            0%, 100% { 
+                box-shadow: 0 0 20px #00E5FF, 0 0 40px #00E5FF, 0 0 60px #00E5FF;
+            }
+            50% { 
+                box-shadow: 0 0 30px #FF00CC, 0 0 50px #FF00CC, 0 0 70px #FF00CC;
+            }
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes floatingParticles {
+            0% { transform: translateY(0px) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        @keyframes lightningBolt {
+            0% { transform: translateX(-100px) rotate(-10deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(100vw) rotate(10deg); opacity: 0; }
+        }
+        
+        @keyframes dataFlow {
+            0% { transform: translateX(-50px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateX(100vw); opacity: 0; }
+        }
+        
+        .neon-glow {
+            animation: neonGlow 3s ease-in-out infinite;
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        .floating-particle {
+            animation: floatingParticles 8s linear infinite;
+        }
+        
+        .gradient-shift {
+            background: linear-gradient(-45deg, #00E5FF, #FF00CC, #00E5FF, #FF00CC);
+            background-size: 400% 400%;
+            animation: gradientShift 4s ease infinite;
+        }
+        
+        .lightning-effect {
+            animation: lightningBolt 6s linear infinite;
+        }
+        
+        .data-flow {
+            animation: dataFlow 4s linear infinite;
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 30px #00E5FF, 0 0 60px #FF00CC;
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        
+        .text-gradient {
+            background: linear-gradient(45deg, #00E5FF, #FF00CC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .border-glow {
+            border: 1px solid transparent;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(45deg, #00E5FF, #FF00CC) border-box;
+        }
+        
+        .particle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: linear-gradient(45deg, #00E5FF, #FF00CC);
+            border-radius: 50%;
+        }
+    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
+
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="bg-black text-white overflow-x-hidden">
+    
+    <div class="particle-container" id="particleContainer"></div>
+    
+    <header id="header" class="relative z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-8">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-r from-blue-400 to-pink-500 rounded-lg flex items-center justify-center pulse-glow">
+                            <span class="text-white font-bold text-lg">R</span>
+                        </div>
+                        <span class="text-2xl font-bold text-white">Revamply</span>
+                    </div>
+                    <nav class="hidden md:flex space-x-8">
+                        <span class="text-gray-300 hover:text-white transition-colors cursor-pointer">Solutions</span>
+                        <span class="text-gray-300 hover:text-white transition-colors cursor-pointer">Process</span>
+                        <span class="text-gray-300 hover:text-white transition-colors cursor-pointer">About</span>
+                        <span class="text-gray-300 hover:text-white transition-colors cursor-pointer">Contact</span>
+                    </nav>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="text-gray-300 hover:text-white transition-colors">
+                        <i class="fa-solid fa-phone mr-2"></i>
+                        Schedule Call
+                    </button>
+                    <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-6 py-2 rounded-lg text-white font-semibold hover-glow">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="hero" class="relative min-h-[800px] bg-black flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-20 left-10 w-1 h-32 bg-gradient-to-b from-blue-400 to-transparent data-flow"></div>
+            <div class="absolute top-40 right-20 w-1 h-24 bg-gradient-to-b from-pink-500 to-transparent data-flow" style="animation-delay: 1s;"></div>
+            <div class="absolute bottom-20 left-1/4 w-1 h-40 bg-gradient-to-b from-blue-400 to-transparent data-flow" style="animation-delay: 2s;"></div>
+            <div class="absolute top-60 right-1/3 w-1 h-28 bg-gradient-to-b from-pink-500 to-transparent data-flow" style="animation-delay: 3s;"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 text-center relative z-10">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex items-center justify-center mb-8">
+                    <div class="relative">
+                        <i class="fa-solid fa-lightbulb text-6xl text-gradient pulse-glow mr-4"></i>
+                        <div class="absolute -top-2 -right-2 w-4 h-4 bg-yellow-400 rounded-full neon-glow"></div>
+                    </div>
+                </div>
+                
+                <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
+                    <span class="text-white">AI Solutions That</span><br>
+                    <span class="text-gradient gradient-shift">Save Time, Cut Costs</span><br>
+                    <span class="text-white">&amp; Grow Revenue</span>
+                </h1>
+                
+                <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-4xl mx-auto leading-relaxed">
+                    Revamply designs, builds, and maintains custom AI &amp; automation systems tailored to your business. From chatbots and workflow automation to full enterprise AI platforms — we remove bottlenecks so you can scale faster.
+                </p>
+                
+                <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow neon-glow transform hover:scale-105 transition-all duration-300">
+                    <i class="fa-solid fa-arrow-right mr-3"></i>
+                    Get Your Free AI Solution Blueprint
+                </button>
+                
+                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-gradient mb-2">40%</div>
+                        <div class="text-gray-400">Time Saved</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-gradient mb-2">$250K+</div>
+                        <div class="text-gray-400">Avg. Cost Reduction</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-3xl font-bold text-gradient mb-2">3-5 Weeks</div>
+                        <div class="text-gray-400">Implementation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent"></div>
+    </section>
+
+    <section id="form-section" class="py-20 bg-white text-black relative overflow-hidden">
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-10 left-10 w-2 h-2 bg-blue-400 rounded-full floating-particle"></div>
+            <div class="absolute top-20 right-20 w-2 h-2 bg-pink-500 rounded-full floating-particle" style="animation-delay: 1s;"></div>
+            <div class="absolute bottom-20 left-1/4 w-2 h-2 bg-blue-400 rounded-full floating-particle" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 right-1/3 w-2 h-2 bg-pink-500 rounded-full floating-particle" style="animation-delay: 3s;"></div>
+        </div>
+        
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black mb-6">Tell Us About Your Business</h2>
+                    <p class="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                        Every business has bottlenecks: wasted time, high overhead, missed revenue opportunities. Instead of offering cookie-cutter tools, Revamply creates AI systems built for your exact needs.
+                    </p>
+                </div>
+                
+                <div class="bg-white rounded-3xl shadow-2xl p-10 border-glow relative">
+                    <div class="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full pulse-glow"></div>
+                    
+                    <form class="space-y-8">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Business Description *</label>
+                                <textarea class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors h-32 resize-none" placeholder="Tell us about your business, industry, and main challenges..."></textarea>
+                            </div>
+                            <div class="space-y-6">
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Name (Optional)</label>
+                                    <input type="text" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="Your full name">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Email Address *</label>
+                                    <input type="email" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="your@email.com">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center pt-8">
+                            <button type="submit" class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow transform hover:scale-105 transition-all duration-300">
+                                <i class="fa-solid fa-bolt mr-3"></i>
+                                Generate My AI Blueprint
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="text-center mt-12">
+                    <div class="flex items-center justify-center space-x-6 text-gray-500">
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-shield-halved text-green-500 mr-2"></i>
+                            <span>100% Secure</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-clock text-blue-500 mr-2"></i>
+                            <span>2-Min Setup</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fa-solid fa-gift text-pink-500 mr-2"></i>
+                            <span>Completely Free</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="blueprint-section" class="py-20 bg-gray-50 text-black">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <div class="inline-flex items-center bg-gradient-to-r from-blue-400 to-pink-500 px-6 py-2 rounded-full text-white font-semibold mb-6">
+                        <i class="fa-solid fa-check mr-2"></i>
+                        Blueprint Generated
+                    </div>
+                    <h2 class="text-5xl font-black mb-6">Your AI Solution Blueprint Is Ready</h2>
+                    <p class="text-xl text-gray-700">Customized for: <span class="font-bold text-gradient">Premium Roofing Company</span></p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 mb-16">
+                    <div class="bg-white rounded-2xl p-8 shadow-lg hover-glow border-glow">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
+                            <i class="fa-solid fa-robot text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">AI Customer Service Agent</h3>
+                        <p class="text-gray-600 mb-4">Handles inbound inquiries, books roofing inspections, and qualifies leads 24/7.</p>
+                        <ul class="space-y-2 text-sm text-gray-500">
+                            <li>• Instant response to customer queries</li>
+                            <li>• Automated appointment scheduling</li>
+                            <li>• Lead qualification and routing</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 shadow-lg hover-glow border-glow">
+                        <div class="w-16 h-16 bg-gradient-to-r from-pink-400 to-pink-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
+                            <i class="fa-solid fa-chart-line text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Predictive Analytics Engine</h3>
+                        <p class="text-gray-600 mb-4">Forecasts seasonal roofing demand to optimize crew schedules and inventory.</p>
+                        <ul class="space-y-2 text-sm text-gray-500">
+                            <li>• Weather-based demand prediction</li>
+                            <li>• Crew scheduling optimization</li>
+                            <li>• Material inventory management</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 shadow-lg hover-glow border-glow">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
+                            <i class="fa-solid fa-envelope text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4">Smart Follow-Up AI</h3>
+                        <p class="text-gray-600 mb-4">Sends automated estimates, reminders, and upsell offers at optimal times.</p>
+                        <ul class="space-y-2 text-sm text-gray-500">
+                            <li>• Personalized estimate delivery</li>
+                            <li>• Automated follow-up sequences</li>
+                            <li>• Upsell opportunity identification</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="bg-white rounded-3xl p-10 shadow-2xl border-glow">
+                    <div class="grid md:grid-cols-2 gap-12">
+                        <div>
+                            <h3 class="text-3xl font-bold mb-6">Implementation Details</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fa-solid fa-calendar text-white"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-lg">Build Time</div>
+                                        <div class="text-gray-600">3–5 Weeks</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fa-solid fa-headset text-white"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-lg">Maintenance &amp; Support</div>
+                                        <div class="text-gray-600">Included</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="flex items-center">
+                                    <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full flex items-center justify-center mr-4">
+                                        <i class="fa-solid fa-rocket text-white"></i>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-lg">Expected ROI</div>
+                                        <div class="text-gray-600">300%+ within 12 months</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-2xl p-8">
+                            <h4 class="text-2xl font-bold mb-6">Ready to Move Forward?</h4>
+                            <p class="text-gray-600 mb-8">Speak with our solutions expert to get full pricing, timeline, and implementation details.</p>
+                            
+                            <form class="space-y-4">
+                                <input type="text" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="Business Name">
+                                <input type="tel" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="Phone Number">
+                                
+                                <button type="submit" class="w-full bg-gradient-to-r from-blue-400 to-pink-500 px-8 py-4 rounded-xl text-white font-bold hover-glow">
+                                    <i class="fa-solid fa-link mr-3"></i>
+                                    Speak With a Solutions Expert
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="why-revamply" class="py-20 bg-black">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black text-white mb-6">Why Businesses Choose Revamply</h2>
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">We don't just build AI tools—we create complete business transformation solutions.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
+                            <i class="fa-solid fa-clock text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-black">Save Time</h3>
+                        <p class="text-gray-600">Automate repetitive tasks and free up your team to focus on high-value activities that drive growth.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
+                        <div class="w-16 h-16 bg-gradient-to-r from-red-400 to-red-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
+                            <i class="fa-solid fa-dollar-sign text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-black">Cut Costs</h3>
+                        <p class="text-gray-600">Reduce operational expenses through intelligent automation and optimized workflows.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
+                            <i class="fa-solid fa-chart-line text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-black">Generate Revenue</h3>
+                        <p class="text-gray-600">Unlock new revenue streams and optimize existing ones with data-driven insights.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
+                        <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
+                            <i class="fa-solid fa-cog text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-black">Custom-Built</h3>
+                        <p class="text-gray-600">Every solution is tailored specifically to your business needs, not one-size-fits-all software.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
+                        <div class="w-16 h-16 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
+                            <i class="fa-solid fa-handshake text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-black">End-to-End Partner</h3>
+                        <p class="text-gray-600">From strategy to implementation to ongoing support—we're with you every step of the way.</p>
+                    </div>
+                    
+                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
+                        <div class="w-16 h-16 bg-gradient-to-r from-pink-400 to-pink-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
+                            <i class="fa-solid fa-building text-white text-2xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-black">Enterprise Ready</h3>
+                        <p class="text-gray-600">Scalable, secure, and robust solutions that grow with your business needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="social-proof" class="py-20 bg-white text-black">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black mb-6">Real Results from Real Businesses</h2>
+                    <p class="text-xl text-gray-700">See how companies like yours transformed their operations with Revamply's AI solutions.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-12 mb-16">
+                    <div class="bg-gray-50 rounded-3xl p-10 border-glow relative">
+                        <div class="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full pulse-glow"></div>
+                        <div class="flex items-center mb-6">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" alt="Client" class="w-16 h-16 rounded-full mr-4">
+                            <div>
+                                <div class="font-bold text-lg">Mike Rodriguez</div>
+                                <div class="text-gray-600">CEO, Summit Roofing</div>
+                            </div>
+                        </div>
+                        <blockquote class="text-lg text-gray-700 mb-6">
+                            "Revamply's AI cut our admin workload by <span class="font-bold text-gradient">40%</span> and doubled booked inspections. Our team can finally focus on what they do best—quality roofing work."
+                        </blockquote>
+                        <div class="flex space-x-4">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">40%</div>
+                                <div class="text-sm text-gray-500">Less Admin Work</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">2x</div>
+                                <div class="text-sm text-gray-500">More Inspections</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">$180K</div>
+                                <div class="text-sm text-gray-500">Added Revenue</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-3xl p-10 border-glow relative">
+                        <div class="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full pulse-glow"></div>
+                        <div class="flex items-center mb-6">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Client" class="w-16 h-16 rounded-full mr-4">
+                            <div>
+                                <div class="font-bold text-lg">Sarah Chen</div>
+                                <div class="text-gray-600">Operations Director, Elite Construction</div>
+                            </div>
+                        </div>
+                        <blockquote class="text-lg text-gray-700 mb-6">
+                            "The predictive analytics helped us reduce material waste by <span class="font-bold text-gradient">35%</span> and improve crew utilization by <span class="font-bold text-gradient">60%</span>. ROI was achieved in just 4 months."
+                        </blockquote>
+                        <div class="flex space-x-4">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">35%</div>
+                                <div class="text-sm text-gray-500">Less Waste</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">60%</div>
+                                <div class="text-sm text-gray-500">Better Utilization</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">4 Mo</div>
+                                <div class="text-sm text-gray-500">ROI Timeline</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <div class="text-4xl font-bold text-gradient mb-2">500+</div>
+                        <div class="text-gray-600">Projects Completed</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-gradient mb-2">98%</div>
+                        <div class="text-gray-600">Client Satisfaction</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-gradient mb-2">$50M+</div>
+                        <div class="text-gray-600">Client Savings Generated</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-gradient mb-2">24/7</div>
+                        <div class="text-gray-600">Support Available</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="process" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black text-white mb-6">Our Proven AI Implementation Process</h2>
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">From initial consultation to full deployment, we follow a systematic approach that ensures success.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div class="text-center relative">
+                        <div class="w-24 h-24 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
+                            <i class="fa-solid fa-search text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Discover</h3>
+                        <p class="text-gray-300 mb-6">Deep dive into your business processes, pain points, and objectives to identify the best AI opportunities.</p>
+                        <div class="hidden md:block absolute top-12 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-pink-500"></div>
+                    </div>
+                    
+                    <div class="text-center relative">
+                        <div class="w-24 h-24 bg-gradient-to-r from-pink-400 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
+                            <i class="fa-solid fa-drafting-compass text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Blueprint</h3>
+                        <p class="text-gray-300 mb-6">Create a detailed technical blueprint with timelines, specifications, and expected outcomes for your custom AI solution.</p>
+                        <div class="hidden md:block absolute top-12 -right-4 w-8 h-0.5 bg-gradient-to-r from-pink-400 to-purple-500"></div>
+                    </div>
+                    
+                    <div class="text-center relative">
+                        <div class="w-24 h-24 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
+                            <i class="fa-solid fa-hammer text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Build</h3>
+                        <p class="text-gray-300 mb-6">Develop, test, and refine your AI solution with regular updates and feedback loops throughout the process.</p>
+                        <div class="hidden md:block absolute top-12 -right-4 w-8 h-0.5 bg-gradient-to-r from-purple-400 to-green-500"></div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-24 h-24 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
+                            <i class="fa-solid fa-tools text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Maintain</h3>
+                        <p class="text-gray-300 mb-6">Ongoing monitoring, optimization, and support to ensure your AI solution continues delivering maximum value.</p>
+                    </div>
+                </div>
+                
+                <div class="mt-16 bg-gray-800 rounded-3xl p-10">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold text-white mb-6">What You Can Expect</h3>
+                            <ul class="space-y-4 text-gray-300">
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                    Weekly progress updates and demos
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                    Direct access to your development team
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                    Comprehensive training and documentation
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                    30-day post-launch optimization period
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                    Lifetime technical support included
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-6xl font-bold text-gradient mb-4">3-5</div>
+                            <div class="text-xl text-white mb-2">Weeks Average</div>
+                            <div class="text-gray-400">From Start to Launch</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features-showcase" class="py-20 bg-white text-black">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black mb-6">Advanced AI Capabilities</h2>
+                    <p class="text-xl text-gray-700">Cutting-edge technology that adapts to your unique business requirements.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-16 items-center mb-20">
+                    <div>
+                        <h3 class="text-3xl font-bold mb-6">Natural Language Processing</h3>
+                        <p class="text-lg text-gray-600 mb-8">Our AI understands context, intent, and nuance in customer communications, providing human-like interactions that build trust and drive conversions.</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full mr-3"></div>
+                                <span>Multi-language support</span>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full mr-3"></div>
+                                <span>Sentiment analysis</span>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full mr-3"></div>
+                                <span>Intent recognition</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 rounded-3xl p-10 border-glow">
+                        <div class="space-y-4">
+                            <div class="bg-blue-100 rounded-2xl p-4">
+                                <div class="text-sm text-gray-500 mb-2">Customer Query</div>
+                                <div class="font-medium">"Hi, I need a roof inspection ASAP. Storm damage yesterday."</div>
+                            </div>
+                            <div class="bg-pink-100 rounded-2xl p-4">
+                                <div class="text-sm text-gray-500 mb-2">AI Response</div>
+                                <div class="font-medium">"I understand the urgency of storm damage. I can schedule an emergency inspection for you today. What's your address and preferred time?"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-16 items-center mb-20">
+                    <div class="bg-gray-50 rounded-3xl p-10 border-glow order-2 md:order-1">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between bg-white rounded-xl p-4">
+                                <span>Lead Conversion Rate</span>
+                                <span class="text-2xl font-bold text-gradient">+85%</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-white rounded-xl p-4">
+                                <span>Response Time</span>
+                                <span class="text-2xl font-bold text-gradient">&lt; 30s</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-white rounded-xl p-4">
+                                <span>Customer Satisfaction</span>
+                                <span class="text-2xl font-bold text-gradient">94%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <h3 class="text-3xl font-bold mb-6">Predictive Analytics</h3>
+                        <p class="text-lg text-gray-600 mb-8">Leverage machine learning algorithms to predict customer behavior, optimize operations, and identify new revenue opportunities before your competitors do.</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full mr-3"></div>
+                                <span>Demand forecasting</span>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full mr-3"></div>
+                                <span>Customer lifetime value prediction</span>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full mr-3"></div>
+                                <span>Risk assessment automation</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing-preview" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-5xl font-black text-white mb-6">Investment That Pays for Itself</h2>
+                <p class="text-xl text-gray-300 mb-12">Our AI solutions typically pay for themselves within 6 months through cost savings and revenue growth.</p>
+                
+                <div class="bg-gray-800 rounded-3xl p-10 border-glow">
+                    <div class="grid md:grid-cols-3 gap-8 mb-12">
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-gradient mb-2">$25K - $75K</div>
+                            <div class="text-white font-semibold mb-2">Typical Investment Range</div>
+                            <div class="text-gray-400">Based on solution complexity</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-gradient mb-2">6 Months</div>
+                            <div class="text-white font-semibold mb-2">Average ROI Timeline</div>
+                            <div class="text-gray-400">Often much faster</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-gradient mb-2">300%+</div>
+                            <div class="text-white font-semibold mb-2">ROI in Year One</div>
+                            <div class="text-gray-400">Typical client results</div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-gray-300 mb-8">Every solution is custom-priced based on your specific needs and expected outcomes. Get your personalized quote today.</p>
+                        <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow">
+                            Get Custom Pricing Quote
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="final-cta" class="py-20 bg-black relative overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-pink-500 to-blue-400 gradient-shift"></div>
+            <div class="absolute top-10 left-10 w-2 h-32 bg-gradient-to-b from-blue-400 to-transparent data-flow"></div>
+            <div class="absolute top-20 right-20 w-2 h-24 bg-gradient-to-b from-pink-500 to-transparent data-flow" style="animation-delay: 1s;"></div>
+            <div class="absolute bottom-10 left-1/4 w-2 h-40 bg-gradient-to-b from-blue-400 to-transparent data-flow" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 right-1/3 w-2 h-28 bg-gradient-to-b from-pink-500 to-transparent data-flow" style="animation-delay: 3s;"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-5xl md:text-6xl font-black text-white mb-8">
+                    Your Business Bottlenecks <span class="text-gradient">End Here</span>
+                </h2>
+                
+                <p class="text-xl md:text-2xl text-gray-300 mb-12 leading-relaxed">
+                    Stop wasting time and money on outdated systems. Revamply builds the AI solutions that transform your business operations, cut costs, and accelerate growth.
+                </p>
+                
+                <div class="mb-12">
+                    <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-16 py-6 rounded-3xl text-white text-2xl font-bold hover-glow neon-glow transform hover:scale-105 transition-all duration-300">
+                        <i class="fa-solid fa-fire mr-4"></i>
+                        Get My Free AI Solution Blueprint
+                    </button>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div>
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 pulse-glow">
+                            <i class="fa-solid fa-shield-check text-white text-xl"></i>
+                        </div>
+                        <div class="text-white font-semibold">100% Risk-Free</div>
+                        <div class="text-gray-400">30-day satisfaction guarantee</div>
+                    </div>
+                    <div>
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 pulse-glow">
+                            <i class="fa-solid fa-bolt text-white text-xl"></i>
+                        </div>
+                        <div class="text-white font-semibold">Fast Implementation</div>
+                        <div class="text-gray-400">3-5 weeks to launch</div>
+                    </div>
+                    <div>
+                        <div class="w-16 h-16 bg-gradient-to-r from-pink-400 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 pulse-glow">
+                            <i class="fa-solid fa-headset text-white text-xl"></i>
+                        </div>
+                        <div class="text-white font-semibold">Lifetime Support</div>
+                        <div class="text-gray-400">We're your long-term partner</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer" class="bg-gray-900 py-16">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-4 gap-12 mb-12">
+                    <div class="md:col-span-2">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-pink-500 rounded-xl flex items-center justify-center pulse-glow">
+                                <span class="text-white font-bold text-xl">R</span>
+                            </div>
+                            <span class="text-3xl font-bold text-white">Revamply</span>
+                        </div>
+                        <p class="text-gray-400 text-lg leading-relaxed mb-6">
+                            We design, build, and maintain custom AI &amp; automation systems that remove business bottlenecks and accelerate growth.
+                        </p>
+                        <div class="flex space-x-4">
+                            <span class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors cursor-pointer">
+                                <i class="fa-brands fa-linkedin text-white"></i>
+                            </span>
+                            <span class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors cursor-pointer">
+                                <i class="fa-brands fa-twitter text-white"></i>
+                            </span>
+                            <span class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-500 transition-colors cursor-pointer">
+                                <i class="fa-brands fa-instagram text-white"></i>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-6">Solutions</h4>
+                        <ul class="space-y-3 text-gray-400">
+                            <li><span class="hover:text-white transition-colors cursor-pointer">AI Chatbots</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Process Automation</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Predictive Analytics</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Custom AI Platforms</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-6">Company</h4>
+                        <ul class="space-y-3 text-gray-400">
+                            <li><span class="hover:text-white transition-colors cursor-pointer">About Us</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Case Studies</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Careers</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Contact</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-800 pt-8">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="text-gray-400 mb-4 md:mb-0">
+                            © 2024 Revamply. All rights reserved.
+                        </div>
+                        <div class="flex space-x-6 text-gray-400">
+                            <span class="hover:text-white transition-colors cursor-pointer">Privacy Policy</span>
+                            <span class="hover:text-white transition-colors cursor-pointer">Terms of Service</span>
+                            <span class="hover:text-white transition-colors cursor-pointer">Cookie Policy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Floating particles animation
+        function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'particle floating-particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            
+            document.getElementById('particleContainer').appendChild(particle);
+            
+            setTimeout(() => {
+                particle.remove();
+            }, 8000);
+        }
+        
+        // Create particles periodically
+        setInterval(createParticle, 800);
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Form submission handling
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                // Add form submission logic here
+                const button = this.querySelector('button[type="submit"]');
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Processing...';
+                button.disabled = true;
+                
+                setTimeout(() => {
+                    button.innerHTML = '<i class="fa-solid fa-check mr-2"></i>Success!';
+                    setTimeout(() => {
+                        button.innerHTML = originalText;
+                        button.disabled = false;
+                    }, 2000);
+                }, 2000);
+            });
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all sections for scroll animations
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+        
+        // Add hover effects to cards
+        document.querySelectorAll('.hover-glow').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+
+</body></html>
