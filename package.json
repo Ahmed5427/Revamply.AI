@@ -1,0 +1,30 @@
+{
+  "name": "revamply-landing-page",
+  "version": "1.0.0",
+  "description": "Revamply AI Solutions Landing Page with HubSpot Integration",
+  "main": "index.html",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'Static site - no build step required'",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.0.0"
+  },
+  "keywords": [
+    "ai",
+    "automation",
+    "landing-page",
+    "hubspot",
+    "n8n"
+  ],
+  "author": "Revamply",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/revamply-landing-page.git"
+  }
+}
