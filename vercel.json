@@ -1,15 +1,10 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "api/**/*.js",
-      "use": "@vercel/node"
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs18.x"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/(.*)",
@@ -20,11 +15,6 @@
       "dest": "/$1"
     }
   ],
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "nodejs18.x"
-    }
-  },
   "env": {
     "N8N_WEBHOOK_URL": "@n8n_webhook_url",
     "N8N_BLUEPRINT_WEBHOOK_URL": "@n8n_blueprint_webhook_url"
