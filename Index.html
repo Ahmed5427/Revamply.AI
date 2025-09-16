@@ -127,6 +127,46 @@
             background: linear-gradient(45deg, #00E5FF, #FF00CC);
             border-radius: 50%;
         }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 600;
+        }
     </style>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><style>
   .highlighted-section {
@@ -174,7 +214,7 @@
                         <i class="fa-solid fa-phone mr-2"></i>
                         Schedule Call
                     </button>
-                    <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-6 py-2 rounded-lg text-white font-semibold hover-glow">
+                    <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-6 py-2 rounded-lg text-white font-semibold hover-glow" onclick="scrollToForm()">
                         Get Started
                     </button>
                 </div>
@@ -209,7 +249,7 @@
                     Revamply designs, builds, and maintains custom AI &amp; automation systems tailored to your business. From chatbots and workflow automation to full enterprise AI platforms — we remove bottlenecks so you can scale faster.
                 </p>
                 
-                <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow neon-glow transform hover:scale-105 transition-all duration-300">
+                <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow neon-glow transform hover:scale-105 transition-all duration-300" onclick="scrollToForm()">
                     <i class="fa-solid fa-arrow-right mr-3"></i>
                     Get Your Free AI Solution Blueprint
                 </button>
@@ -254,28 +294,50 @@
                 <div class="bg-white rounded-3xl shadow-2xl p-10 border-glow relative">
                     <div class="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full pulse-glow"></div>
                     
-                    <form class="space-y-8">
+                    <!-- Messages Container -->
+                    <div id="messages-container"></div>
+                    
+                    <form id="business-form" class="space-y-8">
                         <div class="grid md:grid-cols-2 gap-8">
                             <div>
                                 <label class="block text-sm font-semibold text-gray-700 mb-3">Business Description *</label>
-                                <textarea class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors h-32 resize-none" placeholder="Tell us about your business, industry, and main challenges..."></textarea>
+                                <textarea 
+                                    id="business-description" 
+                                    name="businessDescription" 
+                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors h-32 resize-none" 
+                                    placeholder="Tell us about your business, industry, and main challenges..."
+                                    required
+                                ></textarea>
                             </div>
                             <div class="space-y-6">
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-700 mb-3">Name (Optional)</label>
-                                    <input type="text" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="Your full name">
+                                    <input 
+                                        type="text" 
+                                        id="name"
+                                        name="name"
+                                        class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" 
+                                        placeholder="Your full name"
+                                    >
                                 </div>
                                 <div>
                                     <label class="block text-sm font-semibold text-gray-700 mb-3">Email Address *</label>
-                                    <input type="email" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="your@email.com">
+                                    <input 
+                                        type="email" 
+                                        id="email"
+                                        name="email"
+                                        class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" 
+                                        placeholder="your@email.com"
+                                        required
+                                    >
                                 </div>
                             </div>
                         </div>
                         
                         <div class="text-center pt-8">
-                            <button type="submit" class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow transform hover:scale-105 transition-all duration-300">
+                            <button type="submit" id="submit-btn" class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow transform hover:scale-105 transition-all duration-300">
                                 <i class="fa-solid fa-bolt mr-3"></i>
-                                Generate My AI Blueprint
+                                <span id="submit-text">Generate My AI Blueprint</span>
                             </button>
                         </div>
                     </form>
@@ -301,7 +363,7 @@
         </div>
     </section>
 
-    <section id="blueprint-section" class="py-20 bg-gray-50 text-black">
+    <section id="blueprint-section" class="py-20 bg-gray-50 text-black hidden">
         <div class="container mx-auto px-6">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-16">
@@ -310,48 +372,11 @@
                         Blueprint Generated
                     </div>
                     <h2 class="text-5xl font-black mb-6">Your AI Solution Blueprint Is Ready</h2>
-                    <p class="text-xl text-gray-700">Customized for: <span class="font-bold text-gradient">Premium Roofing Company</span></p>
+                    <p class="text-xl text-gray-700">Customized for: <span id="business-type" class="font-bold text-gradient">Your Business</span></p>
                 </div>
                 
-                <div class="grid md:grid-cols-3 gap-8 mb-16">
-                    <div class="bg-white rounded-2xl p-8 shadow-lg hover-glow border-glow">
-                        <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
-                            <i class="fa-solid fa-robot text-white text-2xl"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4">AI Customer Service Agent</h3>
-                        <p class="text-gray-600 mb-4">Handles inbound inquiries, books roofing inspections, and qualifies leads 24/7.</p>
-                        <ul class="space-y-2 text-sm text-gray-500">
-                            <li>• Instant response to customer queries</li>
-                            <li>• Automated appointment scheduling</li>
-                            <li>• Lead qualification and routing</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-white rounded-2xl p-8 shadow-lg hover-glow border-glow">
-                        <div class="w-16 h-16 bg-gradient-to-r from-pink-400 to-pink-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
-                            <i class="fa-solid fa-chart-line text-white text-2xl"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4">Predictive Analytics Engine</h3>
-                        <p class="text-gray-600 mb-4">Forecasts seasonal roofing demand to optimize crew schedules and inventory.</p>
-                        <ul class="space-y-2 text-sm text-gray-500">
-                            <li>• Weather-based demand prediction</li>
-                            <li>• Crew scheduling optimization</li>
-                            <li>• Material inventory management</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="bg-white rounded-2xl p-8 shadow-lg hover-glow border-glow">
-                        <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
-                            <i class="fa-solid fa-envelope text-white text-2xl"></i>
-                        </div>
-                        <h3 class="text-2xl font-bold mb-4">Smart Follow-Up AI</h3>
-                        <p class="text-gray-600 mb-4">Sends automated estimates, reminders, and upsell offers at optimal times.</p>
-                        <ul class="space-y-2 text-sm text-gray-500">
-                            <li>• Personalized estimate delivery</li>
-                            <li>• Automated follow-up sequences</li>
-                            <li>• Upsell opportunity identification</li>
-                        </ul>
-                    </div>
+                <div id="blueprint-content" class="grid md:grid-cols-3 gap-8 mb-16">
+                    <!-- Blueprint content will be dynamically generated here -->
                 </div>
                 
                 <div class="bg-white rounded-3xl p-10 shadow-2xl border-glow">
@@ -395,9 +420,9 @@
                             <h4 class="text-2xl font-bold mb-6">Ready to Move Forward?</h4>
                             <p class="text-gray-600 mb-8">Speak with our solutions expert to get full pricing, timeline, and implementation details.</p>
                             
-                            <form class="space-y-4">
-                                <input type="text" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="Business Name">
-                                <input type="tel" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="Phone Number">
+                            <form id="next-steps-form" class="space-y-4">
+                                <input type="text" name="businessName" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="Business Name" required>
+                                <input type="tel" name="phone" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="Phone Number" required>
                                 
                                 <button type="submit" class="w-full bg-gradient-to-r from-blue-400 to-pink-500 px-8 py-4 rounded-xl text-white font-bold hover-glow">
                                     <i class="fa-solid fa-link mr-3"></i>
@@ -751,7 +776,7 @@
                     
                     <div class="text-center">
                         <p class="text-gray-300 mb-8">Every solution is custom-priced based on your specific needs and expected outcomes. Get your personalized quote today.</p>
-                        <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow">
+                        <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow" onclick="scrollToForm()">
                             Get Custom Pricing Quote
                         </button>
                     </div>
@@ -780,7 +805,7 @@
                 </p>
                 
                 <div class="mb-12">
-                    <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-16 py-6 rounded-3xl text-white text-2xl font-bold hover-glow neon-glow transform hover:scale-105 transition-all duration-300">
+                    <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-16 py-6 rounded-3xl text-white text-2xl font-bold hover-glow neon-glow transform hover:scale-105 transition-all duration-300" onclick="scrollToForm()">
                         <i class="fa-solid fa-fire mr-4"></i>
                         Get My Free AI Solution Blueprint
                     </button>
@@ -878,6 +903,220 @@
     </footer>
 
     <script>
+        // Global variables
+        let submissionId = null;
+
+        // Utility functions
+        function showMessage(message, type = 'success') {
+            const container = document.getElementById('messages-container');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `${type}-message`;
+            messageDiv.textContent = message;
+            container.innerHTML = '';
+            container.appendChild(messageDiv);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, 5000);
+        }
+
+        function scrollToForm() {
+            document.getElementById('form-section').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function scrollToBlueprint() {
+            document.getElementById('blueprint-section').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function setLoading(isLoading, buttonId = 'submit-btn', originalText = 'Generate My AI Blueprint') {
+            const button = document.getElementById(buttonId);
+            const submitText = document.getElementById('submit-text') || button.querySelector('span');
+            
+            if (isLoading) {
+                button.disabled = true;
+                if (submitText) {
+                    submitText.innerHTML = '<div class="loading-spinner"></div>Generating Your Blueprint...';
+                } else {
+                    button.innerHTML = '<div class="loading-spinner"></div>Generating Your Blueprint...';
+                }
+            } else {
+                button.disabled = false;
+                if (submitText) {
+                    submitText.innerHTML = originalText;
+                } else {
+                    button.innerHTML = `<i class="fa-solid fa-bolt mr-3"></i>${originalText}`;
+                }
+            }
+        }
+
+        function renderBlueprint(blueprintData) {
+            const content = document.getElementById('blueprint-content');
+            const businessType = document.getElementById('business-type');
+            
+            // Update business type
+            if (blueprintData.businessType) {
+                businessType.textContent = blueprintData.businessType;
+            }
+            
+            // Render solutions
+            if (blueprintData.solutions && blueprintData.solutions.length > 0) {
+                content.innerHTML = blueprintData.solutions.map((solution, index) => {
+                    const colors = [
+                        'from-blue-400 to-blue-600',
+                        'from-pink-400 to-pink-600', 
+                        'from-purple-400 to-purple-600'
+                    ];
+                    const icons = ['fa-robot', 'fa-chart-line', 'fa-envelope'];
+                    
+                    return `
+                        <div class="bg-white rounded-2xl p-8 shadow-lg hover-glow border-glow">
+                            <div class="w-16 h-16 bg-gradient-to-r ${colors[index % colors.length]} rounded-2xl flex items-center justify-center mb-6 pulse-glow">
+                                <i class="fa-solid ${icons[index % icons.length]} text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">${solution.title}</h3>
+                            <p class="text-gray-600 mb-4">${solution.description}</p>
+                            <ul class="space-y-2 text-sm text-gray-500">
+                                ${solution.features.map(feature => `<li>• ${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            // Show blueprint section
+            document.getElementById('blueprint-section').classList.remove('hidden');
+            
+            // Scroll to blueprint
+            setTimeout(() => {
+                scrollToBlueprint();
+            }, 100);
+        }
+
+        // Form submission handler
+        document.getElementById('business-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                businessDescription: formData.get('businessDescription'),
+                name: formData.get('name'),
+                email: formData.get('email'),
+                timestamp: new Date().toISOString(),
+                source: 'revamply-landing-page'
+            };
+            
+            setLoading(true);
+            
+            try {
+                // Submit to n8n webhook via our API endpoint
+                const response = await fetch('/api/submit-form', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    submissionId = result.submissionId;
+                    showMessage('✅ Thank you! We\'re generating your custom AI blueprint now. This may take a few moments...');
+                    
+                    // Poll for blueprint completion
+                    pollForBlueprint(submissionId);
+                } else {
+                    throw new Error(result.message || 'Failed to submit form');
+                }
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                showMessage('❌ There was an error processing your request. Please try again.', 'error');
+                setLoading(false);
+            }
+        });
+
+        // Poll for blueprint completion
+        async function pollForBlueprint(submissionId, maxAttempts = 30) {
+            let attempts = 0;
+            
+            const poll = async () => {
+                attempts++;
+                
+                try {
+                    const response = await fetch(`/api/get-blueprint?submissionId=${submissionId}`);
+                    const result = await response.json();
+                    
+                    if (response.ok && result.blueprint) {
+                        setLoading(false);
+                        showMessage('🎉 Your AI blueprint is ready!');
+                        renderBlueprint(result.blueprint);
+                        return;
+                    }
+                    
+                    if (attempts < maxAttempts) {
+                        setTimeout(poll, 2000); // Poll every 2 seconds
+                    } else {
+                        throw new Error('Blueprint generation timed out');
+                    }
+                } catch (error) {
+                    console.error('Error polling for blueprint:', error);
+                    setLoading(false);
+                    showMessage('❌ There was an error generating your blueprint. Please try again.', 'error');
+                }
+            };
+            
+            poll();
+        }
+
+        // Next steps form handler
+        document.getElementById('next-steps-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                businessName: formData.get('businessName'),
+                phone: formData.get('phone'),
+                submissionId: submissionId,
+                timestamp: new Date().toISOString()
+            };
+            
+            const button = e.target.querySelector('button[type="submit"]');
+            const originalText = button.innerHTML;
+            button.disabled = true;
+            button.innerHTML = '<div class="loading-spinner"></div>Submitting...';
+            
+            try {
+                const response = await fetch('/api/submit-next-steps', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    button.innerHTML = '<i class="fa-solid fa-check mr-3"></i>Thank You! We\'ll Be In Touch Soon';
+                    button.classList.add('bg-green-500');
+                } else {
+                    throw new Error('Failed to submit next steps form');
+                }
+            } catch (error) {
+                console.error('Error submitting next steps form:', error);
+                button.innerHTML = originalText;
+                button.disabled = false;
+                alert('There was an error submitting your information. Please try again.');
+            }
+        });
+
         // Floating particles animation
         function createParticle() {
             const particle = document.createElement('div');
@@ -907,26 +1146,6 @@
                         block: 'start'
                     });
                 }
-            });
-        });
-        
-        // Form submission handling
-        document.querySelectorAll('form').forEach(form => {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                // Add form submission logic here
-                const button = this.querySelector('button[type="submit"]');
-                const originalText = button.innerHTML;
-                button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Processing...';
-                button.disabled = true;
-                
-                setTimeout(() => {
-                    button.innerHTML = '<i class="fa-solid fa-check mr-2"></i>Success!';
-                    setTimeout(() => {
-                        button.innerHTML = originalText;
-                        button.disabled = false;
-                    }, 2000);
-                }, 2000);
             });
         });
         
