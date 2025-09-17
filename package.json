@@ -2,6 +2,7 @@
   "name": "revamply-landing-page",
   "version": "1.0.0",
   "description": "Revamply AI Solutions Landing Page with HubSpot Integration",
+  "type": "module",
   "main": "index.html",
   "scripts": {
     "dev": "vercel dev",
@@ -25,6 +26,6 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-username/revamply-landing-page.git"
+    "url": "https://github.com/ِAhmed5427/revamply-landing-page.git"
   }
 }
