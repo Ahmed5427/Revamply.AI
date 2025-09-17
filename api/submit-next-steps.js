@@ -1,5 +1,5 @@
 // api/submit-next-steps.js
-const SubmissionStorage = require('./storage.js');
+import SubmissionStorage from './storage.js';
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -49,27 +49,23 @@ export default async function handler(req, res) {
         // Get n8n webhook URL from environment variables
         const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL;
         
-        if (!n8nWebhookUrl) {
-            console.error('N8N_WEBHOOK_URL environment variable is not set');
-            return res.status(500).json({ 
-                message: 'Server configuration error' 
-            });
-        }
-        
-        // Send data to n8n webhook
-        const n8nResponse = await fetch(n8nWebhookUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(nextStepsData)
-        });
-        
-        if (!n8nResponse.ok) {
-            console.error('Failed to send next steps data to n8n:', n8nResponse.statusText);
-            return res.status(500).json({ 
-                message: 'Failed to process next steps submission' 
-            });
+        if (n8nWebhookUrl) {
+            try {
+                // Send data to n8n webhook
+                const n8nResponse = await fetch(n8nWebhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(nextStepsData)
+                });
+                
+                if (!n8nResponse.ok) {
+                    console.error('Failed to send next steps data to n8n:', n8nResponse.statusText);
+                }
+            } catch (error) {
+                console.error('Error sending to n8n:', error.message);
+            }
         }
         
         // Update original submission if it exists
