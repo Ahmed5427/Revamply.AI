@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Revamply AI Solutions Landing Page with HubSpot Integration",
   "type": "module",
-  "main": "index.html",
+  "main": "Index.html",
   "scripts": {
     "dev": "vercel dev",
     "build": "echo 'Static site - no build step required'",
