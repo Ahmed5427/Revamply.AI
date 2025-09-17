@@ -16,7 +16,7 @@
     }
   ],
   "env": {
-    "N8N_WEBHOOK_URL": "@n8n_webhook_url",
-    "N8N_BLUEPRINT_WEBHOOK_URL": "@n8n_blueprint_webhook_url"
+    "N8N_WEBHOOK_URL": "https://afxv17.app.n8n.cloud/webhook/revamply-form",
+    "N8N_BLUEPRINT_WEBHOOK_URL": "https://revamply-ai.vercel.app/api/receive-blueprint"
   }
 }
