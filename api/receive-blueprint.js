@@ -1,5 +1,5 @@
 // api/receive-blueprint.js
-const SubmissionStorage = require('./storage.js');
+import SubmissionStorage from './storage.js';
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -35,9 +35,27 @@ export default async function handler(req, res) {
         
         // Update submission with blueprint data
         if (status === 'completed' && blueprint) {
+            // Try to parse blueprint if it's a JSON string
+            let parsedBlueprint = blueprint;
+            if (typeof blueprint === 'string') {
+                try {
+                    parsedBlueprint = JSON.parse(blueprint);
+                } catch (e) {
+                    // If parsing fails, use the string as is
+                    parsedBlueprint = {
+                        businessType: "Custom Business",
+                        solutions: [{
+                            title: "AI Solution Recommendation",
+                            description: blueprint,
+                            features: ["Custom AI implementation", "Process automation", "Data insights"]
+                        }]
+                    };
+                }
+            }
+            
             SubmissionStorage.update(submissionId, {
                 status: 'completed',
-                blueprint: blueprint,
+                blueprint: parsedBlueprint,
                 completedAt: new Date().toISOString()
             });
             
@@ -65,6 +83,3 @@ export default async function handler(req, res) {
         });
     }
 }
-
-// Export submissions for use in other endpoints
-export { submissions };
