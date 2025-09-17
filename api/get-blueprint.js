@@ -1,5 +1,5 @@
 // api/get-blueprint.js
-const SubmissionStorage = require('./storage.js');
+import SubmissionStorage from './storage.js';
 
 export default async function handler(req, res) {
     // Enable CORS
