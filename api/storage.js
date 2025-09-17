@@ -41,4 +41,4 @@ class SubmissionStorage {
     }
 }
 
-module.exports = SubmissionStorage;
+export default SubmissionStorage;
