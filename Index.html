@@ -1,40 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
+<html><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Revamply - AI Solutions That Save Time, Cut Costs & Grow Revenue</title>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="/images/r-logo.png">
     <link rel="apple-touch-icon" href="/images/r-logo.png">
-    
-    <!-- Fonts and Scripts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/intlTelInput.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/css/intlTelInput.css">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif']
-                    }
-                }
+    <script src="https://cdn.tailwindcss.com"></script><script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif']
             }
-        };
+          }
+        }
+      };
     </script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     
     <style>
-        ::-webkit-scrollbar { display: none; }
+        ::-webkit-scrollbar { display: none;}
         body { font-family: 'Inter', sans-serif; }
         
-        /* Animation keyframes */
         @keyframes neonGlow {
             0%, 100% { 
                 box-shadow: 0 0 20px #00E5FF, 0 0 40px #00E5FF, 0 0 60px #00E5FF;
@@ -45,8 +35,14 @@
         }
         
         @keyframes pulseGlow {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
+            0%, 100% { 
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
         }
         
         @keyframes floatingParticles {
@@ -62,22 +58,44 @@
             100% { background-position: 0% 50%; }
         }
         
+        @keyframes lightningBolt {
+            0% { transform: translateX(-100px) rotate(-10deg); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(100vw) rotate(10deg); opacity: 0; }
+        }
+        
         @keyframes dataFlow {
             0% { transform: translateX(-50px); opacity: 0; }
             50% { opacity: 1; }
             100% { transform: translateX(100vw); opacity: 0; }
         }
         
-        /* Animation classes */
-        .neon-glow { animation: neonGlow 3s ease-in-out infinite; }
-        .pulse-glow { animation: pulseGlow 2s ease-in-out infinite; }
-        .floating-particle { animation: floatingParticles 8s linear infinite; }
+        .neon-glow {
+            animation: neonGlow 3s ease-in-out infinite;
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        .floating-particle {
+            animation: floatingParticles 8s linear infinite;
+        }
+        
         .gradient-shift {
             background: linear-gradient(-45deg, #00E5FF, #FF00CC, #00E5FF, #FF00CC);
             background-size: 400% 400%;
             animation: gradientShift 4s ease infinite;
         }
-        .data-flow { animation: dataFlow 4s linear infinite; }
+        
+        .lightning-effect {
+            animation: lightningBolt 6s linear infinite;
+        }
+        
+        .data-flow {
+            animation: dataFlow 4s linear infinite;
+        }
         
         .hover-glow:hover {
             box-shadow: 0 0 30px #00E5FF, 0 0 60px #FF00CC;
@@ -132,7 +150,9 @@
             100% { transform: rotate(360deg); }
         }
 
-        .hidden { display: none !important; }
+        .hidden {
+            display: none !important;
+        }
 
         .success-message {
             background: linear-gradient(135deg, #4ade80, #22c55e);
@@ -153,167 +173,31 @@
             text-align: center;
             font-weight: 600;
         }
-
-        /* Department selection styles */
-        .department-card {
-            border: 2px solid #e5e7eb;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .department-card:hover {
-            border-color: #3b82f6;
-            background-color: #f8fafc;
-        }
-
-        .department-card.selected {
-            border-color: #00E5FF;
-            background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(255, 0, 204, 0.1));
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
-        }
-
-        /* Frequency slider styles */
-        .frequency-slider {
-            -webkit-appearance: none;
-            appearance: none;
-            height: 8px;
-            border-radius: 5px;
-            background: linear-gradient(to right, #00E5FF, #FF00CC);
-            outline: none;
-        }
-
-        .frequency-slider::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: white;
-            border: 3px solid #00E5FF;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-        }
-
-        .frequency-slider::-moz-range-thumb {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: white;
-            border: 3px solid #00E5FF;
-            cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-        }
-
-        /* Phone input customization */
-        .iti {
-            width: 100%;
-        }
-        
-        .iti__country-list {
-            z-index: 1000;
-        }
-
-        /* Multi-step form progress */
-        .step-indicator {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 2rem;
-        }
-
-        .step-indicator .step {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 1rem;
-            font-weight: bold;
-            color: #6b7280;
-            position: relative;
-        }
-
-        .step-indicator .step.active {
-            background: linear-gradient(45deg, #00E5FF, #FF00CC);
-            color: white;
-        }
-
-        .step-indicator .step.completed {
-            background: #10b981;
-            color: white;
-        }
-
-        .step-indicator .step::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 100%;
-            width: 2rem;
-            height: 2px;
-            background: #e5e7eb;
-            transform: translateY(-50%);
-        }
-
-        .step-indicator .step:last-child::after {
-            display: none;
-        }
-
-        .step-indicator .step.completed::after {
-            background: #10b981;
-        }
-
-        /* Form step styles */
-        .form-step {
-            display: none;
-        }
-
-        .form-step.active {
-            display: block;
-        }
-
-        /* Impact level indicators */
-        .impact-level {
-            padding: 0.5rem 1rem;
-            border-radius: 9999px;
-            font-weight: 600;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-
-        .impact-level.low {
-            background: #fef3c7;
-            color: #92400e;
-        }
-
-        .impact-level.medium {
-            background: #fed7aa;
-            color: #c2410c;
-        }
-
-        .impact-level.high {
-            background: #fecaca;
-            color: #dc2626;
-        }
-
-        .impact-level.critical {
-            background: #fca5a5;
-            color: #991b1b;
-        }
-
-        .impact-level.selected {
-            border-color: #00E5FF;
-            box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
-        }
     </style>
-</head>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
 
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
 <body class="bg-black text-white overflow-x-hidden">
+    
     <div class="particle-container" id="particleContainer"></div>
     
-    <!-- Header -->
     <header id="header" class="relative z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
         <div class="container mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
@@ -340,7 +224,6 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section id="hero" class="relative min-h-[800px] bg-black flex items-center justify-center overflow-hidden">
         <div class="absolute inset-0">
             <div class="absolute top-20 left-10 w-1 h-32 bg-gradient-to-b from-blue-400 to-transparent data-flow"></div>
@@ -361,7 +244,7 @@
                 <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
                     <span class="text-white">AI Solutions That</span><br>
                     <span class="text-gradient gradient-shift">Save Time, Cut Costs</span><br>
-                    <span class="text-white">& Grow Revenue</span>
+                    <span class="text-white">&amp; Grow Revenue</span>
                 </h1>
                 
                 <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-4xl mx-auto leading-relaxed">
@@ -393,7 +276,6 @@
         <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent"></div>
     </section>
 
-    <!-- Enhanced Form Section -->
     <section id="form-section" class="py-20 bg-white text-black relative overflow-hidden">
         <div class="absolute inset-0 opacity-5">
             <div class="absolute top-10 left-10 w-2 h-2 bg-blue-400 rounded-full floating-particle"></div>
@@ -403,42 +285,41 @@
         </div>
         
         <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
+            <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-16">
                     <h2 class="text-5xl font-black mb-6">Tell Us About Your Business</h2>
                     <p class="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-                        Every business faces bottlenecks: wasted time, high overhead, missed revenue. Tell us about your business and we'll generate a tailored AI Blueprint — showing exactly how automation and machine learning can remove those roadblocks.
+                        Every business faces bottlenecks: wasted time, high overhead, missed revenue. Tell us about your business and we’ll generate a tailored AI Blueprint — showing exactly how automation and machine learning can remove those roadblocks.
                     </p>
                 </div>
                 
                 <div class="bg-white rounded-3xl shadow-2xl p-10 border-glow relative">
                     <div class="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full pulse-glow"></div>
                     
-                    <!-- Step Indicator -->
-                    <div class="step-indicator">
-                        <div class="step active" data-step="1">1</div>
-                        <div class="step" data-step="2">2</div>
-                        <div class="step" data-step="3">3</div>
-                        <div class="step" data-step="4">4</div>
-                    </div>
-                    
                     <!-- Messages Container -->
                     <div id="messages-container"></div>
                     
                     <form id="business-form" class="space-y-8">
-                        <!-- Step 1: Basic Information -->
-                        <div class="form-step active" data-step="1">
-                            <h3 class="text-2xl font-bold mb-8 text-center">Basic Information</h3>
-                            <div class="grid md:grid-cols-2 gap-8">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-700 mb-3">Business Description *</label>
+                                <textarea 
+                                    id="business-description" 
+                                    name="businessDescription" 
+                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors h-32 resize-none" 
+                                    placeholder="Tell us about your business, industry, and main challenges..."
+                                    required
+                                ></textarea>
+                            </div>
+                            <div class="space-y-6">
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Full Name *</label>
+                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Name (Optional)</label>
                                     <input 
                                         type="text" 
                                         id="name"
                                         name="name"
                                         class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" 
-                                        placeholder="John Smith"
-                                        required
+                                        placeholder="Your full name"
                                     >
                                 </div>
                                 <div>
@@ -448,233 +329,15 @@
                                         id="email"
                                         name="email"
                                         class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" 
-                                        placeholder="john@company.com"
-                                        required
-                                    >
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Phone Number (Optional)</label>
-                                    <input 
-                                        type="tel" 
-                                        id="phone"
-                                        name="phone"
-                                        class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" 
-                                        placeholder="+1 (555) 123-4567"
-                                    >
-                                </div>
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Company Name *</label>
-                                    <input 
-                                        type="text" 
-                                        id="company"
-                                        name="company"
-                                        class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" 
-                                        placeholder="Acme Corp"
+                                        placeholder="your@email.com"
                                         required
                                     >
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Step 2: Business & Department -->
-                        <div class="form-step" data-step="2">
-                            <h3 class="text-2xl font-bold mb-8 text-center">Business Overview</h3>
-                            
-                            <div class="mb-8">
-                                <label class="block text-sm font-semibold text-gray-700 mb-3">Business Description *</label>
-                                <textarea 
-                                    id="business-description" 
-                                    name="businessDescription" 
-                                    class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors h-32 resize-none" 
-                                    placeholder="Briefly describe what your business does, who you serve, and the systems you rely on today. This helps us understand the bigger picture before designing your AI solution."
-                                    required
-                                ></textarea>
-                            </div>
-
-                            <div class="mb-8">
-                                <label class="block text-sm font-semibold text-gray-700 mb-4">Which department or area needs AI transformation? *</label>
-                                <div class="grid md:grid-cols-3 gap-4">
-                                    <div class="department-card rounded-xl p-6 text-center" data-department="sales">
-                                        <i class="fa-solid fa-chart-line text-3xl text-blue-500 mb-4"></i>
-                                        <h4 class="font-bold text-lg mb-2">Sales & Marketing</h4>
-                                        <p class="text-sm text-gray-600">Lead generation, customer acquisition, CRM optimization</p>
-                                    </div>
-                                    <div class="department-card rounded-xl p-6 text-center" data-department="operations">
-                                        <i class="fa-solid fa-cogs text-3xl text-green-500 mb-4"></i>
-                                        <h4 class="font-bold text-lg mb-2">Operations</h4>
-                                        <p class="text-sm text-gray-600">Process automation, workflow optimization, supply chain</p>
-                                    </div>
-                                    <div class="department-card rounded-xl p-6 text-center" data-department="customer-service">
-                                        <i class="fa-solid fa-headset text-3xl text-purple-500 mb-4"></i>
-                                        <h4 class="font-bold text-lg mb-2">Customer Service</h4>
-                                        <p class="text-sm text-gray-600">Support automation, chatbots, ticket management</p>
-                                    </div>
-                                    <div class="department-card rounded-xl p-6 text-center" data-department="hr">
-                                        <i class="fa-solid fa-users text-3xl text-orange-500 mb-4"></i>
-                                        <h4 class="font-bold text-lg mb-2">Human Resources</h4>
-                                        <p class="text-sm text-gray-600">Recruitment automation, employee analytics, training</p>
-                                    </div>
-                                    <div class="department-card rounded-xl p-6 text-center" data-department="finance">
-                                        <i class="fa-solid fa-dollar-sign text-3xl text-red-500 mb-4"></i>
-                                        <h4 class="font-bold text-lg mb-2">Finance & Accounting</h4>
-                                        <p class="text-sm text-gray-600">Invoice processing, financial analysis, reporting</p>
-                                    </div>
-                                    <div class="department-card rounded-xl p-6 text-center" data-department="other">
-                                        <i class="fa-solid fa-plus text-3xl text-gray-500 mb-4"></i>
-                                        <h4 class="font-bold text-lg mb-2">Other</h4>
-                                        <p class="text-sm text-gray-600">Tell us about your specific needs</p>
-                                    </div>
-                                </div>
-                                <input type="hidden" name="department" id="department" required>
-                                
-                                <div id="other-department" class="mt-4 hidden">
-                                    <input 
-                                        type="text" 
-                                        name="otherDepartment"
-                                        class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" 
-                                        placeholder="Please specify the department or area"
-                                    >
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Step 3: Process & Pain Points -->
-                        <div class="form-step" data-step="3">
-                            <h3 class="text-2xl font-bold mb-8 text-center">Current Process & Challenges</h3>
-                            
-                            <div class="space-y-8">
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Current Process Description *</label>
-                                    <textarea 
-                                        id="current-process" 
-                                        name="currentProcess" 
-                                        class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors h-32 resize-none" 
-                                        placeholder="Describe how this process currently works. What steps are involved? What tools do you use? Who is responsible for each step?"
-                                        required
-                                    ></textarea>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Pain Points & Challenges</label>
-                                    <textarea 
-                                        id="pain-points" 
-                                        name="painPoints" 
-                                        class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors h-32 resize-none" 
-                                        placeholder="What frustrates you most about this process? Where do you lose time or money? What keeps you up at night regarding this area? (Optional - but helps us understand priorities)"
-                                    ></textarea>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-4">How often does this process occur? *</label>
-                                    <div class="space-y-4">
-                                        <input 
-                                            type="range" 
-                                            id="frequency-slider" 
-                                            name="frequency" 
-                                            min="0" 
-                                            max="6" 
-                                            value="3" 
-                                            class="frequency-slider w-full"
-                                            required
-                                        >
-                                        <div class="flex justify-between text-sm text-gray-600">
-                                            <span>Rarely</span>
-                                            <span>Weekly</span>
-                                            <span>Daily</span>
-                                            <span>Multiple times/day</span>
-                                            <span>Continuously</span>
-                                        </div>
-                                        <div class="text-center">
-                                            <span id="frequency-display" class="bg-gradient-to-r from-blue-400 to-pink-500 text-white px-4 py-2 rounded-full font-semibold">Weekly</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Step 4: Business Impact -->
-                        <div class="form-step" data-step="4">
-                            <h3 class="text-2xl font-bold mb-8 text-center">Business Impact</h3>
-                            
-                            <div class="space-y-8">
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-4">What's the business impact of not solving this? *</label>
-                                    <div class="grid md:grid-cols-2 gap-4">
-                                        <div class="impact-level low" data-impact="low">
-                                            <i class="fa-solid fa-info-circle mr-2"></i>
-                                            Minor inconvenience
-                                        </div>
-                                        <div class="impact-level medium" data-impact="medium">
-                                            <i class="fa-solid fa-exclamation-triangle mr-2"></i>
-                                            Moderate cost/time loss
-                                        </div>
-                                        <div class="impact-level high" data-impact="high">
-                                            <i class="fa-solid fa-exclamation-circle mr-2"></i>
-                                            Significant revenue impact
-                                        </div>
-                                        <div class="impact-level critical" data-impact="critical">
-                                            <i class="fa-solid fa-fire mr-2"></i>
-                                            Business-critical issue
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="businessImpact" id="business-impact" required>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Expected Outcomes</label>
-                                    <textarea 
-                                        id="expected-outcomes" 
-                                        name="expectedOutcomes" 
-                                        class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors h-32 resize-none" 
-                                        placeholder="What would success look like? How would you measure improvement? What specific results are you hoping to achieve? (Optional - helps us tailor the solution)"
-                                    ></textarea>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Implementation Timeline</label>
-                                    <select 
-                                        name="timeline" 
-                                        class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors"
-                                    >
-                                        <option value="">Select preferred timeline</option>
-                                        <option value="asap">ASAP (within 1 month)</option>
-                                        <option value="quarter">This quarter (1-3 months)</option>
-                                        <option value="6months">Within 6 months</option>
-                                        <option value="planning">Just planning/exploring</option>
-                                    </select>
-                                </div>
-
-                                <div>
-                                    <label class="block text-sm font-semibold text-gray-700 mb-3">Budget Range (Optional)</label>
-                                    <select 
-                                        name="budget" 
-                                        class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors"
-                                    >
-                                        <option value="">Select budget range</option>
-                                        <option value="under25k">Under $25,000</option>
-                                        <option value="25k-50k">$25,000 - $50,000</option>
-                                        <option value="50k-100k">$50,000 - $100,000</option>
-                                        <option value="100k-250k">$100,000 - $250,000</option>
-                                        <option value="250k+">$250,000+</option>
-                                        <option value="discuss">Prefer to discuss</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Navigation Buttons -->
-                        <div class="flex justify-between pt-8">
-                            <button type="button" id="prev-btn" class="bg-gray-300 text-gray-700 px-8 py-3 rounded-xl font-semibold hover:bg-gray-400 transition-colors hidden">
-                                <i class="fa-solid fa-arrow-left mr-2"></i>
-                                Previous
-                            </button>
-                            
-                            <button type="button" id="next-btn" class="bg-gradient-to-r from-blue-400 to-pink-500 px-8 py-3 rounded-xl text-white font-semibold hover-glow ml-auto">
-                                Next
-                                <i class="fa-solid fa-arrow-right ml-2"></i>
-                            </button>
-                            
-                            <button type="submit" id="submit-btn" class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow transform hover:scale-105 transition-all duration-300 hidden">
+                        
+                        <div class="text-center pt-8">
+                            <button type="submit" id="submit-btn" class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow transform hover:scale-105 transition-all duration-300">
                                 <i class="fa-solid fa-bolt mr-3"></i>
                                 <span id="submit-text">Generate My AI Blueprint</span>
                             </button>
@@ -690,7 +353,7 @@
                         </div>
                         <div class="flex items-center">
                             <i class="fa-solid fa-clock text-blue-500 mr-2"></i>
-                            <span>5-Min Setup</span>
+                            <span>2-Min Setup</span>
                         </div>
                         <div class="flex items-center">
                             <i class="fa-solid fa-gift text-pink-500 mr-2"></i>
@@ -702,7 +365,6 @@
         </div>
     </section>
 
-    <!-- Blueprint Section (same as before) -->
     <section id="blueprint-section" class="py-20 bg-gray-50 text-black hidden">
         <div class="container mx-auto px-6">
             <div class="max-w-6xl mx-auto">
@@ -739,7 +401,7 @@
                                         <i class="fa-solid fa-headset text-white"></i>
                                     </div>
                                     <div>
-                                        <div class="font-semibold text-lg">Maintenance & Support</div>
+                                        <div class="font-semibold text-lg">Maintenance &amp; Support</div>
                                         <div class="text-gray-600">Included</div>
                                     </div>
                                 </div>
@@ -776,15 +438,12 @@
         </div>
     </section>
 
-    <!-- Rest of the sections (Why Revamply, Social Proof, Process, Features, Pricing, Final CTA, Footer) -->
-    <!-- [Previous sections remain the same] -->
-
     <section id="why-revamply" class="py-20 bg-black">
         <div class="container mx-auto px-6">
             <div class="max-w-6xl mx-auto">
                 <div class="text-center mb-16">
                     <h2 class="text-5xl font-black text-white mb-6">Why Businesses Trust Revamply for AI Transformation</h2>
-                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">We don't deliver cookie-cutter software — we engineer AI systems that transform workflows, unlock revenue, and give your business a competitive edge.</p>
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">We don’t deliver cookie-cutter software — we engineer AI systems that transform workflows, unlock revenue, and give your business a competitive edge.</p>
                 </div>
                 
                 <div class="grid md:grid-cols-3 gap-8">
@@ -833,41 +492,417 @@
                             <i class="fa-solid fa-building text-white text-2xl"></i>
                         </div>
                         <h3 class="text-2xl font-bold mb-4 text-black">Scalable & Secure</h3>
-                        <p class="text-gray-600">Our AI systems are robust, secure, and built to scale — whether you're a fast-growing startup or an enterprise.</p>
+                        <p class="text-gray-600">Our AI systems are robust, secure, and built to scale — whether you’re a fast-growing startup or an enterprise.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-gray-900 text-white py-8">
-        <div class="container mx-auto px-6 text-center">
-            <div class="flex items-center justify-center space-x-3">
-                <div class="w-12 h-12 rounded-lg flex items-center justify-center pulse-glow">
-                    <img src="/images/r-logo.png" alt="Revamply Logo" class="w-12 h-12 rounded-lg">
+    <section id="social-proof" class="py-20 bg-white text-black">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black mb-6">Real Results from Real Businesses</h2>
+                    <p class="text-xl text-gray-700">See how companies like yours transformed their operations with Revamply's AI solutions.</p>
                 </div>
-                <img src="/images/revamply-logo.png" alt="Revamply" class="h-10">
+                
+                <div class="grid md:grid-cols-2 gap-12 mb-16">
+                    <div class="bg-gray-50 rounded-3xl p-10 border-glow relative">
+                        <div class="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full pulse-glow"></div>
+                        <div class="flex items-center mb-6">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" alt="Client" class="w-16 h-16 rounded-full mr-4">
+                            <div>
+                                <div class="font-bold text-lg">Mike Rodriguez</div>
+                                <div class="text-gray-600">CEO, Summit Roofing</div>
+                            </div>
+                        </div>
+                        <blockquote class="text-lg text-gray-700 mb-6">
+                            "Revamply's AI cut our admin workload by <span class="font-bold text-gradient">40%</span> and doubled booked inspections. Our team can finally focus on what they do best—quality roofing work."
+                        </blockquote>
+                        <div class="flex space-x-4">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">40%</div>
+                                <div class="text-sm text-gray-500">Less Admin Work</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">2x</div>
+                                <div class="text-sm text-gray-500">More Inspections</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">$180K</div>
+                                <div class="text-sm text-gray-500">Added Revenue</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gray-50 rounded-3xl p-10 border-glow relative">
+                        <div class="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full pulse-glow"></div>
+                        <div class="flex items-center mb-6">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Client" class="w-16 h-16 rounded-full mr-4">
+                            <div>
+                                <div class="font-bold text-lg">Sarah Chen</div>
+                                <div class="text-gray-600">Operations Director, Elite Construction</div>
+                            </div>
+                        </div>
+                        <blockquote class="text-lg text-gray-700 mb-6">
+                            "The predictive analytics helped us reduce material waste by <span class="font-bold text-gradient">35%</span> and improve crew utilization by <span class="font-bold text-gradient">60%</span>. ROI was achieved in just 4 months."
+                        </blockquote>
+                        <div class="flex space-x-4">
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">35%</div>
+                                <div class="text-sm text-gray-500">Less Waste</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">60%</div>
+                                <div class="text-sm text-gray-500">Better Utilization</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-2xl font-bold text-gradient">4 Mo</div>
+                                <div class="text-sm text-gray-500">ROI Timeline</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <div class="text-4xl font-bold text-gradient mb-2">500+</div>
+                        <div class="text-gray-600">Projects Completed</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-gradient mb-2">98%</div>
+                        <div class="text-gray-600">Client Satisfaction</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-gradient mb-2">$50M+</div>
+                        <div class="text-gray-600">Client Savings Generated</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold text-gradient mb-2">24/7</div>
+                        <div class="text-gray-600">Support Available</div>
+                    </div>
+                </div>
             </div>
-            <p class="mt-4 text-gray-400">&copy; 2025 Revamply. All rights reserved.</p>
+        </div>
+    </section>
+
+    <section id="process" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black text-white mb-6">Our Proven AI Transformation Process</h2>
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">From discovery to deployment, Revamply follows a systematic AI-first framework to ensure your solution delivers measurable business impact.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-4 gap-8">
+                    <div class="text-center relative">
+                        <div class="w-24 h-24 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
+                            <i class="fa-solid fa-search text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Discover</h3>
+                        <p class="text-gray-300 mb-6">Deep dive into your workflows, pain points, and data to identify high-impact AI opportunities.</p>
+                        <div class="hidden md:block absolute top-12 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-pink-500"></div>
+                    </div>
+                    
+                    <div class="text-center relative">
+                        <div class="w-24 h-24 bg-gradient-to-r from-pink-400 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
+                            <i class="fa-solid fa-drafting-compass text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Blueprint</h3>
+                        <p class="text-gray-300 mb-6">Create a tailored technical blueprint with ML models, automation workflows, timelines, and measurable KPIs for your AI solution.</p>
+                        <div class="hidden md:block absolute top-12 -right-4 w-8 h-0.5 bg-gradient-to-r from-pink-400 to-purple-500"></div>
+                    </div>
+                    
+                    <div class="text-center relative">
+                        <div class="w-24 h-24 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
+                            <i class="fa-solid fa-hammer text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Build</h3>
+                        <p class="text-gray-300 mb-6">Develop, train, and test your AI solution with continuous feedback loops to ensure accuracy, scalability, and adoption.</p>
+                        <div class="hidden md:block absolute top-12 -right-4 w-8 h-0.5 bg-gradient-to-r from-purple-400 to-green-500"></div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="w-24 h-24 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
+                            <i class="fa-solid fa-tools text-white text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-4">Maintain</h3>
+                        <p class="text-gray-300 mb-6">Monitor, optimize, and retrain your AI systems so they keep learning and delivering value as your business evolves.</p>
+                    </div>
+                </div>
+                
+                <div class="mt-16 bg-gray-800 rounded-3xl p-10">
+                    <div class="grid md:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h3 class="text-3xl font-bold text-white mb-6">What You Can Expect</h3>
+                            <ul class="space-y-4 text-gray-300">
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                    Weekly progress updates & demos
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                    Direct access to your AI engineering team
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                    Hands-on training + detailed documentation
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                    30-day optimization & performance tuning post-launch
+                                </li>
+                                <li class="flex items-center">
+                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                    Ongoing support + model retraining included
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-6xl font-bold text-gradient mb-4">3-5</div>
+                            <div class="text-xl text-white mb-2">Weeks Average</div>
+                            <div class="text-gray-400">From Start to Launch</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="features-showcase" class="py-20 bg-white text-black">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black mb-6">Advanced AI Capabilities</h2>
+                    <p class="text-xl text-gray-700">Practical AI applications that solve real business problems — from smarter customer interactions to predictive insights that drive growth.</p>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-16 items-center mb-20">
+                    <div>
+                        <h3 class="text-3xl font-bold mb-6">Natural Language Processing</h3>
+                        <p class="text-lg text-gray-600 mb-8">Our AI understands context, intent, and nuance in customer communications. This enables human-like interactions that improve trust, reduce response times, and increase conversions.</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full mr-3"></div>
+                                <span>Multi-language support</span>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full mr-3"></div>
+                                <span>Sentiment & emotion analysis</span>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full mr-3"></div>
+                                <span>Intent recognition & context awareness</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 rounded-3xl p-10 border-glow">
+                        <div class="space-y-4">
+                            <div class="bg-blue-100 rounded-2xl p-4">
+                                <div class="text-sm text-gray-500 mb-2">Customer Query</div>
+                                <div class="font-medium">"Hi, I need a roof inspection ASAP. Storm damage yesterday."</div>
+                            </div>
+                            <div class="bg-pink-100 rounded-2xl p-4">
+                                <div class="text-sm text-gray-500 mb-2">AI Response</div>
+                                <div class="font-medium">"I understand the urgency of storm damage. I can schedule an emergency inspection for you today. What's your address and preferred time?"</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid md:grid-cols-2 gap-16 items-center mb-20">
+                    <div class="bg-gray-50 rounded-3xl p-10 border-glow order-2 md:order-1">
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between bg-white rounded-xl p-4">
+                                <span>Lead Conversion Rate</span>
+                                <span class="text-2xl font-bold text-gradient">+85%</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-white rounded-xl p-4">
+                                <span>Response Time</span>
+                                <span class="text-2xl font-bold text-gradient">&lt; 30s</span>
+                            </div>
+                            <div class="flex items-center justify-between bg-white rounded-xl p-4">
+                                <span>Customer Satisfaction</span>
+                                <span class="text-2xl font-bold text-gradient">94%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="order-1 md:order-2">
+                        <h3 class="text-3xl font-bold mb-6">Predictive Analytics</h3>
+                        <p class="text-lg text-gray-600 mb-8">Our machine learning models analyze data patterns to predict customer behavior, optimize operations, and identify new revenue opportunities before competitors do.</p>
+                        <ul class="space-y-4">
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full mr-3"></div>
+                                <span>Demand forecasting</span>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full mr-3"></div>
+                                <span>Customer lifetime value prediction</span>
+                            </li>
+                            <li class="flex items-center">
+                                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full mr-3"></div>
+                                <span>Risk assessment automation</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing-preview" class="py-20 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-5xl font-black text-white mb-6">Investment That Pays for Itself</h2>
+                <p class="text-xl text-gray-300 mb-12">Our AI solutions deliver measurable ROI — often paying for themselves within months through cost savings, efficiency gains, and new revenue opportunities.</p>
+                
+                <div class="bg-gray-800 rounded-3xl p-10 border-glow">
+                    <div class="grid md:grid-cols-3 gap-8 mb-12">
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-gradient mb-2">$25K - $75K</div>
+                            <div class="text-white font-semibold mb-2">Typical Investment Range</div>
+                            <div class="text-gray-400">Based on solution complexity</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-gradient mb-2">6 Months</div>
+                            <div class="text-white font-semibold mb-2">Average ROI Timeline</div>
+                            <div class="text-gray-400">Often much faster</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-gradient mb-2">300%+</div>
+                            <div class="text-white font-semibold mb-2">ROI in Year One</div>
+                            <div class="text-gray-400">Typical client results</div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center">
+                        <p class="text-gray-300 mb-8">Every solution is custom-priced based on your specific needs and expected outcomes. Get your personalized quote today.</p>
+                        <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow" onclick="scrollToForm()">
+                            Get Custom Pricing Quote
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="final-cta" class="py-20 bg-black relative overflow-hidden">
+        <div class="absolute inset-0">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-pink-500 to-blue-400 gradient-shift"></div>
+            <div class="absolute top-10 left-10 w-2 h-32 bg-gradient-to-b from-blue-400 to-transparent data-flow"></div>
+            <div class="absolute top-20 right-20 w-2 h-24 bg-gradient-to-b from-pink-500 to-transparent data-flow" style="animation-delay: 1s;"></div>
+            <div class="absolute bottom-10 left-1/4 w-2 h-40 bg-gradient-to-b from-blue-400 to-transparent data-flow" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 right-1/3 w-2 h-28 bg-gradient-to-b from-pink-500 to-transparent data-flow" style="animation-delay: 3s;"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h2 class="text-5xl md:text-6xl font-black text-white mb-8">
+                    Your Business Bottlenecks <span class="text-gradient">End Here</span>
+                </h2>
+                
+                <p class="text-xl md:text-2xl text-gray-300 mb-12 leading-relaxed">
+                    Stop wasting time and money on outdated systems. Revamply builds the AI solutions that transform your business operations, cut costs, and accelerate growth.
+                </p>
+                
+                <div class="mb-12">
+                    <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-16 py-6 rounded-3xl text-white text-2xl font-bold hover-glow neon-glow transform hover:scale-105 transition-all duration-300" onclick="scrollToForm()">
+                        <i class="fa-solid fa-fire mr-4"></i>
+                        Get My Free AI Solution Blueprint
+                    </button>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8 text-center">
+                    <div>
+                        <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 pulse-glow">
+                            <i class="fa-solid fa-shield-check text-white text-xl"></i>
+                        </div>
+                        <div class="text-white font-semibold">100% Risk-Free</div>
+                        <div class="text-gray-400">30-day satisfaction guarantee</div>
+                    </div>
+                    <div>
+                        <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 pulse-glow">
+                            <i class="fa-solid fa-bolt text-white text-xl"></i>
+                        </div>
+                        <div class="text-white font-semibold">Fast Implementation</div>
+                        <div class="text-gray-400">3-5 weeks to launch</div>
+                    </div>
+                    <div>
+                        <div class="w-16 h-16 bg-gradient-to-r from-pink-400 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 pulse-glow">
+                            <i class="fa-solid fa-headset text-white text-xl"></i>
+                        </div>
+                        <div class="text-white font-semibold">Lifetime Support</div>
+                        <div class="text-gray-400">We're your long-term partner</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="footer" class="bg-gray-900 py-16">
+        <div class="container mx-auto px-6">
+            <div class="max-w-6xl mx-auto">
+                <div class="grid md:grid-cols-4 gap-12 mb-12">
+                    <div class="md:col-span-2">
+                        <div class="flex items-center space-x-3 mb-6">
+                            <img src="/images/revamply-logo.png" alt="Revamply" class="h-10">
+                        </div>
+                        <p class="text-gray-400 text-lg leading-relaxed mb-6">
+                            We design, build, and maintain custom AI &amp; automation systems that remove business bottlenecks and accelerate growth.
+                        </p>
+                        <div class="flex space-x-4">
+                            <span class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors cursor-pointer">
+                                <i class="fa-brands fa-linkedin text-white"></i>
+                            </span>
+                            <span class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors cursor-pointer">
+                                <i class="fa-brands fa-twitter text-white"></i>
+                            </span>
+                            <span class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-500 transition-colors cursor-pointer">
+                                <i class="fa-brands fa-instagram text-white"></i>
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-6">Solutions</h4>
+                        <ul class="space-y-3 text-gray-400">
+                            <li><span class="hover:text-white transition-colors cursor-pointer">AI Chatbots</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Process Automation</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Predictive Analytics</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Custom AI Platforms</span></li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="text-white font-bold text-lg mb-6">Company</h4>
+                        <ul class="space-y-3 text-gray-400">
+                            <li><span class="hover:text-white transition-colors cursor-pointer">About Us</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Case Studies</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Careers</span></li>
+                            <li><span class="hover:text-white transition-colors cursor-pointer">Contact</span></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="border-t border-gray-800 pt-8">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <div class="text-gray-400 mb-4 md:mb-0">
+                        </div>
+                        <div class="flex space-x-6 text-gray-400">
+                            <span class="hover:text-white transition-colors cursor-pointer">Privacy Policy</span>
+                            <span class="hover:text-white transition-colors cursor-pointer">Terms of Service</span>
+                            <span class="hover:text-white transition-colors cursor-pointer">Cookie Policy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </footer>
 
     <script>
         // Global variables
         let submissionId = null;
-        let currentStep = 1;
-        let iti = null;
-
-        // Initialize phone input with country flags
-        document.addEventListener('DOMContentLoaded', function() {
-            const phoneInput = document.getElementById('phone');
-            iti = window.intlTelInput(phoneInput, {
-                utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/18.2.1/js/utils.js",
-                preferredCountries: ['us', 'ca', 'gb', 'au'],
-                separateDialCode: true,
-                autoPlaceholder: "aggressive"
-            });
-        });
 
         // Utility functions
         function showMessage(message, type = 'success') {
@@ -878,6 +913,7 @@
             container.innerHTML = '';
             container.appendChild(messageDiv);
             
+            // Auto-remove after 5 seconds
             setTimeout(() => {
                 if (messageDiv.parentNode) {
                     messageDiv.remove();
@@ -887,6 +923,13 @@
 
         function scrollToForm() {
             document.getElementById('form-section').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function scrollToBlueprint() {
+            document.getElementById('blueprint-section').scrollIntoView({ 
                 behavior: 'smooth',
                 block: 'start'
             });
@@ -913,169 +956,66 @@
             }
         }
 
-        function updateStepIndicator(step) {
-            document.querySelectorAll('.step').forEach((stepEl, index) => {
-                stepEl.classList.remove('active', 'completed');
-                if (index + 1 < step) {
-                    stepEl.classList.add('completed');
-                } else if (index + 1 === step) {
-                    stepEl.classList.add('active');
-                }
-            });
+        function renderBlueprint(blueprintData) {
+            const content = document.getElementById('blueprint-content');
+            const businessType = document.getElementById('business-type');
+            
+            // Update business type
+            if (blueprintData.businessType) {
+                businessType.textContent = blueprintData.businessType;
+            }
+            
+            // Render solutions
+            if (blueprintData.solutions && blueprintData.solutions.length > 0) {
+                content.innerHTML = blueprintData.solutions.map((solution, index) => {
+                    const colors = [
+                        'from-blue-400 to-blue-600',
+                        'from-pink-400 to-pink-600', 
+                        'from-purple-400 to-purple-600'
+                    ];
+                    const icons = ['fa-robot', 'fa-chart-line', 'fa-envelope'];
+                    
+                    return `
+                        <div class="bg-white rounded-2xl p-8 shadow-lg hover-glow border-glow">
+                            <div class="w-16 h-16 bg-gradient-to-r ${colors[index % colors.length]} rounded-2xl flex items-center justify-center mb-6 pulse-glow">
+                                <i class="fa-solid ${icons[index % icons.length]} text-white text-2xl"></i>
+                            </div>
+                            <h3 class="text-2xl font-bold mb-4">${solution.title}</h3>
+                            <p class="text-gray-600 mb-4">${solution.description}</p>
+                            <ul class="space-y-2 text-sm text-gray-500">
+                                ${solution.features.map(feature => `<li>• ${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            // Show blueprint section
+            document.getElementById('blueprint-section').classList.remove('hidden');
+            
+            // Scroll to blueprint
+            setTimeout(() => {
+                scrollToBlueprint();
+            }, 100);
         }
 
-        function showStep(step) {
-            document.querySelectorAll('.form-step').forEach(stepEl => {
-                stepEl.classList.remove('active');
-            });
-            
-            document.querySelector(`[data-step="${step}"]`).classList.add('active');
-            
-            const prevBtn = document.getElementById('prev-btn');
-            const nextBtn = document.getElementById('next-btn');
-            const submitBtn = document.getElementById('submit-btn');
-            
-            if (step === 1) {
-                prevBtn.classList.add('hidden');
-            } else {
-                prevBtn.classList.remove('hidden');
-            }
-            
-            if (step === 4) {
-                nextBtn.classList.add('hidden');
-                submitBtn.classList.remove('hidden');
-            } else {
-                nextBtn.classList.remove('hidden');
-                submitBtn.classList.add('hidden');
-            }
-            
-            updateStepIndicator(step);
-        }
-
-        function validateStep(step) {
-            const currentStepEl = document.querySelector(`[data-step="${step}"]`);
-            const requiredFields = currentStepEl.querySelectorAll('[required]');
-            
-            for (let field of requiredFields) {
-                if (!field.value.trim()) {
-                    field.focus();
-                    showMessage(`Please fill in the required field: ${field.previousElementSibling.textContent}`, 'error');
-                    return false;
-                }
-            }
-            
-            // Additional validations
-            if (step === 2) {
-                const department = document.getElementById('department').value;
-                if (!department) {
-                    showMessage('Please select a department', 'error');
-                    return false;
-                }
-            }
-            
-            if (step === 4) {
-                const businessImpact = document.getElementById('business-impact').value;
-                if (!businessImpact) {
-                    showMessage('Please select the business impact level', 'error');
-                    return false;
-                }
-            }
-            
-            return true;
-        }
-
-        // Department selection
-        document.querySelectorAll('.department-card').forEach(card => {
-            card.addEventListener('click', function() {
-                document.querySelectorAll('.department-card').forEach(c => c.classList.remove('selected'));
-                this.classList.add('selected');
-                
-                const department = this.dataset.department;
-                document.getElementById('department').value = department;
-                
-                const otherDept = document.getElementById('other-department');
-                if (department === 'other') {
-                    otherDept.classList.remove('hidden');
-                    otherDept.querySelector('input').required = true;
-                } else {
-                    otherDept.classList.add('hidden');
-                    otherDept.querySelector('input').required = false;
-                }
-            });
-        });
-
-        // Business impact selection
-        document.querySelectorAll('.impact-level').forEach(level => {
-            level.addEventListener('click', function() {
-                document.querySelectorAll('.impact-level').forEach(l => l.classList.remove('selected'));
-                this.classList.add('selected');
-                document.getElementById('business-impact').value = this.dataset.impact;
-            });
-        });
-
-        // Frequency slider
-        const frequencySlider = document.getElementById('frequency-slider');
-        const frequencyDisplay = document.getElementById('frequency-display');
-        const frequencies = ['Rarely', 'Monthly', 'Bi-weekly', 'Weekly', 'Daily', 'Multiple times/day', 'Continuously'];
-
-        frequencySlider.addEventListener('input', function() {
-            const value = parseInt(this.value);
-            frequencyDisplay.textContent = frequencies[value];
-        });
-
-        // Step navigation
-        document.getElementById('next-btn').addEventListener('click', function() {
-            if (validateStep(currentStep)) {
-                if (currentStep < 4) {
-                    currentStep++;
-                    showStep(currentStep);
-                }
-            }
-        });
-
-        document.getElementById('prev-btn').addEventListener('click', function() {
-            if (currentStep > 1) {
-                currentStep--;
-                showStep(currentStep);
-            }
-        });
-
-        // Form submission
+        // Form submission handler
         document.getElementById('business-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            if (!validateStep(4)) return;
-            
             const formData = new FormData(this);
-            
-            // Get phone number with country code if provided
-            let phoneNumber = '';
-            if (iti && formData.get('phone')) {
-                phoneNumber = iti.getNumber();
-            }
-            
             const data = {
+                businessDescription: formData.get('businessDescription'),
                 name: formData.get('name'),
                 email: formData.get('email'),
-                phone: phoneNumber,
-                company: formData.get('company'),
-                businessDescription: formData.get('businessDescription'),
-                department: formData.get('department'),
-                otherDepartment: formData.get('otherDepartment'),
-                currentProcess: formData.get('currentProcess'),
-                painPoints: formData.get('painPoints'),
-                frequency: frequencies[parseInt(formData.get('frequency'))],
-                businessImpact: formData.get('businessImpact'),
-                expectedOutcomes: formData.get('expectedOutcomes'),
-                timeline: formData.get('timeline'),
-                budget: formData.get('budget'),
                 timestamp: new Date().toISOString(),
-                source: 'revamply-landing-page-enhanced'
+                source: 'revamply-landing-page'
             };
             
             setLoading(true);
             
             try {
+                // Submit to n8n webhook via our API endpoint
                 const response = await fetch('/api/submit-form', {
                     method: 'POST',
                     headers: {
@@ -1102,49 +1042,7 @@
             }
         });
 
-        // Blueprint rendering and polling functions (same as before)
-        function renderBlueprint(blueprintData) {
-            const content = document.getElementById('blueprint-content');
-            const businessType = document.getElementById('business-type');
-            
-            if (blueprintData.businessType) {
-                businessType.textContent = blueprintData.businessType;
-            }
-            
-            if (blueprintData.solutions && blueprintData.solutions.length > 0) {
-                content.innerHTML = blueprintData.solutions.map((solution, index) => {
-                    const colors = [
-                        'from-blue-400 to-blue-600',
-                        'from-pink-400 to-pink-600', 
-                        'from-purple-400 to-purple-600'
-                    ];
-                    const icons = ['fa-robot', 'fa-chart-line', 'fa-envelope'];
-                    
-                    return `
-                        <div class="bg-white rounded-2xl p-8 shadow-lg hover-glow border-glow">
-                            <div class="w-16 h-16 bg-gradient-to-r ${colors[index % colors.length]} rounded-2xl flex items-center justify-center mb-6 pulse-glow">
-                                <i class="fa-solid ${icons[index % icons.length]} text-white text-2xl"></i>
-                            </div>
-                            <h3 class="text-2xl font-bold mb-4">${solution.title}</h3>
-                            <p class="text-gray-600 mb-4">${solution.description}</p>
-                            <ul class="space-y-2 text-sm text-gray-500">
-                                ${solution.features.map(feature => `<li>• ${feature}</li>`).join('')}
-                            </ul>
-                        </div>
-                    `;
-                }).join('');
-            }
-            
-            document.getElementById('blueprint-section').classList.remove('hidden');
-            
-            setTimeout(() => {
-                document.getElementById('blueprint-section').scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }, 100);
-        }
-
+        // Poll for blueprint completion
         async function pollForBlueprint(submissionId, maxAttempts = 30) {
             let attempts = 0;
             
@@ -1163,7 +1061,7 @@
                     }
                     
                     if (attempts < maxAttempts) {
-                        setTimeout(poll, 2000);
+                        setTimeout(poll, 2000); // Poll every 2 seconds
                     } else {
                         throw new Error('Blueprint generation timed out');
                     }
@@ -1217,7 +1115,7 @@
             }
         });
 
-        // Particle animation
+        // Floating particles animation
         function createParticle() {
             const particle = document.createElement('div');
             particle.className = 'particle floating-particle';
@@ -1232,10 +1130,71 @@
             }, 8000);
         }
         
+        // Create particles periodically
         setInterval(createParticle, 800);
         
-        // Initialize
-        showStep(1);
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all sections for scroll animations
+        document.querySelectorAll('section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(section);
+        });
+        
+        // Add hover effects to cards
+        document.querySelectorAll('.hover-glow').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
     </script>
-</body>
-</html>
+
+</body></html>
+
+
+
+
+<footer class="bg-gray-900 text-white py-8">
+    <div class="container mx-auto px-6 text-center">
+        <div class="flex items-center justify-center space-x-3">
+            <div class="w-12 h-12 rounded-lg flex items-center justify-center pulse-glow">
+                <img src="/images/r-logo.png" alt="Revamply Logo" class="w-12 h-12 rounded-lg">
+            </div>
+            <img src="/images/revamply-logo.png" alt="Revamply" class="h-10">
+        </div>
+        <p class="mt-4 text-gray-400">&copy; 2025 Revamply. All rights reserved.</p>
+    </div>
+</footer>
