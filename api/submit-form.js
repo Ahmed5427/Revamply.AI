@@ -1,6 +1,5 @@
-// api/submit-form.js
+// api/submit-form.js - Simplified approach without storage
 import { v4 as uuidv4 } from 'uuid';
-import SubmissionStorage from './storage.js';
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -82,7 +81,7 @@ export default async function handler(req, res) {
             
             // Metadata
             timestamp: timestamp || new Date().toISOString(),
-            source: source || 'revamply-enhanced-landing-page',
+            source: source || 'revamply-simplified-landing-page',
             status: 'processing',
             createdAt: new Date().toISOString(),
             
@@ -94,12 +93,13 @@ export default async function handler(req, res) {
             processFrequencyCategory: getProcessFrequencyCategory(processFrequency)
         };
         
-        SubmissionStorage.set(submissionId, submissionData);
-        
         // Prepare enhanced data for n8n webhook
         const n8nPayload = {
             ...submissionData,
-            webhookType: 'enhanced_form_submission',
+            webhookType: 'simplified_form_submission',
+            
+            // Add callback URL for n8n to send blueprint back
+            callbackUrl: `${getBaseUrl(req)}/api/receive-blueprint`,
             
             // Add formatted data for easier processing in n8n
             formatted: {
@@ -121,11 +121,9 @@ export default async function handler(req, res) {
         
         if (!n8nWebhookUrl) {
             console.error('N8N_WEBHOOK_URL environment variable is not set');
-            // Return success anyway - we'll store the data for manual processing
-            return res.status(200).json({
-                success: true,
-                submissionId,
-                message: 'Form submitted successfully. Blueprint generation pending webhook configuration.'
+            return res.status(500).json({
+                success: false,
+                message: 'Webhook configuration missing. Please contact support.'
             });
         }
         
@@ -141,16 +139,19 @@ export default async function handler(req, res) {
             
             if (!n8nResponse.ok) {
                 console.error('Failed to send data to n8n:', n8nResponse.statusText);
-                // Log the error but don't fail the request
+                throw new Error('Failed to initiate blueprint generation');
             } else {
-                console.log('Successfully sent enhanced form data to n8n');
+                console.log('Successfully sent form data to n8n for processing');
             }
         } catch (error) {
             console.error('Error sending to n8n:', error.message);
-            // Log the error but don't fail the request
+            return res.status(500).json({ 
+                success: false,
+                message: 'Failed to initiate blueprint generation. Please try again.'
+            });
         }
         
-        console.log(`Enhanced form submission processed successfully. ID: ${submissionId}, Department: ${department}, Impact: ${businessImpact}`);
+        console.log(`Form submission processed successfully. ID: ${submissionId}, Department: ${department}, Impact: ${businessImpact}`);
         
         return res.status(200).json({
             success: true,
@@ -160,11 +161,19 @@ export default async function handler(req, res) {
         });
         
     } catch (error) {
-        console.error('Error processing enhanced form submission:', error);
+        console.error('Error processing form submission:', error);
         return res.status(500).json({ 
+            success: false,
             message: 'Internal server error. Please try again or contact support if the issue persists.' 
         });
     }
+}
+
+// Helper function to get base URL
+function getBaseUrl(req) {
+    const protocol = req.headers['x-forwarded-proto'] || 'http';
+    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    return `${protocol}://${host}`;
 }
 
 // Helper functions
@@ -221,7 +230,6 @@ function generateSubmissionSummary(data) {
 }
 
 function getEstimatedProcessingTime(businessImpact, processFrequency) {
-    // More complex scenarios might take longer to analyze
     const complexImpacts = ['multiple', 'competitive-advantage', 'scalability'];
     const highFrequency = ['multiple-daily', 'daily'];
     
