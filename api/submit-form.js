@@ -17,8 +17,6 @@ export default async function handler(req, res) {
     }
     
     try {
-        await SubmissionStorage.init(); // Initialize storage
-
         const { 
             businessDescription, 
             department,
@@ -43,7 +41,7 @@ export default async function handler(req, res) {
         }
         
         // Validate email format
-        const emailRegex = /^[\S+@\S+\.\S+]+$/;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             return res.status(400).json({ 
                 message: 'Please provide a valid email address.' 
@@ -96,7 +94,7 @@ export default async function handler(req, res) {
             processFrequencyCategory: getProcessFrequencyCategory(processFrequency)
         };
         
-        await SubmissionStorage.set(submissionId, submissionData);
+        SubmissionStorage.set(submissionId, submissionData);
         
         // Prepare enhanced data for n8n webhook
         const n8nPayload = {
