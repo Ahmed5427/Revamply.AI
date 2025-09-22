@@ -1,23 +1,13 @@
 {
   "version": 2,
-  "build": {
-    "env": {
-      "NPM_CONFIG_PRODUCTION": "false"
-    }
-  },
-  "functions": {
-    "api/**/*.js": {
-      "runtime": "@vercel/node@2.0.0"
-    }
-  },
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/Index.html"
+      "source": "/(.*)",
+      "destination": "/Index.html"
     }
   ]
 }
