@@ -298,6 +298,26 @@
         .phone-input {
             flex: 1;
         }
+
+        /* Blueprint waiting styles */
+        .blueprint-waiting {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .blueprint-waiting .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.3);
+            border-top: 4px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -418,6 +438,18 @@
                     
                     <!-- Messages Container -->
                     <div id="messages-container"></div>
+                    
+                    <!-- Blueprint Waiting Message (hidden initially) -->
+                    <div id="blueprint-waiting" class="blueprint-waiting hidden">
+                        <div class="spinner"></div>
+                        <h3 class="text-2xl font-bold mb-2">Generating Your AI Blueprint...</h3>
+                        <p class="text-blue-100">Our AI is analyzing your business requirements and creating a customized solution plan. This will take about 2-3 minutes.</p>
+                        <div class="mt-4 text-sm text-blue-200">
+                            <p>✨ Analyzing your current processes</p>
+                            <p>🤖 Designing AI solution architecture</p>
+                            <p>📊 Calculating ROI and implementation timeline</p>
+                        </div>
+                    </div>
                     
                     <form id="business-form" class="space-y-8">
                         
@@ -749,9 +781,6 @@
         </div>
     </section>
 
-    <!-- Rest of the page sections remain the same -->
-    <!-- Add all other sections here (why-revamply, social-proof, process, etc.) -->
-
     <footer class="bg-gray-900 text-white py-8">
         <div class="container mx-auto px-6 text-center">
             <div class="flex items-center justify-center space-x-3">
@@ -769,6 +798,7 @@
         let submissionId = null;
         let currentStep = 1;
         const totalSteps = 3;
+        let blueprintTimeout = null;
 
         // Form validation
         function validateStep(stepNumber) {
@@ -890,6 +920,18 @@
             }
         }
 
+        function showBlueprintWaiting() {
+            // Hide the form
+            document.getElementById('business-form').style.display = 'none';
+            // Show the waiting message
+            document.getElementById('blueprint-waiting').classList.remove('hidden');
+        }
+
+        function hideBlueprintWaiting() {
+            document.getElementById('blueprint-waiting').classList.add('hidden');
+            document.getElementById('business-form').style.display = 'block';
+        }
+
         function renderBlueprint(blueprintData) {
             const content = document.getElementById('blueprint-content');
             const businessType = document.getElementById('business-type');
@@ -924,6 +966,9 @@
                 }).join('');
             }
             
+            // Hide waiting message
+            hideBlueprintWaiting();
+            
             // Show blueprint section
             document.getElementById('blueprint-section').classList.remove('hidden');
             
@@ -933,7 +978,20 @@
             }, 100);
         }
 
-        // Form submission handler
+        // Global function to receive blueprint from n8n (called by n8n via iframe/popup)
+        window.receiveBlueprintFromN8N = function(blueprintData) {
+            console.log('Received blueprint from n8n:', blueprintData);
+            
+            // Clear any timeouts
+            if (blueprintTimeout) {
+                clearTimeout(blueprintTimeout);
+            }
+            
+            // Process and display the blueprint
+            renderBlueprint(blueprintData);
+        };
+
+        // Form submission handler - SIMPLIFIED VERSION
         document.getElementById('business-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -974,10 +1032,18 @@
                 
                 if (response.ok) {
                     submissionId = result.submissionId;
-                    showMessage('✅ Thank you! We\'re generating your comprehensive AI blueprint now. This may take a few moments...');
+                    setLoading(false);
+                    showMessage('✅ Thank you! We\'re generating your comprehensive AI blueprint now...');
                     
-                    // Poll for blueprint completion
-                    pollForBlueprint(submissionId);
+                    // Show the waiting screen
+                    showBlueprintWaiting();
+                    
+                    // Set a timeout to show error message if blueprint doesn't arrive
+                    blueprintTimeout = setTimeout(() => {
+                        hideBlueprintWaiting();
+                        showMessage('⏰ Blueprint generation is taking longer than expected. We\'ll email you the results at ' + data.email, 'error');
+                    }, 300000); // 5 minutes timeout
+                    
                 } else {
                     throw new Error(result.message || 'Failed to submit form');
                 }
@@ -987,39 +1053,6 @@
                 setLoading(false);
             }
         });
-
-        // Poll for blueprint completion
-        async function pollForBlueprint(submissionId, maxAttempts = 30) {
-            let attempts = 0;
-            
-            const poll = async () => {
-                attempts++;
-                
-                try {
-                    const response = await fetch(`/api/get-blueprint?submissionId=${submissionId}`);
-                    const result = await response.json();
-                    
-                    if (response.ok && result.blueprint) {
-                        setLoading(false);
-                        showMessage('🎉 Your AI blueprint is ready!');
-                        renderBlueprint(result.blueprint);
-                        return;
-                    }
-                    
-                    if (attempts < maxAttempts) {
-                        setTimeout(poll, 2000); // Poll every 2 seconds
-                    } else {
-                        throw new Error('Blueprint generation timed out');
-                    }
-                } catch (error) {
-                    console.error('Error polling for blueprint:', error);
-                    setLoading(false);
-                    showMessage('❌ There was an error generating your blueprint. Please try again.', 'error');
-                }
-            };
-            
-            poll();
-        }
 
         // Next steps form handler
         document.getElementById('next-steps-form').addEventListener('submit', async function(e) {
