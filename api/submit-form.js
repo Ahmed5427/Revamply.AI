@@ -17,36 +17,103 @@ export default async function handler(req, res) {
     }
     
     try {
-        const { businessDescription, name, email, timestamp, source } = req.body;
+        const { 
+            businessDescription, 
+            department,
+            currentProcess,
+            painPoints,
+            businessImpact,
+            processFrequency,
+            fullName, 
+            email, 
+            countryCode,
+            phoneNumber,
+            timestamp, 
+            source 
+        } = req.body;
         
         // Validate required fields
-        if (!businessDescription || !email) {
+        if (!businessDescription || !department || !currentProcess || !businessImpact || 
+            !processFrequency || !fullName || !email) {
             return res.status(400).json({ 
-                message: 'Business description and email are required' 
+                message: 'Required fields are missing. Please fill out all required information.' 
+            });
+        }
+        
+        // Validate email format
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ 
+                message: 'Please provide a valid email address.' 
+            });
+        }
+        
+        // Validate full name (should have at least first and last name)
+        const nameParts = fullName.trim().split(' ');
+        if (nameParts.length < 2 || nameParts.some(part => part.length === 0)) {
+            return res.status(400).json({ 
+                message: 'Please provide your full name (first and last name).' 
             });
         }
         
         // Generate unique submission ID
         const submissionId = uuidv4();
         
-        // Store submission data
+        // Prepare enhanced submission data
         const submissionData = {
             submissionId,
+            
+            // Business Information
             businessDescription,
-            name: name || 'Anonymous',
+            department,
+            currentProcess,
+            painPoints: painPoints || null,
+            businessImpact,
+            processFrequency,
+            
+            // Contact Information
+            fullName,
+            firstName: nameParts[0],
+            lastName: nameParts.slice(1).join(' '),
             email,
+            phone: phoneNumber ? `${countryCode} ${phoneNumber}` : null,
+            countryCode: countryCode || null,
+            phoneNumber: phoneNumber || null,
+            
+            // Metadata
             timestamp: timestamp || new Date().toISOString(),
-            source: source || 'website',
+            source: source || 'revamply-enhanced-landing-page',
             status: 'processing',
-            createdAt: new Date().toISOString()
+            createdAt: new Date().toISOString(),
+            
+            // Additional derived information
+            hasPhoneNumber: !!(phoneNumber && phoneNumber.trim()),
+            hasPainPoints: !!(painPoints && painPoints.trim()),
+            departmentCategory: getDepartmentCategory(department),
+            businessImpactCategory: getBusinessImpactCategory(businessImpact),
+            processFrequencyCategory: getProcessFrequencyCategory(processFrequency)
         };
         
         SubmissionStorage.set(submissionId, submissionData);
         
-        // Prepare data for n8n webhook
+        // Prepare enhanced data for n8n webhook
         const n8nPayload = {
             ...submissionData,
-            webhookType: 'form_submission'
+            webhookType: 'enhanced_form_submission',
+            
+            // Add formatted data for easier processing in n8n
+            formatted: {
+                contactName: fullName,
+                contactEmail: email,
+                contactPhone: submissionData.phone,
+                businessOverview: businessDescription,
+                targetDepartment: department,
+                currentWorkflow: currentProcess,
+                challenges: painPoints || 'Not specified',
+                primaryGoal: businessImpact,
+                processOccurrence: processFrequency,
+                submissionSummary: generateSubmissionSummary(submissionData)
+            }
         };
         
         // Get n8n webhook URL from environment variables
@@ -62,7 +129,7 @@ export default async function handler(req, res) {
             });
         }
         
-        // Send data to n8n webhook
+        // Send enhanced data to n8n webhook
         try {
             const n8nResponse = await fetch(n8nWebhookUrl, {
                 method: 'POST',
@@ -74,23 +141,92 @@ export default async function handler(req, res) {
             
             if (!n8nResponse.ok) {
                 console.error('Failed to send data to n8n:', n8nResponse.statusText);
+                // Log the error but don't fail the request
+            } else {
+                console.log('Successfully sent enhanced form data to n8n');
             }
         } catch (error) {
             console.error('Error sending to n8n:', error.message);
+            // Log the error but don't fail the request
         }
         
-        console.log(`Form submission processed successfully. ID: ${submissionId}`);
+        console.log(`Enhanced form submission processed successfully. ID: ${submissionId}, Department: ${department}, Impact: ${businessImpact}`);
         
         return res.status(200).json({
             success: true,
             submissionId,
-            message: 'Form submitted successfully. Generating your AI blueprint...'
+            message: 'Thank you! We\'re generating your comprehensive AI blueprint based on your detailed requirements...',
+            estimatedTime: getEstimatedProcessingTime(businessImpact, processFrequency)
         });
         
     } catch (error) {
-        console.error('Error processing form submission:', error);
+        console.error('Error processing enhanced form submission:', error);
         return res.status(500).json({ 
-            message: 'Internal server error' 
+            message: 'Internal server error. Please try again or contact support if the issue persists.' 
         });
     }
+}
+
+// Helper functions
+function getDepartmentCategory(department) {
+    const categories = {
+        'sales': 'Revenue Generation',
+        'customer-service': 'Customer Experience',
+        'operations': 'Operational Efficiency',
+        'hr': 'Human Resources',
+        'finance': 'Financial Management',
+        'it': 'Technology & Infrastructure',
+        'manufacturing': 'Production & Manufacturing',
+        'project-management': 'Project & Process Management',
+        'quality-assurance': 'Quality & Compliance',
+        'legal': 'Legal & Compliance',
+        'research-development': 'Innovation & Development',
+        'multiple': 'Cross-Departmental',
+        'other': 'Specialized'
+    };
+    return categories[department] || 'Other';
+}
+
+function getBusinessImpactCategory(impact) {
+    const categories = {
+        'cost-reduction': 'Cost Optimization',
+        'time-saving': 'Efficiency Enhancement',
+        'revenue-growth': 'Revenue Generation',
+        'quality-improvement': 'Quality Enhancement',
+        'customer-experience': 'Customer Experience',
+        'scalability': 'Business Scaling',
+        'competitive-advantage': 'Market Advantage',
+        'compliance': 'Risk Management',
+        'multiple': 'Multi-Objective'
+    };
+    return categories[impact] || 'Other';
+}
+
+function getProcessFrequencyCategory(frequency) {
+    const categories = {
+        'multiple-daily': 'High Frequency',
+        'daily': 'Daily Operations',
+        'weekly': 'Regular Operations',
+        'monthly': 'Periodic Operations',
+        'quarterly': 'Strategic Operations',
+        'annually': 'Annual Operations',
+        'on-demand': 'On-Demand',
+        'project-based': 'Project-Based'
+    };
+    return categories[frequency] || 'Other';
+}
+
+function generateSubmissionSummary(data) {
+    return `${data.fullName} from ${data.departmentCategory} department is looking to implement AI solutions for ${data.businessImpactCategory.toLowerCase()}. The target process occurs ${data.processFrequencyCategory.toLowerCase()} and currently involves: ${data.currentProcess.substring(0, 100)}${data.currentProcess.length > 100 ? '...' : ''}.`;
+}
+
+function getEstimatedProcessingTime(businessImpact, processFrequency) {
+    // More complex scenarios might take longer to analyze
+    const complexImpacts = ['multiple', 'competitive-advantage', 'scalability'];
+    const highFrequency = ['multiple-daily', 'daily'];
+    
+    if (complexImpacts.includes(businessImpact) || highFrequency.includes(processFrequency)) {
+        return '3-5 minutes';
+    }
+    return '2-3 minutes';
 }
