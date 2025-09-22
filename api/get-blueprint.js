@@ -1,5 +1,5 @@
-// api/get-blueprint.js
-import SubmissionStorage from './storage.js';
+// api/get-blueprint.js - Updated with KV Storage
+import SubmissionStorageKV from './storage-kv.js';
 
 export default async function handler(req, res) {
     // Enable CORS
@@ -24,10 +24,11 @@ export default async function handler(req, res) {
             });
         }
         
-        // Check if submission exists
-        const submission = SubmissionStorage.get(submissionId);
+        // Check if submission exists in KV storage
+        const submission = await SubmissionStorageKV.get(submissionId);
         
         if (!submission) {
+            console.error(`Submission not found in KV storage: ${submissionId}`);
             return res.status(404).json({ 
                 message: 'Submission not found' 
             });
