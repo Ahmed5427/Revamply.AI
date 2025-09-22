@@ -16,8 +16,6 @@ export default async function handler(req, res) {
     }
     
     try {
-        await SubmissionStorage.init(); // Initialize storage
-
         const { submissionId, blueprint, status, error } = req.body;
         
         if (!submissionId) {
@@ -27,7 +25,7 @@ export default async function handler(req, res) {
         }
         
         // Check if submission exists
-        const submission = await SubmissionStorage.get(submissionId);
+        const submission = SubmissionStorage.get(submissionId);
         
         if (!submission) {
             return res.status(404).json({ 
@@ -55,7 +53,7 @@ export default async function handler(req, res) {
                 }
             }
             
-            await SubmissionStorage.update(submissionId, {
+            SubmissionStorage.update(submissionId, {
                 status: 'completed',
                 blueprint: parsedBlueprint,
                 completedAt: new Date().toISOString()
@@ -64,7 +62,7 @@ export default async function handler(req, res) {
             console.log(`Blueprint generated successfully for submission: ${submissionId}`);
             
         } else if (status === 'error') {
-            await SubmissionStorage.update(submissionId, {
+            SubmissionStorage.update(submissionId, {
                 status: 'error',
                 error: error || 'Blueprint generation failed',
                 errorAt: new Date().toISOString()
