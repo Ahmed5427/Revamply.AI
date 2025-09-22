@@ -16,6 +16,8 @@ export default async function handler(req, res) {
     }
     
     try {
+        await SubmissionStorage.init(); // Initialize storage
+
         const { submissionId } = req.query;
         
         if (!submissionId) {
@@ -25,7 +27,7 @@ export default async function handler(req, res) {
         }
         
         // Check if submission exists
-        const submission = SubmissionStorage.get(submissionId);
+        const submission = await SubmissionStorage.get(submissionId);
         
         if (!submission) {
             return res.status(404).json({ 
