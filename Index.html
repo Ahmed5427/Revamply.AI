@@ -991,7 +991,7 @@
             renderBlueprint(blueprintData);
         };
 
-        // Form submission handler - SIMPLIFIED VERSION
+       // Form submission handler - UPDATED VERSION WITH REDIRECT
         document.getElementById('business-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -1038,11 +1038,36 @@
                     // Show the waiting screen
                     showBlueprintWaiting();
                     
-                    // Set a timeout to show error message if blueprint doesn't arrive
-                    blueprintTimeout = setTimeout(() => {
-                        hideBlueprintWaiting();
-                        showMessage('⏰ Blueprint generation is taking longer than expected. We\'ll email you the results at ' + data.email, 'error');
-                    }, 300000); // 5 minutes timeout
+                    // Wait 2 minutes then redirect to blueprint page
+                    setTimeout(() => {
+                        showMessage('🎉 Your blueprint is ready! Redirecting you now...', 'success');
+                        
+                        // Redirect to the blueprint page after a short delay
+                        setTimeout(() => {
+                            // Create a form to POST the data to the blueprint endpoint
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = '/api/get-blueprint-page';
+                            form.style.display = 'none';
+                            
+                            // Add the submission ID
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'submissionId';
+                            input.value = submissionId;
+                            form.appendChild(input);
+                            
+                            // Add contact info
+                            const nameInput = document.createElement('input');
+                            nameInput.type = 'hidden';
+                            nameInput.name = 'contactName';
+                            nameInput.value = data.fullName;
+                            form.appendChild(nameInput);
+                            
+                            document.body.appendChild(form);
+                            form.submit();
+                        }, 2000);
+                    }, 120000); // 2 minutes
                     
                 } else {
                     throw new Error(result.message || 'Failed to submit form');
@@ -1053,7 +1078,6 @@
                 setLoading(false);
             }
         });
-
         // Next steps form handler
         document.getElementById('next-steps-form').addEventListener('submit', async function(e) {
             e.preventDefault();
