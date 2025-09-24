@@ -1192,22 +1192,34 @@
                     showBlueprintWaiting();
                     
                     // Wait 2 minutes then redirect to blueprint page
-                    // In your form submission handler, replace the setTimeout with:
-setTimeout(() => {
-    hideBlueprintWaiting();
-    showMessage(`✅ Blueprint generated! Check your email at ${data.email} for the complete results, or contact us directly.`, 'success');
-    
-    // Show contact options instead of redirecting
-    document.getElementById('messages-container').innerHTML += `
-        <div class="mt-6 text-center">
-            <p class="mb-4 text-gray-600">Having trouble accessing your blueprint?</p>
-            <div class="space-y-2">
-                <a href="mailto:solutions@revamply.com" class="block bg-blue-600 text-white px-6 py-3 rounded-lg">Email Us Your Results</a>
-                <a href="tel:+1234567890" class="block border border-blue-600 text-blue-600 px-6 py-3 rounded-lg">Call for Immediate Consultation</a>
-            </div>
-        </div>
-    `;
-}, 120000); // 2 minutes
+                    setTimeout(() => {
+                        showMessage('🎉 Your blueprint is ready! Redirecting you now...', 'success');
+                        
+                        // Redirect to the blueprint page after a short delay
+                        setTimeout(() => {
+                            // Create a form to POST the data to the blueprint endpoint
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = '/api/get-blueprint-page';
+                            form.style.display = 'none';
+                            
+                            // Add the submission ID
+                            const input = document.createElement('input');
+                            input.type = 'hidden';
+                            input.name = 'submissionId';
+                            input.value = submissionId;
+                            form.appendChild(input);
+                            
+                            // Add contact info
+                            const nameInput = document.createElement('input');
+                            nameInput.type = 'hidden';
+                            nameInput.name = 'contactName';
+                            nameInput.value = data.fullName;
+                            form.appendChild(nameInput);
+                            
+                            document.body.appendChild(form);
+                            form.submit();
+                        }, 2000);
                     }, 120000); // 2 minutes
                     
                 } else {
