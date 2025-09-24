@@ -1,4 +1,6 @@
-// api/get-blueprint-page.js - Direct blueprint display endpoint
+// api/get-blueprint-page.js - Updated to display real blueprint content
+import BlueprintStorage from './blueprint-storage.js';
+
 export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -19,69 +21,50 @@ export default async function handler(req, res) {
         
         if (req.method === 'GET') {
             submissionId = req.query.submissionId;
-            contactName = req.query.contactName || 'Valued Customer';
+            contactName = req.query.contactName;
         } else {
             submissionId = req.body.submissionId;
-            contactName = req.body.contactName || 'Valued Customer';
+            contactName = req.body.contactName;
         }
         
         if (!submissionId) {
-            return res.status(400).setHeader('Content-Type', 'text/html').send(`
-                <html>
-                <head><title>Blueprint Not Found</title></head>
-                <body style="font-family: Arial; text-align: center; padding: 50px;">
-                    <h1>Blueprint Not Found</h1>
-                    <p>The requested blueprint could not be found.</p>
-                    <a href="/" style="color: #3b82f6;">Return to Homepage</a>
-                </body>
-                </html>
-            `);
+            return res.status(400).setHeader('Content-Type', 'text/html').send(generateNotFoundHTML());
         }
         
-        // For demo purposes, we'll create a generic blueprint
-        // In a real implementation, you'd retrieve the actual generated blueprint
-        const blueprintData = {
-            businessType: "Your Business Solution",
-            solutions: [{
-                title: "AI-Powered Process Automation",
-                description: "A comprehensive AI solution designed to streamline your business processes, reduce manual work, and increase efficiency. This solution includes intelligent workflow automation, predictive analytics, and seamless integration with your existing systems.",
-                features: [
-                    "Intelligent workflow automation",
-                    "Real-time process monitoring",
-                    "Predictive analytics dashboard", 
-                    "Seamless system integration",
-                    "Custom reporting tools",
-                    "24/7 automated support"
-                ]
-            }]
-        };
+        // Try to retrieve the stored blueprint
+        const storedBlueprint = BlueprintStorage.retrieve(submissionId);
         
-        const contactInfo = { fullName: contactName };
+        if (!storedBlueprint) {
+            console.log(`Blueprint not found for submission: ${submissionId}`);
+            return res.status(404).setHeader('Content-Type', 'text/html').send(generateNotFoundHTML());
+        }
         
-        // Generate and return the blueprint HTML page
-        const blueprintHTML = generateBlueprintHTML(blueprintData, contactInfo, submissionId);
+        // Check if it's an error case
+        if (storedBlueprint.status === 'error') {
+            return res.status(200).setHeader('Content-Type', 'text/html').send(
+                generateErrorHTML(storedBlueprint.error, storedBlueprint.contactName)
+            );
+        }
         
+        // Generate the blueprint HTML with real content
+        const blueprintHTML = generateBlueprintHTML(storedBlueprint);
+        
+        console.log(`Displaying blueprint for: ${storedBlueprint.contactName}`);
         return res.status(200).setHeader('Content-Type', 'text/html').send(blueprintHTML);
         
     } catch (error) {
         console.error('Error serving blueprint page:', error);
-        return res.status(500).setHeader('Content-Type', 'text/html').send(`
-            <html>
-            <head><title>Error</title></head>
-            <body style="font-family: Arial; text-align: center; padding: 50px;">
-                <h1>Error Loading Blueprint</h1>
-                <p>There was an error loading your blueprint. Please try again.</p>
-                <a href="/" style="color: #3b82f6;">Return to Homepage</a>
-            </body>
-            </html>
-        `);
+        return res.status(500).setHeader('Content-Type', 'text/html').send(generateErrorHTML('Internal server error'));
     }
 }
 
-function generateBlueprintHTML(blueprint, contactInfo, submissionId) {
-    const solutions = blueprint.solutions || [];
-    const businessType = blueprint.businessType || "Your Business";
-    const contactName = contactInfo?.fullName || "Valued Customer";
+function generateBlueprintHTML(blueprint) {
+    const contactName = blueprint.contactName || 'Valued Customer';
+    const blueprintContent = blueprint.blueprintContent || 'Blueprint content not available';
+    const submissionId = blueprint.submissionId;
+    
+    // Format the blueprint content for better display
+    const formattedContent = formatBlueprintContent(blueprintContent);
     
     return `
 <!DOCTYPE html>
@@ -93,7 +76,10 @@ function generateBlueprintHTML(blueprint, contactInfo, submissionId) {
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            line-height: 1.6;
+        }
         .gradient-text { 
             background: linear-gradient(45deg, #00E5FF, #FF00CC); 
             -webkit-background-clip: text; 
@@ -114,6 +100,48 @@ function generateBlueprintHTML(blueprint, contactInfo, submissionId) {
             0% { transform: scale(0.8) translateY(20px); opacity: 0; }
             100% { transform: scale(1) translateY(0); opacity: 1; }
         }
+        .blueprint-content {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+        }
+        .blueprint-content h1, .blueprint-content h2, .blueprint-content h3 {
+            color: #1f2937;
+            margin: 1.5rem 0 1rem 0;
+            font-weight: bold;
+        }
+        .blueprint-content h1 { font-size: 1.5rem; }
+        .blueprint-content h2 { font-size: 1.3rem; }
+        .blueprint-content h3 { font-size: 1.1rem; }
+        .blueprint-content ul, .blueprint-content ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+        .blueprint-content li {
+            margin: 0.5rem 0;
+        }
+        .blueprint-content p {
+            margin: 1rem 0;
+            color: #374151;
+        }
+        .section-divider {
+            border-top: 2px solid #e5e7eb;
+            margin: 2rem 0;
+            position: relative;
+        }
+        .section-divider::after {
+            content: "✦";
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 0 1rem;
+            color: #6b7280;
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -121,57 +149,26 @@ function generateBlueprintHTML(blueprint, contactInfo, submissionId) {
         <div class="container mx-auto px-6">
             <div class="max-w-6xl mx-auto">
                 <!-- Celebration Header -->
-                <div class="text-center mb-16 celebration">
+                <div class="text-center mb-12 celebration">
                     <div class="inline-flex items-center bg-gradient-to-r from-green-400 to-blue-500 px-8 py-3 rounded-full text-white font-bold text-lg mb-8 shadow-lg">
                         <i class="fa-solid fa-check-circle mr-3 text-2xl"></i>
-                        Blueprint Generated Successfully! 🎉
+                        Blueprint Generated Successfully!
                     </div>
-                    <h1 class="text-6xl font-black mb-6 gradient-text">Your AI Solution Blueprint</h1>
-                    <p class="text-2xl text-gray-700 mb-4">Hi <span class="font-bold text-blue-600">${contactName}</span>! 👋</p>
-                    <p class="text-xl text-gray-600">Here's your personalized AI transformation plan for: <span class="font-bold gradient-text">${businessType}</span></p>
+                    <h1 class="text-5xl font-black mb-6 gradient-text">Your AI Solution Blueprint</h1>
+                    <p class="text-2xl text-gray-700 mb-4">Hi <span class="font-bold text-blue-600">${contactName}</span>!</p>
+                    <p class="text-lg text-gray-600">Here's your personalized AI transformation plan</p>
                 </div>
                 
-                <!-- Solutions Grid -->
-                <div class="grid md:grid-cols-${Math.min(solutions.length, 3)} gap-8 mb-16">
-                    ${solutions.map((solution, index) => {
-                        const colors = [
-                            'from-blue-500 to-purple-600',
-                            'from-pink-500 to-red-500', 
-                            'from-green-500 to-teal-600',
-                            'from-yellow-500 to-orange-600',
-                            'from-purple-500 to-indigo-600'
-                        ];
-                        const icons = ['fa-robot', 'fa-chart-line', 'fa-cogs', 'fa-lightbulb', 'fa-rocket'];
-                        
-                        return `
-                            <div class="bg-white rounded-3xl p-8 shadow-xl border-2 border-gray-100 hover:shadow-2xl transition-all duration-300 celebration" style="animation-delay: ${index * 0.1}s">
-                                <div class="w-20 h-20 bg-gradient-to-r ${colors[index % colors.length]} rounded-3xl flex items-center justify-center mb-6 pulse-glow mx-auto">
-                                    <i class="fa-solid ${icons[index % icons.length]} text-white text-3xl"></i>
-                                </div>
-                                <h3 class="text-2xl font-bold mb-4 text-center text-gray-800">${solution.title}</h3>
-                                <div class="text-gray-600 mb-6 leading-relaxed text-sm">
-                                    ${solution.description.length > 400 ? 
-                                        solution.description.substring(0, 400) + '...' : 
-                                        solution.description}
-                                </div>
-                                ${solution.features ? `
-                                    <div class="border-t pt-4">
-                                        <h4 class="font-semibold text-gray-800 mb-2">Key Features:</h4>
-                                        <ul class="space-y-1 text-sm text-gray-600">
-                                            ${solution.features.map(feature => `<li class="flex items-start"><i class="fa-solid fa-check text-green-500 mr-2 mt-1 flex-shrink-0"></i><span>${feature}</span></li>`).join('')}
-                                        </ul>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        `;
-                    }).join('')}
+                <!-- Blueprint Content -->
+                <div class="blueprint-content celebration" style="animation-delay: 0.2s">
+                    ${formattedContent}
                 </div>
                 
                 <!-- Implementation Timeline -->
-                <div class="bg-white rounded-3xl p-10 shadow-xl border-2 border-gray-100 mb-12 celebration" style="animation-delay: 0.3s">
+                <div class="bg-white rounded-3xl p-10 shadow-xl border-2 border-gray-100 mb-12 celebration" style="animation-delay: 0.4s">
                     <div class="grid md:grid-cols-2 gap-12">
                         <div>
-                            <h3 class="text-3xl font-bold mb-8 text-gray-800">📋 Implementation Timeline</h3>
+                            <h3 class="text-3xl font-bold mb-8 text-gray-800">📋 Implementation Details</h3>
                             <div class="space-y-6">
                                 <div class="flex items-center">
                                     <div class="w-14 h-14 bg-gradient-to-r from-green-400 to-emerald-600 rounded-full flex items-center justify-center mr-4 shadow-lg">
@@ -179,7 +176,7 @@ function generateBlueprintHTML(blueprint, contactInfo, submissionId) {
                                     </div>
                                     <div>
                                         <div class="font-bold text-lg text-gray-800">Development Time</div>
-                                        <div class="text-gray-600">3–6 Weeks</div>
+                                        <div class="text-gray-600">3–8 Weeks</div>
                                     </div>
                                 </div>
                                 
@@ -199,7 +196,7 @@ function generateBlueprintHTML(blueprint, contactInfo, submissionId) {
                                     </div>
                                     <div>
                                         <div class="font-bold text-lg text-gray-800">Expected ROI</div>
-                                        <div class="text-gray-600">300%+ within 12 months</div>
+                                        <div class="text-gray-600">200-400% within 12 months</div>
                                     </div>
                                 </div>
                             </div>
@@ -229,7 +226,7 @@ function generateBlueprintHTML(blueprint, contactInfo, submissionId) {
                 </div>
                 
                 <!-- Footer -->
-                <div class="text-center celebration" style="animation-delay: 0.5s">
+                <div class="text-center celebration" style="animation-delay: 0.6s">
                     <div class="flex items-center justify-center space-x-3 mb-6">
                         <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
                             <span class="text-white font-bold text-xl">R</span>
@@ -244,9 +241,8 @@ function generateBlueprintHTML(blueprint, contactInfo, submissionId) {
     </div>
     
     <script>
-        console.log('🎉 Blueprint page loaded successfully for submission:', '${submissionId}');
+        console.log('Blueprint page loaded for submission:', '${submissionId}');
         
-        // Optional: Add some interactive elements
         document.addEventListener('DOMContentLoaded', function() {
             // Add subtle scroll animations
             const animatedElements = document.querySelectorAll('.celebration');
@@ -261,6 +257,100 @@ function generateBlueprintHTML(blueprint, contactInfo, submissionId) {
             animatedElements.forEach(el => observer.observe(el));
         });
     </script>
+</body>
+</html>
+    `;
+}
+
+function formatBlueprintContent(content) {
+    if (!content) return '<p>Blueprint content not available.</p>';
+    
+    // Convert markdown-like formatting to HTML
+    let formatted = content
+        // Convert headers
+        .replace(/^#{3}\s(.+)$/gm, '<h3>$1</h3>')
+        .replace(/^#{2}\s(.+)$/gm, '<h2>$1</h2>')
+        .replace(/^#{1}\s(.+)$/gm, '<h1>$1</h1>')
+        // Convert bold text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        // Convert checkmarks
+        .replace(/✓/g, '<i class="fa-solid fa-check text-green-500 mr-2"></i>')
+        // Convert bullet points
+        .replace(/^[-•]\s(.+)$/gm, '<li>$1</li>')
+        // Convert section dividers
+        .replace(/^─{10,}.*$/gm, '<div class="section-divider"></div>')
+        // Convert paragraphs
+        .replace(/\n\n/g, '</p><p>')
+        .replace(/\n/g, '<br>');
+    
+    // Wrap in paragraph tags
+    if (!formatted.startsWith('<')) {
+        formatted = '<p>' + formatted + '</p>';
+    }
+    
+    // Wrap consecutive <li> tags in <ul>
+    formatted = formatted.replace(/(<li>.*?<\/li>)(\s*<li>.*?<\/li>)*/gs, '<ul>$&</ul>');
+    
+    return formatted;
+}
+
+function generateNotFoundHTML() {
+    return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blueprint Not Found - Revamply</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div class="max-w-md mx-auto text-center p-8">
+        <div class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fa-solid fa-search text-yellow-500 text-2xl"></i>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900 mb-4">Blueprint Not Found</h1>
+        <p class="text-gray-600 mb-6">The requested blueprint could not be found. It may still be generating or the link may be incorrect.</p>
+        <div class="space-y-3">
+            <a href="/" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg block font-semibold">
+                Create New Blueprint
+            </a>
+        </div>
+    </div>
+</body>
+</html>
+    `;
+}
+
+function generateErrorHTML(error, contactName = 'Valued Customer') {
+    return `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blueprint Generation Issue - Revamply</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+</head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center">
+    <div class="max-w-lg mx-auto text-center p-8">
+        <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fa-solid fa-exclamation-triangle text-yellow-500 text-3xl"></i>
+        </div>
+        <h1 class="text-3xl font-bold text-gray-900 mb-4">Almost There!</h1>
+        <p class="text-gray-700 mb-6">Hi ${contactName}, we encountered an issue generating your AI blueprint. Our team will email you the results shortly.</p>
+        <p class="text-sm text-gray-500 mb-8">Technical details: ${error}</p>
+        <div class="space-y-3">
+            <a href="mailto:support@revamply.com" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg block font-semibold">
+                Contact Support
+            </a>
+            <a href="/" class="w-full border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold">
+                Try Again
+            </a>
+        </div>
+    </div>
 </body>
 </html>
     `;
