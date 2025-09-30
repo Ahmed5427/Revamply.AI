@@ -1298,6 +1298,292 @@
         
         // Create particles periodically
         setInterval(createParticle, 800);
+        // Frontend Email Validation Integration
+// Add this to your Index.html JavaScript section
+
+        let emailValidationTimeout = null;
+        let lastValidatedEmail = null;
+        let emailValidationResult = null;
+        
+        // Email validation function
+        async function validateEmailRealTime(email) {
+            if (!email || email === lastValidatedEmail) {
+                return emailValidationResult;
+            }
+            
+            try {
+                const response = await fetch('/api/validate-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email })
+                });
+                
+                const result = await response.json();
+                lastValidatedEmail = email;
+                emailValidationResult = result;
+                
+                return result;
+                
+            } catch (error) {
+                console.error('Email validation error:', error);
+                // Default to valid if validation service fails
+                return { 
+                    valid: true, 
+                    confidence: 50, 
+                    reason: 'Validation service unavailable' 
+                };
+            }
+        }
+        
+        // Update the email input field with validation
+        function setupEmailValidation() {
+            const emailInput = document.getElementById('email');
+            const emailField = emailInput.closest('.form-field');
+            
+            // Create validation status elements
+            const validationStatus = document.createElement('div');
+            validationStatus.className = 'email-validation-status';
+            validationStatus.style.marginTop = '0.5rem';
+            emailField.appendChild(validationStatus);
+            
+            emailInput.addEventListener('input', function() {
+                const email = this.value.trim();
+                
+                // Clear previous timeout
+                if (emailValidationTimeout) {
+                    clearTimeout(emailValidationTimeout);
+                }
+                
+                // Clear validation status
+                validationStatus.innerHTML = '';
+                emailField.classList.remove('email-valid', 'email-invalid', 'email-warning');
+                
+                if (!email) {
+                    return;
+                }
+                
+                // Basic format check first
+                const basicEmailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!basicEmailRegex.test(email)) {
+                    showEmailValidationStatus(validationStatus, {
+                        valid: false,
+                        reason: 'Invalid email format',
+                        confidence: 0
+                    });
+                    emailField.classList.add('email-invalid');
+                    return;
+                }
+                
+                // Show checking status
+                validationStatus.innerHTML = `
+                    <div class="flex items-center text-blue-600 text-sm">
+                        <div class="loading-spinner-small mr-2"></div>
+                        Validating email...
+                    </div>
+                `;
+                
+                // Debounce validation (wait 1 second after user stops typing)
+                emailValidationTimeout = setTimeout(async () => {
+                    const validation = await validateEmailRealTime(email);
+                    showEmailValidationStatus(validationStatus, validation);
+                    
+                    // Add CSS classes based on validation
+                    if (validation.valid) {
+                        if (validation.confidence >= 80) {
+                            emailField.classList.add('email-valid');
+                        } else {
+                            emailField.classList.add('email-warning');
+                        }
+                    } else {
+                        emailField.classList.add('email-invalid');
+                    }
+                }, 1000);
+            });
+        }
+        
+        function showEmailValidationStatus(container, validation) {
+            let statusHTML = '';
+            let statusClass = '';
+            
+            if (validation.valid) {
+                if (validation.confidence >= 80) {
+                    statusClass = 'text-green-600';
+                    statusHTML = `
+                        <div class="flex items-center ${statusClass} text-sm">
+                            <i class="fa-solid fa-check-circle mr-2"></i>
+                            Email looks good! (${validation.confidence}% confidence)
+                        </div>
+                    `;
+                } else {
+                    statusClass = 'text-yellow-600';
+                    statusHTML = `
+                        <div class="flex items-center ${statusClass} text-sm">
+                            <i class="fa-solid fa-exclamation-triangle mr-2"></i>
+                            Email accepted but may have issues: ${validation.reason}
+                        </div>
+                    `;
+                }
+            } else {
+                statusClass = 'text-red-600';
+                statusHTML = `
+                    <div class="flex items-center ${statusClass} text-sm">
+                        <i class="fa-solid fa-times-circle mr-2"></i>
+                        ${validation.reason}
+                    </div>
+                `;
+            }
+            
+            container.innerHTML = statusHTML;
+        }
+        
+        // Enhanced form validation that includes email validation
+        async function validateStep(stepNumber) {
+            const step = document.getElementById(`step-${stepNumber}`);
+            const requiredFields = step.querySelectorAll('[required]');
+            let isValid = true;
+        
+            for (const field of requiredFields) {
+                const formField = field.closest('.form-field');
+                
+                if (!field.value.trim()) {
+                    formField.classList.add('error');
+                    isValid = false;
+                    continue;
+                } else {
+                    formField.classList.remove('error');
+                }
+                
+                // Special validation for email field
+                if (field.type === 'email') {
+                    // First check if we have a validation result
+                    if (!emailValidationResult || lastValidatedEmail !== field.value.trim()) {
+                        // Validate immediately if not already validated
+                        const validation = await validateEmailRealTime(field.value.trim());
+                        
+                        if (!validation.valid) {
+                            formField.classList.add('error');
+                            showMessage(`❌ Email validation failed: ${validation.reason}`, 'error');
+                            isValid = false;
+                            continue;
+                        }
+                        
+                        // Warn about low confidence emails but don't block
+                        if (validation.confidence < 60) {
+                            showMessage(`⚠️ Warning: ${validation.reason}. Please double-check your email.`, 'warning');
+                        }
+                    }
+                }
+                
+                // Other field validations
+                if (field.name === 'fullName' && !isValidFullName(field.value)) {
+                    formField.classList.add('error');
+                    isValid = false;
+                }
+            }
+        
+            return isValid;
+        }
+        
+        // Update form submission to include email validation results
+        async function submitFormWithEmailValidation(formData) {
+            const email = formData.get('email');
+            
+            // Get final email validation
+            const emailValidation = await validateEmailRealTime(email);
+            
+            // Add email validation metadata to submission
+            const enhancedData = {
+                ...Object.fromEntries(formData),
+                emailValidation: {
+                    isValidated: true,
+                    confidence: emailValidation.confidence,
+                    riskLevel: emailValidation.riskLevel,
+                    checks: emailValidation.checks
+                }
+            };
+            
+            return enhancedData;
+        }
+        
+        // CSS for email validation status
+        const emailValidationCSS = `
+        <style>
+        .loading-spinner-small {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #3b82f6;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        
+        .form-field.email-valid input {
+            border-color: #10b981;
+            box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+        }
+        
+        .form-field.email-warning input {
+            border-color: #f59e0b;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+        }
+        
+        .form-field.email-invalid input {
+            border-color: #ef4444;
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+        
+        .email-validation-status {
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        
+        .warning-message {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
+        }
+        </style>
+        `;
+        
+        // Initialize email validation when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add CSS
+            document.head.insertAdjacentHTML('beforeend', emailValidationCSS);
+            
+            // Setup email validation
+            setupEmailValidation();
+        });
+        
+        // Update the showMessage function to handle warnings
+        function showMessage(message, type = 'success') {
+            const container = document.getElementById('messages-container');
+            const messageDiv = document.createElement('div');
+            
+            if (type === 'warning') {
+                messageDiv.className = 'warning-message';
+            } else {
+                messageDiv.className = `${type}-message`;
+            }
+            
+            messageDiv.textContent = message;
+            container.innerHTML = '';
+            container.appendChild(messageDiv);
+            
+            // Auto-remove after 8 seconds for warnings, 5 for others
+            setTimeout(() => {
+                if (messageDiv.parentNode) {
+                    messageDiv.remove();
+                }
+            }, type === 'warning' ? 8000 : 5000);
+        }
     </script>
 
 </body>
