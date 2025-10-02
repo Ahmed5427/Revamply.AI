@@ -1,4 +1,6 @@
-// api/receive-blueprint.js - Returns HTML directly to n8n
+// api/receive-blueprint.js - FIXED VERSION
+import BlueprintStorage from './blueprint-storage.js';
+
 export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -25,18 +27,42 @@ export default async function handler(req, res) {
             });
         }
         
-        // Handle blueprint completion - Return HTML directly
+        // CRITICAL: Store the blueprint data first!
         if (blueprint && (status === 'completed' || status === undefined)) {
-            console.log(`✅ Processing blueprint for submission: ${submissionId}`);
-            console.log(`📄 Generating HTML page for: ${contactName || 'Valued Customer'}`);
+            console.log(`💾 STORING blueprint for submission: ${submissionId}`);
             
-            // Generate and return the blueprint HTML page directly
+            // Store the blueprint so it can be retrieved later
+            const stored = BlueprintStorage.store(submissionId, {
+                submissionId,
+                contactName: contactName || 'Valued Customer',
+                contactEmail: contactEmail || '',
+                blueprintContent: blueprint,
+                status: 'completed',
+                generatedAt: new Date().toISOString()
+            });
+            
+            if (stored) {
+                console.log(`✅ Blueprint stored successfully for: ${submissionId}`);
+            } else {
+                console.error(`❌ Failed to store blueprint for: ${submissionId}`);
+            }
+            
+            // Now generate and return the HTML
             const blueprintHTML = generateBlueprintHTML(blueprint, contactName || 'Valued Customer', submissionId);
-            
             return res.status(200).setHeader('Content-Type', 'text/html').send(blueprintHTML);
             
         } else if (status === 'error') {
             console.error(`❌ Blueprint generation failed for submission: ${submissionId}`, error);
+            
+            // Store error status
+            BlueprintStorage.store(submissionId, {
+                submissionId,
+                contactName: contactName || 'Valued Customer',
+                contactEmail: contactEmail || '',
+                status: 'error',
+                error: error || 'Blueprint generation failed',
+                errorAt: new Date().toISOString()
+            });
             
             const errorHTML = generateErrorHTML(error || 'Blueprint generation failed', contactName || 'Valued Customer');
             return res.status(200).setHeader('Content-Type', 'text/html').send(errorHTML);
@@ -257,7 +283,6 @@ function generateBlueprintHTML(blueprint, contactName, submissionId) {
         console.log('📋 Blueprint ID: ${submissionId}');
         
         document.addEventListener('DOMContentLoaded', function() {
-            // Add subtle scroll animations
             const animatedElements = document.querySelectorAll('.celebration');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
