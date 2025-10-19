@@ -355,3 +355,6 @@ function generateErrorHTML(error, contactName = 'Valued Customer') {
 </html>
     `;
 }
+console.log(`🔍 Looking for blueprint with ID: ${submissionId}`);
+const storedBlueprint = BlueprintStorage.retrieve(submissionId);
+console.log(`📦 Retrieved blueprint:`, storedBlueprint);
