@@ -63,7 +63,6 @@ class BlueprintStorage {
     
     static async listAll() {
         try {
-            // Get all blueprint keys
             const keys = [];
             let cursor = 0;
             
