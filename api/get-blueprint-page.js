@@ -1,4 +1,4 @@
-// api/get-blueprint-page.js - Updated to display real blueprint content
+// api/get-blueprint-page.js - FIXED: Consistent function signatures
 import BlueprintStorage from './blueprint-storage.js';
 
 export default async function handler(req, res) {
@@ -23,11 +23,15 @@ export default async function handler(req, res) {
             submissionId = req.query.submissionId;
             contactName = req.query.contactName;
         } else {
+            // POST request (form data)
             submissionId = req.body.submissionId;
             contactName = req.body.contactName;
         }
         
+        console.log(`🔍 Looking for blueprint with ID: ${submissionId}`);
+        
         if (!submissionId) {
+            console.error('❌ No submissionId provided');
             return res.status(400).setHeader('Content-Type', 'text/html').send(generateNotFoundHTML());
         }
         
@@ -35,9 +39,11 @@ export default async function handler(req, res) {
         const storedBlueprint = BlueprintStorage.retrieve(submissionId);
         
         if (!storedBlueprint) {
-            console.log(`Blueprint not found for submission: ${submissionId}`);
+            console.log(`❌ Blueprint not found for submission: ${submissionId}`);
             return res.status(404).setHeader('Content-Type', 'text/html').send(generateNotFoundHTML());
         }
+        
+        console.log(`✅ Blueprint found for: ${submissionId}`);
         
         // Check if it's an error case
         if (storedBlueprint.status === 'error') {
@@ -47,21 +53,27 @@ export default async function handler(req, res) {
         }
         
         // Generate the blueprint HTML with real content
+        // Pass the full blueprint object so the function can extract what it needs
         const blueprintHTML = generateBlueprintHTML(storedBlueprint);
         
-        console.log(`Displaying blueprint for: ${storedBlueprint.contactName}`);
+        console.log(`📄 Displaying blueprint for: ${storedBlueprint.contactName}`);
         return res.status(200).setHeader('Content-Type', 'text/html').send(blueprintHTML);
         
     } catch (error) {
-        console.error('Error serving blueprint page:', error);
-        return res.status(500).setHeader('Content-Type', 'text/html').send(generateErrorHTML('Internal server error'));
+        console.error('💥 Error serving blueprint page:', error);
+        return res.status(500).setHeader('Content-Type', 'text/html').send(
+            generateErrorHTML('Internal server error', 'Valued Customer')
+        );
     }
 }
 
+// ✅ FIXED: Function extracts everything it needs from the blueprint object
 function generateBlueprintHTML(blueprint) {
+    // Extract all needed data from the blueprint object
     const contactName = blueprint.contactName || 'Valued Customer';
     const blueprintContent = blueprint.blueprintContent || 'Blueprint content not available';
-    const submissionId = blueprint.submissionId;
+    const submissionId = blueprint.submissionId || 'unknown';
+    const generatedDate = blueprint.generatedAt ? new Date(blueprint.generatedAt).toLocaleDateString() : new Date().toLocaleDateString();
     
     // Format the blueprint content for better display
     const formattedContent = formatBlueprintContent(blueprintContent);
@@ -113,41 +125,46 @@ function generateBlueprintHTML(blueprint) {
             margin: 1.5rem 0 1rem 0;
             font-weight: bold;
         }
-        .blueprint-content h1 { font-size: 1.5rem; }
-        .blueprint-content h2 { font-size: 1.3rem; }
-        .blueprint-content h3 { font-size: 1.1rem; }
+        .blueprint-content h1 { font-size: 1.8rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
+        .blueprint-content h2 { font-size: 1.5rem; color: #2563eb; }
+        .blueprint-content h3 { font-size: 1.2rem; color: #059669; }
         .blueprint-content ul, .blueprint-content ol {
             margin: 1rem 0;
             padding-left: 1.5rem;
         }
         .blueprint-content li {
             margin: 0.5rem 0;
+            line-height: 1.6;
         }
         .blueprint-content p {
             margin: 1rem 0;
             color: #374151;
+            line-height: 1.7;
         }
         .section-divider {
             border-top: 2px solid #e5e7eb;
             margin: 2rem 0;
-            position: relative;
         }
-        .section-divider::after {
-            content: "✦";
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: white;
-            padding: 0 1rem;
-            color: #6b7280;
+        .highlight-box {
+            background: #f0f9ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        .phase-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            margin: 0.5rem 0;
         }
     </style>
 </head>
 <body class="bg-gray-50">
     <div class="min-h-screen py-12">
         <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
+            <div class="max-w-7xl mx-auto">
                 <!-- Celebration Header -->
                 <div class="text-center mb-12 celebration">
                     <div class="inline-flex items-center bg-gradient-to-r from-green-400 to-blue-500 px-8 py-3 rounded-full text-white font-bold text-lg mb-8 shadow-lg">
@@ -176,7 +193,7 @@ function generateBlueprintHTML(blueprint) {
                                     </div>
                                     <div>
                                         <div class="font-bold text-lg text-gray-800">Development Time</div>
-                                        <div class="text-gray-600">3–8 Weeks</div>
+                                        <div class="text-gray-600">6–9 Months</div>
                                     </div>
                                 </div>
                                 
@@ -196,7 +213,7 @@ function generateBlueprintHTML(blueprint) {
                                     </div>
                                     <div>
                                         <div class="font-bold text-lg text-gray-800">Expected ROI</div>
-                                        <div class="text-gray-600">200-400% within 12 months</div>
+                                        <div class="text-gray-600">20-25% cost reduction in 12 months</div>
                                     </div>
                                 </div>
                             </div>
@@ -204,8 +221,8 @@ function generateBlueprintHTML(blueprint) {
                         
                         <!-- Call to Action -->
                         <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8">
-                            <h4 class="text-3xl font-bold mb-6 text-gray-800">🚀 Ready to Transform Your Business?</h4>
-                            <p class="text-gray-700 mb-8 text-lg">Let's discuss your blueprint in detail and create an implementation plan tailored to your timeline and budget.</p>
+                            <h4 class="text-3xl font-bold mb-6 text-gray-800">🚀 Ready to Transform?</h4>
+                            <p class="text-gray-700 mb-8 text-lg">Let's discuss your blueprint and create a plan tailored to your timeline and budget.</p>
                             
                             <div class="space-y-4">
                                 <a href="https://calendly.com/revamply/consultation" target="_blank" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-xl text-white font-bold text-center block transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
@@ -234,17 +251,18 @@ function generateBlueprintHTML(blueprint) {
                         <span class="text-3xl font-bold gradient-text">Revamply</span>
                     </div>
                     <p class="text-gray-500 text-lg">© 2025 Revamply. Transforming businesses with AI.</p>
-                    <p class="text-sm text-gray-400 mt-2">Blueprint ID: ${submissionId} | Generated: ${new Date().toLocaleDateString()}</p>
+                    <p class="text-sm text-gray-400 mt-2">Blueprint ID: ${submissionId} | Generated: ${generatedDate}</p>
                 </div>
             </div>
         </div>
     </div>
     
     <script>
-        console.log('Blueprint page loaded for submission:', '${submissionId}');
+        console.log('🎉 Blueprint page loaded successfully!');
+        console.log('👤 Contact: ${contactName}');
+        console.log('📋 Blueprint ID: ${submissionId}');
         
         document.addEventListener('DOMContentLoaded', function() {
-            // Add subtle scroll animations
             const animatedElements = document.querySelectorAll('.celebration');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -265,31 +283,36 @@ function generateBlueprintHTML(blueprint) {
 function formatBlueprintContent(content) {
     if (!content) return '<p>Blueprint content not available.</p>';
     
-    // Convert markdown-like formatting to HTML
+    // Enhanced formatting for better display
     let formatted = content
-        // Convert headers
-        .replace(/^#{3}\s(.+)$/gm, '<h3>$1</h3>')
-        .replace(/^#{2}\s(.+)$/gm, '<h2>$1</h2>')
-        .replace(/^#{1}\s(.+)$/gm, '<h1>$1</h1>')
-        // Convert bold text
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        // Convert checkmarks
-        .replace(/✓/g, '<i class="fa-solid fa-check text-green-500 mr-2"></i>')
+        // Convert main headers
+        .replace(/^(AI Solution Blueprint[^\n]*)/gm, '<h1>$1</h1>')
+        // Convert section headers
+        .replace(/^([A-Z][^:\n]*:)\s*$/gm, '<h2>$1</h2>')
+        .replace(/^(Phase \d+[^:\n]*):?/gm, '<h3>$1</h3>')
+        .replace(/^(\d+\.\s+[^:\n]+)/gm, '<h3>$1</h3>')
+        // Convert key sections
+        .replace(/^(Objective|Benefits|Tech Stack|AI Features):\s*(.+)$/gm, '<div class="highlight-box"><strong>$1:</strong> $2</div>')
         // Convert bullet points
         .replace(/^[-•]\s(.+)$/gm, '<li>$1</li>')
-        // Convert section dividers
-        .replace(/^─{10,}.*$/gm, '<div class="section-divider"></div>')
-        // Convert paragraphs
+        .replace(/^☑\s(.+)$/gm, '<li class="text-green-600"><i class="fa-solid fa-check mr-2"></i>$1</li>')
+        // Convert checkmarks  
+        .replace(/✓/g, '<i class="fa-solid fa-check text-green-500 mr-1"></i>')
+        // Convert bold text
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        // Convert phases into boxes
+        .replace(/(Phase \d+[^:]*:[\s\S]*?)(?=Phase \d+|$)/g, '<div class="phase-box">$1</div>')
+        // Convert line breaks
         .replace(/\n\n/g, '</p><p>')
         .replace(/\n/g, '<br>');
     
-    // Wrap in paragraph tags
+    // Wrap in paragraph tags if not starting with HTML
     if (!formatted.startsWith('<')) {
         formatted = '<p>' + formatted + '</p>';
     }
     
     // Wrap consecutive <li> tags in <ul>
-    formatted = formatted.replace(/(<li>.*?<\/li>)(\s*<li>.*?<\/li>)*/gs, '<ul>$&</ul>');
+    formatted = formatted.replace(/(<li>.*?<\/li>\s*)+/gs, '<ul>$&</ul>');
     
     return formatted;
 }
@@ -313,7 +336,7 @@ function generateNotFoundHTML() {
         <h1 class="text-2xl font-bold text-gray-900 mb-4">Blueprint Not Found</h1>
         <p class="text-gray-600 mb-6">The requested blueprint could not be found. It may still be generating or the link may be incorrect.</p>
         <div class="space-y-3">
-            <a href="/" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg block font-semibold">
+            <a href="/" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg block font-semibold transition-colors">
                 Create New Blueprint
             </a>
         </div>
@@ -343,10 +366,11 @@ function generateErrorHTML(error, contactName = 'Valued Customer') {
         <p class="text-gray-700 mb-6">Hi ${contactName}, we encountered an issue generating your AI blueprint. Our team will email you the results shortly.</p>
         <p class="text-sm text-gray-500 mb-8">Technical details: ${error}</p>
         <div class="space-y-3">
-            <a href="mailto:support@revamply.com" class="w-full bg-blue-600 text-white px-6 py-3 rounded-lg block font-semibold">
+            <a href="mailto:support@revamply.com" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg block font-semibold transition-colors">
+                <i class="fa-solid fa-envelope mr-2"></i>
                 Contact Support
             </a>
-            <a href="/" class="w-full border border-gray-300 text-gray-700 px-6 py-3 rounded-lg font-semibold">
+            <a href="/" class="w-full border border-gray-300 hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-semibold transition-colors">
                 Try Again
             </a>
         </div>
@@ -355,6 +379,3 @@ function generateErrorHTML(error, contactName = 'Valued Customer') {
 </html>
     `;
 }
-console.log(`🔍 Looking for blueprint with ID: ${submissionId}`);
-const storedBlueprint = BlueprintStorage.retrieve(submissionId);
-console.log(`📦 Retrieved blueprint:`, storedBlueprint);
