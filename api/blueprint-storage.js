@@ -1,42 +1,19 @@
-// api/blueprint-storage.js - Fixed to prevent crashes on Vercel
-import fs from 'fs';
-import path from 'path';
-
-const STORAGE_DIR = '/tmp/blueprints'; // Vercel /tmp directory
-
-// ✅ LAZY directory creation - only when needed, not during import
-function ensureStorageDir() {
-    try {
-        if (!fs.existsSync(STORAGE_DIR)) {
-            fs.mkdirSync(STORAGE_DIR, { recursive: true });
-            console.log(`📁 Created storage directory: ${STORAGE_DIR}`);
-        }
-        return true;
-    } catch (error) {
-        console.error('❌ Error creating storage directory:', error);
-        return false;
-    }
-}
+// api/blueprint-storage.js - Using Vercel KV for persistent storage
+import { kv } from '@vercel/kv';
 
 class BlueprintStorage {
-    static store(submissionId, blueprintData) {
+    static async store(submissionId, blueprintData) {
         try {
-            // Ensure directory exists before writing
-            if (!ensureStorageDir()) {
-                console.error('Failed to create storage directory');
-                return false;
-            }
-            
-            const filePath = path.join(STORAGE_DIR, `${submissionId}.json`);
             const data = {
                 ...blueprintData,
                 storedAt: new Date().toISOString(),
                 submissionId
             };
             
-            fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
-            console.log(`✅ Stored blueprint for submission: ${submissionId}`);
-            console.log(`📍 File path: ${filePath}`);
+            // Store in Vercel KV with 7 day expiration
+            await kv.set(`blueprint:${submissionId}`, data, { ex: 604800 });
+            
+            console.log(`✅ Stored blueprint in KV for submission: ${submissionId}`);
             return true;
         } catch (error) {
             console.error(`❌ Error storing blueprint for ${submissionId}:`, error);
@@ -44,34 +21,18 @@ class BlueprintStorage {
         }
     }
     
-    static retrieve(submissionId) {
+    static async retrieve(submissionId) {
         try {
-            // Ensure directory exists before reading
-            if (!ensureStorageDir()) {
-                console.error('Storage directory not available');
-                return null;
-            }
+            console.log(`🔍 Retrieving blueprint from KV: ${submissionId}`);
             
-            const filePath = path.join(STORAGE_DIR, `${submissionId}.json`);
-            console.log(`🔍 Looking for blueprint at: ${filePath}`);
+            const blueprint = await kv.get(`blueprint:${submissionId}`);
             
-            if (fs.existsSync(filePath)) {
-                const data = fs.readFileSync(filePath, 'utf8');
-                const blueprint = JSON.parse(data);
-                console.log(`✅ Retrieved blueprint for submission: ${submissionId}`);
+            if (blueprint) {
+                console.log(`✅ Retrieved blueprint from KV for: ${submissionId}`);
                 return blueprint;
             }
             
-            console.log(`❌ Blueprint file not found for submission: ${submissionId}`);
-            
-            // Debug: List all files in storage directory
-            try {
-                const files = fs.readdirSync(STORAGE_DIR);
-                console.log(`📂 Available blueprints: ${files.join(', ')}`);
-            } catch (e) {
-                console.log('📂 Storage directory is empty or unreadable');
-            }
-            
+            console.log(`❌ Blueprint not found in KV for: ${submissionId}`);
             return null;
         } catch (error) {
             console.error(`❌ Error retrieving blueprint for ${submissionId}:`, error);
@@ -79,48 +40,41 @@ class BlueprintStorage {
         }
     }
     
-    static exists(submissionId) {
+    static async exists(submissionId) {
         try {
-            if (!ensureStorageDir()) {
-                return false;
-            }
-            
-            const filePath = path.join(STORAGE_DIR, `${submissionId}.json`);
-            return fs.existsSync(filePath);
+            const exists = await kv.exists(`blueprint:${submissionId}`);
+            return exists === 1;
         } catch (error) {
             console.error(`❌ Error checking blueprint existence for ${submissionId}:`, error);
             return false;
         }
     }
     
-    static delete(submissionId) {
+    static async delete(submissionId) {
         try {
-            const filePath = path.join(STORAGE_DIR, `${submissionId}.json`);
-            
-            if (fs.existsSync(filePath)) {
-                fs.unlinkSync(filePath);
-                console.log(`🗑️ Deleted blueprint for submission: ${submissionId}`);
-                return true;
-            }
-            
-            console.log(`⚠️ Blueprint not found for deletion: ${submissionId}`);
-            return false;
+            await kv.del(`blueprint:${submissionId}`);
+            console.log(`🗑️ Deleted blueprint from KV for: ${submissionId}`);
+            return true;
         } catch (error) {
             console.error(`❌ Error deleting blueprint for ${submissionId}:`, error);
             return false;
         }
     }
     
-    // Helper method to list all stored blueprints (for debugging)
-    static listAll() {
+    static async listAll() {
         try {
-            if (!ensureStorageDir()) {
-                return [];
-            }
+            // Get all blueprint keys
+            const keys = [];
+            let cursor = 0;
             
-            const files = fs.readdirSync(STORAGE_DIR);
-            console.log(`📋 Total blueprints stored: ${files.length}`);
-            return files.map(f => f.replace('.json', ''));
+            do {
+                const result = await kv.scan(cursor, { match: 'blueprint:*', count: 100 });
+                cursor = result[0];
+                keys.push(...result[1]);
+            } while (cursor !== 0);
+            
+            console.log(`📋 Total blueprints in KV: ${keys.length}`);
+            return keys.map(key => key.replace('blueprint:', ''));
         } catch (error) {
             console.error('❌ Error listing blueprints:', error);
             return [];
