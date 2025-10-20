@@ -65,6 +65,8 @@ export default async function handler(req, res) {
     }
 }
 
+// In your get-blueprint-page.js file, update the generateBlueprintHTML function:
+
 function generateBlueprintHTML(blueprint) {
     const contactName = blueprint.contactName || 'Valued Customer';
     const blueprintContent = blueprint.blueprintContent || 'Blueprint content not available';
@@ -82,6 +84,8 @@ function generateBlueprintHTML(blueprint) {
     <title>Your AI Blueprint is Ready - Revamply</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- Add html2pdf.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; line-height: 1.6; }
         .gradient-text { 
@@ -114,12 +118,35 @@ function generateBlueprintHTML(blueprint) {
         .blueprint-content ul { margin: 1rem 0; padding-left: 1.5rem; }
         .blueprint-content li { margin: 0.5rem 0; line-height: 1.6; }
         .blueprint-content p { margin: 1rem 0; color: #374151; line-height: 1.7; }
+        
+        /* Download button animation */
+        .download-btn {
+            transition: all 0.3s ease;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
+        }
+        
+        /* Hide buttons when generating PDF */
+        @media print {
+            .no-print { display: none !important; }
+        }
     </style>
 </head>
 <body class="bg-gray-50">
     <div class="min-h-screen py-12">
         <div class="container mx-auto px-6">
-            <div class="max-w-7xl mx-auto">
+            <div class="max-w-7xl mx-auto" id="blueprint-container">
+                <!-- Download Button - Floating at top right -->
+                <div class="fixed top-6 right-6 z-50 no-print">
+                    <button onclick="downloadPDF()" class="download-btn bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg flex items-center space-x-2">
+                        <i class="fa-solid fa-download"></i>
+                        <span>Download PDF</span>
+                    </button>
+                </div>
+
+                <!-- Celebration Header -->
                 <div class="text-center mb-12 celebration">
                     <div class="inline-flex items-center bg-gradient-to-r from-green-400 to-blue-500 px-8 py-3 rounded-full text-white font-bold text-lg mb-8 shadow-lg">
                         <i class="fa-solid fa-check-circle mr-3 text-2xl"></i>
@@ -130,10 +157,12 @@ function generateBlueprintHTML(blueprint) {
                     <p class="text-lg text-gray-600">Here's your personalized AI transformation plan</p>
                 </div>
                 
+                <!-- Blueprint Content -->
                 <div class="blueprint-content celebration" style="animation-delay: 0.2s">
                     ${formattedContent}
                 </div>
                 
+                <!-- Implementation Timeline -->
                 <div class="bg-white rounded-3xl p-10 shadow-xl border-2 border-gray-100 mb-12 celebration" style="animation-delay: 0.4s">
                     <div class="grid md:grid-cols-2 gap-12">
                         <div>
@@ -169,10 +198,11 @@ function generateBlueprintHTML(blueprint) {
                             </div>
                         </div>
                         
+                        <!-- Call to Action -->
                         <div class="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8">
                             <h4 class="text-3xl font-bold mb-6 text-gray-800">🚀 Ready to Transform?</h4>
                             <p class="text-gray-700 mb-8 text-lg">Let's discuss your blueprint and create a plan tailored to your timeline.</p>
-                            <div class="space-y-4">
+                            <div class="space-y-4 no-print">
                                 <a href="https://calendly.com/revamply/consultation" target="_blank" class="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 px-8 py-4 rounded-xl text-white font-bold text-center block transition-all shadow-lg hover:shadow-xl transform hover:scale-105">
                                     <i class="fa-solid fa-calendar-check mr-3"></i>Schedule Consultation
                                 </a>
@@ -184,6 +214,7 @@ function generateBlueprintHTML(blueprint) {
                     </div>
                 </div>
                 
+                <!-- Footer -->
                 <div class="text-center celebration" style="animation-delay: 0.6s">
                     <div class="flex items-center justify-center space-x-3 mb-6">
                         <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
@@ -202,11 +233,82 @@ function generateBlueprintHTML(blueprint) {
         console.log('🎉 Blueprint loaded successfully!');
         console.log('👤 ${contactName}');
         console.log('📋 ${submissionId}');
+        
+        // PDF Download Function
+        function downloadPDF() {
+            const button = event.target.closest('button');
+            const originalHTML = button.innerHTML;
+            
+            // Show loading state
+            button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Generating PDF...';
+            button.disabled = true;
+            
+            const element = document.getElementById('blueprint-container');
+            const opt = {
+                margin: [0.5, 0.5, 0.5, 0.5],
+                filename: 'AI-Blueprint-${contactName.replace(/[^a-z0-9]/gi, '_')}-${submissionId.substring(0, 8)}.pdf',
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { 
+                    scale: 2,
+                    useCORS: true,
+                    letterRendering: true,
+                    logging: false
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: 'letter', 
+                    orientation: 'portrait',
+                    compress: true
+                },
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+            };
+            
+            // Generate PDF
+            html2pdf().set(opt).from(element).save().then(() => {
+                // Reset button
+                button.innerHTML = originalHTML;
+                button.disabled = false;
+                
+                // Show success message
+                showNotification('✅ PDF downloaded successfully!');
+            }).catch((error) => {
+                console.error('PDF generation error:', error);
+                button.innerHTML = originalHTML;
+                button.disabled = false;
+                showNotification('❌ Error generating PDF. Please try again.', 'error');
+            });
+        }
+        
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = \`fixed bottom-6 right-6 px-6 py-4 rounded-lg shadow-xl z-50 transition-all transform translate-y-0 \${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white font-semibold\`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(100px)';
+                notification.style.opacity = '0';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Animation observer
+        document.addEventListener('DOMContentLoaded', function() {
+            const animatedElements = document.querySelectorAll('.celebration');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = 'celebration 0.8s ease-out';
+                    }
+                });
+            });
+            animatedElements.forEach(el => observer.observe(el));
+        });
     </script>
 </body>
 </html>`;
 }
-
 function formatBlueprintContent(content) {
     if (!content) return '<p>Blueprint content not available.</p>';
     
