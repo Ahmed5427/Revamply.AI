@@ -1,10 +1,10 @@
-// api/get-blueprint.js
-import SubmissionStorage from './storage.js';
+// api/get-blueprint.js - Status checking endpoint for polling
+import BlueprintStorage from './blueprint-storage.js';
 
 export default async function handler(req, res) {
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
     
     if (req.method === 'OPTIONS') {
@@ -12,7 +12,10 @@ export default async function handler(req, res) {
     }
     
     if (req.method !== 'GET') {
-        return res.status(405).json({ message: 'Method not allowed' });
+        return res.status(405).json({ 
+            success: false,
+            message: 'Method not allowed' 
+        });
     }
     
     try {
@@ -20,45 +23,52 @@ export default async function handler(req, res) {
         
         if (!submissionId) {
             return res.status(400).json({ 
+                success: false,
                 message: 'Submission ID is required' 
             });
         }
         
-        // Check if submission exists
-        const submission = SubmissionStorage.get(submissionId);
+        console.log(`🔍 Checking blueprint status for: ${submissionId}`);
         
-        if (!submission) {
-            return res.status(404).json({ 
-                message: 'Submission not found' 
-            });
-        }
+        // Check if blueprint exists in storage
+        const storedBlueprint = await BlueprintStorage.retrieve(submissionId);
         
-        // Check if blueprint is ready
-        if (submission.status === 'completed' && submission.blueprint) {
+        if (!storedBlueprint) {
+            console.log(`⏳ Blueprint not ready yet for: ${submissionId}`);
             return res.status(200).json({
-                success: true,
-                status: 'completed',
-                blueprint: submission.blueprint,
-                submissionId
-            });
-        } else if (submission.status === 'error') {
-            return res.status(500).json({
-                success: false,
-                status: 'error',
-                message: submission.error || 'Blueprint generation failed'
-            });
-        } else {
-            // Still processing
-            return res.status(202).json({
                 success: false,
                 status: 'processing',
-                message: 'Blueprint is still being generated'
+                message: 'Blueprint is still being generated',
+                submissionId
             });
         }
         
+        // Check if it's an error case
+        if (storedBlueprint.status === 'error') {
+            console.log(`❌ Blueprint generation failed for: ${submissionId}`);
+            return res.status(200).json({
+                success: false,
+                status: 'error',
+                message: storedBlueprint.error || 'Blueprint generation failed',
+                submissionId
+            });
+        }
+        
+        // Blueprint is ready!
+        console.log(`✅ Blueprint is ready for: ${submissionId}`);
+        return res.status(200).json({
+            success: true,
+            status: 'completed',
+            message: 'Blueprint is ready',
+            submissionId,
+            contactName: storedBlueprint.contactName
+        });
+        
     } catch (error) {
-        console.error('Error retrieving blueprint:', error);
+        console.error('💥 Error checking blueprint status:', error);
         return res.status(500).json({ 
+            success: false,
+            status: 'error',
             message: 'Internal server error' 
         });
     }
