@@ -78,16 +78,3 @@ class BlueprintStorage {
 }
 
 export default BlueprintStorage;
-```
-
-### Step 3: Commit Both Changes
-
-1. Update `package.json` - commit
-2. Update `api/blueprint-storage.js` - commit
-3. GitHub will trigger auto-deploy
-
-### Step 4: Test
-
-After deployment (1-2 minutes):
-```
-https://revamply-ai.vercel.app/api/test-storage
