@@ -236,48 +236,56 @@ function generateBlueprintHTML(blueprint) {
         
         // PDF Download Function
         function downloadPDF() {
-            const button = event.target.closest('button');
-            const originalHTML = button.innerHTML;
-            
-            // Show loading state
-            button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Generating PDF...';
-            button.disabled = true;
-            
-            const element = document.getElementById('blueprint-container');
-            const opt = {
-                margin: [0.5, 0.5, 0.5, 0.5],
-                filename: 'AI-Blueprint-${contactName.replace(/[^a-z0-9]/gi, '_')}-${submissionId.substring(0, 8)}.pdf',
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { 
-                    scale: 2,
-                    useCORS: true,
-                    letterRendering: true,
-                    logging: false
-                },
-                jsPDF: { 
-                    unit: 'in', 
-                    format: 'letter', 
-                    orientation: 'portrait',
-                    compress: true
-                },
-                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
-            };
-            
-            // Generate PDF
-            html2pdf().set(opt).from(element).save().then(() => {
-                // Reset button
-                button.innerHTML = originalHTML;
-                button.disabled = false;
-                
-                // Show success message
-                showNotification('✅ PDF downloaded successfully!');
-            }).catch((error) => {
-                console.error('PDF generation error:', error);
-                button.innerHTML = originalHTML;
-                button.disabled = false;
-                showNotification('❌ Error generating PDF. Please try again.', 'error');
-            });
-        }
+        const button = event.target.closest('button');
+        const originalHTML = button.innerHTML;
+        
+        button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Generating PDF...';
+        button.disabled = true;
+        
+        const element = document.getElementById('blueprint-container');
+        
+        // IMPROVED PDF OPTIONS
+        const opt = {
+            margin: 0.5,
+            filename: 'AI-Blueprint-${contactName.replace(/[^a-z0-9]/gi, '_')}-${submissionId.substring(0, 8)}.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 3,                    // Increase from 2 to 3 for better quality
+                useCORS: true,
+                letterRendering: true,
+                logging: false,
+                backgroundColor: '#ffffff',  // Force white background
+                removeContainer: true,
+                imageTimeout: 0,
+                allowTaint: false,
+                foreignObjectRendering: false  // Disable to fix text issues
+            },
+            jsPDF: { 
+                unit: 'in', 
+                format: 'letter', 
+                orientation: 'portrait',
+                compress: true,
+                precision: 16                 // Higher precision
+            },
+            pagebreak: { 
+                mode: ['avoid-all', 'css', 'legacy'],
+                before: '.page-break-before',
+                after: '.page-break-after',
+                avoid: ['h1', 'h2', 'h3', '.avoid-break']
+            }
+        };
+        
+        html2pdf().set(opt).from(element).save().then(() => {
+            button.innerHTML = originalHTML;
+            button.disabled = false;
+            showNotification('✅ PDF downloaded successfully!');
+        }).catch((error) => {
+            console.error('PDF generation error:', error);
+            button.innerHTML = originalHTML;
+            button.disabled = false;
+            showNotification('❌ Error generating PDF. Please try again.', 'error');
+        });
+    }
         
         // Show notification
         function showNotification(message, type = 'success') {
