@@ -988,6 +988,9 @@
         let currentStep = 1;
         const totalSteps = 3;
         let blueprintTimeout = null;
+        let emailValidationTimeout = null;
+        let lastValidatedEmail = null;
+        let emailValidationResult = null;
 
         // Form validation
         function validateStep(stepNumber) {
@@ -1061,17 +1064,23 @@
         function showMessage(message, type = 'success') {
             const container = document.getElementById('messages-container');
             const messageDiv = document.createElement('div');
-            messageDiv.className = `${type}-message`;
+            
+            if (type === 'warning') {
+                messageDiv.className = 'warning-message';
+            } else {
+                messageDiv.className = `${type}-message`;
+            }
+            
             messageDiv.textContent = message;
             container.innerHTML = '';
             container.appendChild(messageDiv);
             
-            // Auto-remove after 5 seconds
+            // Auto-remove after 8 seconds for warnings, 5 for others
             setTimeout(() => {
                 if (messageDiv.parentNode) {
                     messageDiv.remove();
                 }
-            }, 5000);
+            }, type === 'warning' ? 8000 : 5000);
         }
 
         function scrollToForm() {
@@ -1180,7 +1189,171 @@
             renderBlueprint(blueprintData);
         };
 
-       // Form submission handler - UPDATED VERSION WITH REDIRECT
+        // NEW: Show generating message with progress
+        function showGeneratingMessage(submissionId, firstName) {
+            const container = document.getElementById('blueprint-waiting');
+            container.innerHTML = `
+                <div class="text-center py-20">
+                    <div class="mb-8">
+                        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 mb-6 animate-pulse">
+                            <i class="fa-solid fa-wand-magic-sparkles text-white text-4xl"></i>
+                        </div>
+                        <h2 class="text-4xl font-bold mb-4 gradient-text">Generating Your Blueprint...</h2>
+                        <p class="text-xl text-gray-700 mb-2">Hi ${firstName}! 🎉</p>
+                        <p class="text-lg text-gray-600 mb-6">Our AI is crafting your personalized solution.</p>
+                        
+                        <!-- Progress indicator -->
+                        <div class="max-w-md mx-auto mb-6">
+                            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                                <div id="progress-bar-blueprint" class="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transition-all duration-500" style="width: 10%"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Status messages -->
+                        <div id="status-message" class="text-gray-600 text-sm mb-4">
+                            <i class="fa-solid fa-circle-notch fa-spin mr-2"></i>
+                            <span id="status-text">Analyzing your requirements...</span>
+                        </div>
+                        
+                        <!-- Estimated time -->
+                        <p class="text-gray-500 text-sm">
+                            <i class="fa-regular fa-clock mr-2"></i>
+                            Estimated time: <span id="time-estimate">30-60 seconds</span>
+                        </p>
+                        
+                        <!-- Fun fact while waiting -->
+                        <div class="mt-8 max-w-lg mx-auto bg-blue-50 border border-blue-200 rounded-xl p-6">
+                            <p class="text-sm text-gray-700">
+                                <i class="fa-solid fa-lightbulb text-yellow-500 mr-2"></i>
+                                <strong>Did you know?</strong> AI can reduce operational costs by 20-40% while improving service quality.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.classList.remove('hidden');
+        }
+
+        // NEW: Start polling for blueprint with smart progress updates
+        function startPollingForBlueprint(submissionId, firstName) {
+            let pollCount = 0;
+            const maxPolls = 60; // Max 5 minutes (60 * 5 seconds)
+            let progressValue = 10;
+            
+            const statusMessages = [
+                'Analyzing your requirements...',
+                'Consulting our AI experts...',
+                'Designing custom solutions...',
+                'Optimizing recommendations...',
+                'Finalizing your blueprint...'
+            ];
+            
+            const pollInterval = setInterval(async () => {
+                pollCount++;
+                
+                // Update progress bar (gradually increase)
+                progressValue = Math.min(90, 10 + (pollCount * 2));
+                const progressBar = document.getElementById('progress-bar-blueprint');
+                if (progressBar) progressBar.style.width = progressValue + '%';
+                
+                // Rotate status messages
+                const statusText = document.getElementById('status-text');
+                if (statusText && pollCount % 3 === 0) {
+                    const messageIndex = Math.floor((pollCount / 3) % statusMessages.length);
+                    statusText.textContent = statusMessages[messageIndex];
+                }
+                
+                try {
+                    // Poll the backend
+                    const response = await fetch(`/api/get-blueprint?submissionId=${submissionId}`);
+                    const result = await response.json();
+                    
+                    if (result.success && result.status === 'completed') {
+                        // Blueprint is ready! 🎉
+                        console.log('✅ Blueprint ready!');
+                        
+                        // Set progress to 100%
+                        if (progressBar) progressBar.style.width = '100%';
+                        if (statusText) statusText.textContent = 'Blueprint ready! Redirecting...';
+                        
+                        clearInterval(pollInterval);
+                        
+                        // Brief pause to show completion, then redirect
+                        setTimeout(() => {
+                            window.location.href = `/api/get-blueprint-page?submissionId=${submissionId}&contactName=${encodeURIComponent(firstName)}`;
+                        }, 1000);
+                        
+                    } else if (result.status === 'error') {
+                        // Error occurred
+                        console.error('❌ Blueprint generation error:', result.message);
+                        clearInterval(pollInterval);
+                        showErrorMessage(result.message);
+                        
+                    } else if (pollCount >= maxPolls) {
+                        // Timeout - taking too long
+                        console.warn('⏱️ Polling timeout');
+                        clearInterval(pollInterval);
+                        showTimeoutMessage(submissionId);
+                    }
+                    // Otherwise, keep polling (status is 'processing')
+                    
+                } catch (error) {
+                    console.error('❌ Polling error:', error);
+                    // Don't stop polling on network errors, try again
+                    if (pollCount >= maxPolls) {
+                        clearInterval(pollInterval);
+                        showErrorMessage('Network error. Please check your connection.');
+                    }
+                }
+            }, 5000); // Poll every 5 seconds
+        }
+
+        // NEW: Show error message
+        function showErrorMessage(message) {
+            const container = document.getElementById('blueprint-waiting');
+            container.innerHTML = `
+                <div class="text-center py-20">
+                    <div class="w-24 h-24 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-6">
+                        <i class="fa-solid fa-exclamation-circle text-red-500 text-5xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Oops! Something went wrong</h2>
+                    <p class="text-lg text-gray-600 mb-8">${message}</p>
+                    <div class="space-y-4">
+                        <button onclick="location.reload()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition-colors">
+                            <i class="fa-solid fa-rotate-right mr-2"></i>Try Again
+                        </button>
+                        <a href="mailto:support@revamply.com" class="block text-blue-600 hover:text-blue-700">
+                            Contact Support
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        // NEW: Show timeout message
+        function showTimeoutMessage(submissionId) {
+            const container = document.getElementById('blueprint-waiting');
+            container.innerHTML = `
+                <div class="text-center py-20">
+                    <div class="w-24 h-24 rounded-full bg-yellow-100 flex items-center justify-center mx-auto mb-6">
+                        <i class="fa-solid fa-clock text-yellow-500 text-5xl"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Taking longer than expected...</h2>
+                    <p class="text-lg text-gray-600 mb-4">Your blueprint is still being generated.</p>
+                    <p class="text-gray-600 mb-8">We'll email it to you once it's ready!</p>
+                    <div class="space-y-4">
+                        <button onclick="location.href='/api/get-blueprint-page?submissionId=${submissionId}'" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-xl transition-colors">
+                            <i class="fa-solid fa-rotate-right mr-2"></i>Check Status
+                        </button>
+                        <button onclick="location.reload()" class="block mx-auto text-blue-600 hover:text-blue-700">
+                            Submit New Request
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        // UPDATED: Form submission handler with polling mechanism
         document.getElementById('business-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -1205,7 +1378,12 @@
                 source: 'revamply-landing-page'
             };
             
-            setLoading(true);
+            const submitButton = document.getElementById('submit-btn');
+            const originalButtonText = submitButton.innerHTML;
+            
+            // Show loading state
+            submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Processing...';
+            submitButton.disabled = true;
             
             try {
                 // Submit to n8n webhook via our API endpoint
@@ -1219,56 +1397,33 @@
                 
                 const result = await response.json();
                 
-                if (response.ok) {
-                    submissionId = result.submissionId;
-                    setLoading(false);
-                    showMessage('✅ Thank you! We\'re generating your comprehensive AI blueprint now...');
+                if (result.success && result.submissionId) {
+                    console.log('✅ Form submitted successfully:', result.submissionId);
                     
-                    // Show the waiting screen
-                    showBlueprintWaiting();
+                    // Get first name for personalization
+                    const firstName = data.fullName.split(' ')[0];
                     
-                    // Wait 2 minutes then redirect to blueprint page
-                    setTimeout(() => {
-                        showMessage('🎉 Your blueprint is ready! Redirecting you now...', 'success');
-                        
-                        // Redirect to the blueprint page after a short delay
-                        setTimeout(() => {
-                            // Create a form to POST the data to the blueprint endpoint
-                            const form = document.createElement('form');
-                            form.method = 'POST';
-                            form.action = '/api/get-blueprint-page';
-                            form.style.display = 'none';
-                            
-                            // Add the submission ID
-                            const input = document.createElement('input');
-                            input.type = 'hidden';
-                            input.name = 'submissionId';
-                            input.value = submissionId;
-                            form.appendChild(input);
-                            
-                            // Add contact info
-                            const nameInput = document.createElement('input');
-                            nameInput.type = 'hidden';
-                            nameInput.name = 'contactName';
-                            nameInput.value = data.fullName;
-                            form.appendChild(nameInput);
-                            
-                            document.body.appendChild(form);
-                            form.submit();
-                        }, 2000);
-                    }, 120000); // 2 minutes
+                    // Hide form, show generating message
+                    document.getElementById('form-section').style.display = 'none';
+                    showGeneratingMessage(result.submissionId, firstName);
+                    
+                    // Start polling for blueprint
+                    startPollingForBlueprint(result.submissionId, firstName);
                     
                 } else {
-                    throw new Error(result.message || 'Failed to submit form');
+                    throw new Error(result.message || 'Submission failed');
                 }
+                
             } catch (error) {
-                console.error('Error submitting form:', error);
-                showMessage('❌ There was an error processing your request. Please try again.', 'error');
-                setLoading(false);
+                console.error('❌ Error submitting form:', error);
+                submitButton.innerHTML = originalButtonText;
+                submitButton.disabled = false;
+                showMessage('❌ There was an error submitting your form. Please try again.', 'error');
             }
         });
+
         // Next steps form handler
-        document.getElementById('next-steps-form').addEventListener('submit', async function(e) {
+        document.getElementById('next-steps-form')?.addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(this);
@@ -1325,23 +1480,20 @@
             particle.style.animationDuration = (Math.random() * 3 + 5) + 's';
             particle.style.animationDelay = Math.random() * 2 + 's';
             
-            document.getElementById('particleContainer').appendChild(particle);
-            
-            setTimeout(() => {
-                particle.remove();
-            }, 8000);
+            const particleContainer = document.getElementById('particleContainer');
+            if (particleContainer) {
+                particleContainer.appendChild(particle);
+                
+                setTimeout(() => {
+                    particle.remove();
+                }, 8000);
+            }
         }
         
         // Create particles periodically
         setInterval(createParticle, 800);
-        // Frontend Email Validation Integration
-// Add this to your Index.html JavaScript section
 
-        let emailValidationTimeout = null;
-        let lastValidatedEmail = null;
-        let emailValidationResult = null;
-        
-        // Email validation function
+        // Email validation functions
         async function validateEmailRealTime(email) {
             if (!email || email === lastValidatedEmail) {
                 return emailValidationResult;
@@ -1373,9 +1525,11 @@
             }
         }
         
-        // Update the email input field with validation
+        // Setup email validation
         function setupEmailValidation() {
             const emailInput = document.getElementById('email');
+            if (!emailInput) return;
+            
             const emailField = emailInput.closest('.form-field');
             
             // Create validation status elements
@@ -1473,76 +1627,7 @@
             
             container.innerHTML = statusHTML;
         }
-        
-        // Enhanced form validation that includes email validation
-        async function validateStep(stepNumber) {
-            const step = document.getElementById(`step-${stepNumber}`);
-            const requiredFields = step.querySelectorAll('[required]');
-            let isValid = true;
-        
-            for (const field of requiredFields) {
-                const formField = field.closest('.form-field');
-                
-                if (!field.value.trim()) {
-                    formField.classList.add('error');
-                    isValid = false;
-                    continue;
-                } else {
-                    formField.classList.remove('error');
-                }
-                
-                // Special validation for email field
-                if (field.type === 'email') {
-                    // First check if we have a validation result
-                    if (!emailValidationResult || lastValidatedEmail !== field.value.trim()) {
-                        // Validate immediately if not already validated
-                        const validation = await validateEmailRealTime(field.value.trim());
-                        
-                        if (!validation.valid) {
-                            formField.classList.add('error');
-                            showMessage(`❌ Email validation failed: ${validation.reason}`, 'error');
-                            isValid = false;
-                            continue;
-                        }
-                        
-                        // Warn about low confidence emails but don't block
-                        if (validation.confidence < 60) {
-                            showMessage(`⚠️ Warning: ${validation.reason}. Please double-check your email.`, 'warning');
-                        }
-                    }
-                }
-                
-                // Other field validations
-                if (field.name === 'fullName' && !isValidFullName(field.value)) {
-                    formField.classList.add('error');
-                    isValid = false;
-                }
-            }
-        
-            return isValid;
-        }
-        
-        // Update form submission to include email validation results
-        async function submitFormWithEmailValidation(formData) {
-            const email = formData.get('email');
-            
-            // Get final email validation
-            const emailValidation = await validateEmailRealTime(email);
-            
-            // Add email validation metadata to submission
-            const enhancedData = {
-                ...Object.fromEntries(formData),
-                emailValidation: {
-                    isValidated: true,
-                    confidence: emailValidation.confidence,
-                    riskLevel: emailValidation.riskLevel,
-                    checks: emailValidation.checks
-                }
-            };
-            
-            return enhancedData;
-        }
-        
+
         // CSS for email validation status
         const emailValidationCSS = `
         <style>
@@ -1597,30 +1682,7 @@
             // Setup email validation
             setupEmailValidation();
         });
-        
-        // Update the showMessage function to handle warnings
-        function showMessage(message, type = 'success') {
-            const container = document.getElementById('messages-container');
-            const messageDiv = document.createElement('div');
-            
-            if (type === 'warning') {
-                messageDiv.className = 'warning-message';
-            } else {
-                messageDiv.className = `${type}-message`;
-            }
-            
-            messageDiv.textContent = message;
-            container.innerHTML = '';
-            container.appendChild(messageDiv);
-            
-            // Auto-remove after 8 seconds for warnings, 5 for others
-            setTimeout(() => {
-                if (messageDiv.parentNode) {
-                    messageDiv.remove();
-                }
-            }, type === 'warning' ? 8000 : 5000);
-        }
-    </script>
+</script>
 
 </body>
 </html>
