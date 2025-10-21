@@ -409,11 +409,15 @@ body {
 .blueprint-waiting {
     background: linear-gradient(135deg, #3b82f6, #1d4ed8);
     color: white;
-    padding: 3rem;
+    padding: 4rem 3rem;
     border-radius: var(--border-radius-xl);
     text-align: center;
-    margin-top: 2rem;
+    margin: 2rem 0;
     box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .blueprint-waiting .spinner {
