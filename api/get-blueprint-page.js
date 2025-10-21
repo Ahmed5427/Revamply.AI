@@ -88,10 +88,10 @@ function generateBlueprintHTML(blueprint) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; line-height: 1.6; }
-        .gradient-text { 
-            background: linear-gradient(45deg, #00E5FF, #FF00CC); 
-            -webkit-background-clip: text; 
-            -webkit-text-fill-color: transparent; 
+        .gradient-text {
+            background: linear-gradient(45deg, #00E5FF, #FF00CC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             background-clip: text;
         }
         .celebration { animation: celebration 0.8s ease-out; }
@@ -102,23 +102,55 @@ function generateBlueprintHTML(blueprint) {
         .blueprint-content {
             background: white;
             border-radius: 1rem;
-            padding: 2rem;
+            padding: 2.5rem;
             margin: 2rem 0;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             border: 1px solid #e5e7eb;
+            line-height: 1.8;
         }
         .blueprint-content h1, .blueprint-content h2, .blueprint-content h3 {
             color: #1f2937;
-            margin: 1.5rem 0 1rem 0;
+            margin: 2rem 0 1rem 0;
             font-weight: bold;
+            line-height: 1.4;
         }
-        .blueprint-content h1 { font-size: 1.8rem; border-bottom: 2px solid #e5e7eb; padding-bottom: 0.5rem; }
-        .blueprint-content h2 { font-size: 1.5rem; color: #2563eb; }
-        .blueprint-content h3 { font-size: 1.2rem; color: #059669; }
-        .blueprint-content ul { margin: 1rem 0; padding-left: 1.5rem; }
-        .blueprint-content li { margin: 0.5rem 0; line-height: 1.6; }
-        .blueprint-content p { margin: 1rem 0; color: #374151; line-height: 1.7; }
-        
+        .blueprint-content h1 {
+            font-size: 2rem;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .blueprint-content h2 {
+            font-size: 1.5rem;
+            color: #2563eb;
+            margin-top: 2.5rem;
+        }
+        .blueprint-content h3 {
+            font-size: 1.25rem;
+            color: #059669;
+            margin-top: 1.5rem;
+        }
+        .blueprint-content ul {
+            margin: 1.25rem 0;
+            padding-left: 2rem;
+            list-style-type: disc;
+        }
+        .blueprint-content li {
+            margin: 0.75rem 0;
+            line-height: 1.8;
+            color: #374151;
+        }
+        .blueprint-content p {
+            margin: 1.25rem 0;
+            color: #374151;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+        .blueprint-content strong {
+            color: #1f2937;
+            font-weight: 600;
+        }
+
         /* Download button animation */
         .download-btn {
             transition: all 0.3s ease;
@@ -127,10 +159,40 @@ function generateBlueprintHTML(blueprint) {
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(59, 130, 246, 0.3);
         }
-        
-        /* Hide buttons when generating PDF */
+
+        /* PDF-specific styles */
         @media print {
             .no-print { display: none !important; }
+
+            body {
+                background: white !important;
+            }
+
+            .blueprint-content {
+                box-shadow: none !important;
+                border: 2px solid #e5e7eb !important;
+                page-break-inside: avoid;
+                padding: 2rem !important;
+            }
+
+            .blueprint-content h1,
+            .blueprint-content h2,
+            .blueprint-content h3 {
+                page-break-after: avoid;
+                color: #000000 !important;
+            }
+
+            .blueprint-content p,
+            .blueprint-content li {
+                color: #000000 !important;
+                font-size: 11pt !important;
+            }
+
+            .gradient-text {
+                background: none !important;
+                -webkit-text-fill-color: #2563eb !important;
+                color: #2563eb !important;
+            }
         }
     </style>
 </head>
@@ -238,43 +300,67 @@ function generateBlueprintHTML(blueprint) {
         function downloadPDF() {
         const button = event.target.closest('button');
         const originalHTML = button.innerHTML;
-        
+
         button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Generating PDF...';
         button.disabled = true;
-        
+
         const element = document.getElementById('blueprint-container');
-        
-        // IMPROVED PDF OPTIONS
+
+        // Clone and prepare element for PDF
+        const clone = element.cloneNode(true);
+
+        // Remove any animations or transitions that might interfere
+        clone.querySelectorAll('*').forEach(el => {
+            el.style.animation = 'none';
+            el.style.transition = 'none';
+        });
+
+        // OPTIMIZED PDF OPTIONS for better text rendering
         const opt = {
-            margin: 0.5,
+            margin: [0.75, 0.75, 0.75, 0.75],  // Top, Right, Bottom, Left in inches
             filename: 'AI-Blueprint-${contactName.replace(/[^a-z0-9]/gi, '_')}-${submissionId.substring(0, 8)}.pdf',
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { 
-                scale: 3,                    // Increase from 2 to 3 for better quality
+            image: {
+                type: 'jpeg',
+                quality: 0.95
+            },
+            html2canvas: {
+                scale: 2,                      // Reduced from 3 to 2 for better text clarity
                 useCORS: true,
                 letterRendering: true,
                 logging: false,
-                backgroundColor: '#ffffff',  // Force white background
+                backgroundColor: '#ffffff',
+                windowWidth: 1200,             // Set consistent width
+                windowHeight: element.scrollHeight,
+                scrollY: 0,
+                scrollX: 0,
                 removeContainer: true,
                 imageTimeout: 0,
                 allowTaint: false,
-                foreignObjectRendering: false  // Disable to fix text issues
+                foreignObjectRendering: false,
+                onclone: function(clonedDoc) {
+                    // Apply print styles to cloned document
+                    const clonedElement = clonedDoc.getElementById('blueprint-container');
+                    if (clonedElement) {
+                        clonedElement.style.maxWidth = '100%';
+                        clonedElement.style.padding = '20px';
+                    }
+                }
             },
-            jsPDF: { 
-                unit: 'in', 
-                format: 'letter', 
+            jsPDF: {
+                unit: 'in',
+                format: 'letter',
                 orientation: 'portrait',
                 compress: true,
-                precision: 16                 // Higher precision
+                precision: 16
             },
-            pagebreak: { 
+            pagebreak: {
                 mode: ['avoid-all', 'css', 'legacy'],
                 before: '.page-break-before',
                 after: '.page-break-after',
-                avoid: ['h1', 'h2', 'h3', '.avoid-break']
+                avoid: ['h1', 'h2', 'h3', '.blueprint-content', '.avoid-break']
             }
         };
-        
+
         html2pdf().set(opt).from(element).save().then(() => {
             button.innerHTML = originalHTML;
             button.disabled = false;
@@ -319,21 +405,117 @@ function generateBlueprintHTML(blueprint) {
 }
 function formatBlueprintContent(content) {
     if (!content) return '<p>Blueprint content not available.</p>';
-    
-    let formatted = content
-        .replace(/^(AI Solution Blueprint[^\n]*)/gm, '<h1>$1</h1>')
-        .replace(/^([A-Z][^:\n]*:)\s*$/gm, '<h2>$1</h2>')
-        .replace(/^(Phase \d+[^:\n]*):?/gm, '<h3>$1</h3>')
-        .replace(/^(\d+\.\s+[^:\n]+)/gm, '<h3>$1</h3>')
-        .replace(/^[-•]\s(.+)$/gm, '<li>$1</li>')
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n\n/g, '</p><p>')
-        .replace(/\n/g, '<br>');
-    
-    if (!formatted.startsWith('<')) formatted = '<p>' + formatted + '</p>';
-    formatted = formatted.replace(/(<li>.*?<\/li>\s*)+/gs, '<ul>$&</ul>');
-    
-    return formatted;
+
+    // Split content into lines for better processing
+    let lines = content.split('\n');
+    let formatted = '';
+    let inList = false;
+    let currentParagraph = '';
+
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].trim();
+
+        // Skip empty lines
+        if (!line) {
+            // Close current paragraph if any
+            if (currentParagraph) {
+                formatted += '<p>' + currentParagraph + '</p>\n';
+                currentParagraph = '';
+            }
+            // Close list if open
+            if (inList) {
+                formatted += '</ul>\n';
+                inList = false;
+            }
+            continue;
+        }
+
+        // Process bold text
+        line = line.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+        // Main title
+        if (line.match(/^AI Solution Blueprint/i)) {
+            if (currentParagraph) {
+                formatted += '<p>' + currentParagraph + '</p>\n';
+                currentParagraph = '';
+            }
+            if (inList) {
+                formatted += '</ul>\n';
+                inList = false;
+            }
+            formatted += '<h1>' + line + '</h1>\n';
+        }
+        // Section headers (all caps or ending with colon)
+        else if (line.match(/^[A-Z][^:]*:$/)) {
+            if (currentParagraph) {
+                formatted += '<p>' + currentParagraph + '</p>\n';
+                currentParagraph = '';
+            }
+            if (inList) {
+                formatted += '</ul>\n';
+                inList = false;
+            }
+            formatted += '<h2>' + line + '</h2>\n';
+        }
+        // Phase headers
+        else if (line.match(/^(Phase \d+|Step \d+|Timeline)/i)) {
+            if (currentParagraph) {
+                formatted += '<p>' + currentParagraph + '</p>\n';
+                currentParagraph = '';
+            }
+            if (inList) {
+                formatted += '</ul>\n';
+                inList = false;
+            }
+            formatted += '<h3>' + line + '</h3>\n';
+        }
+        // Numbered items
+        else if (line.match(/^\d+\./)) {
+            if (currentParagraph) {
+                formatted += '<p>' + currentParagraph + '</p>\n';
+                currentParagraph = '';
+            }
+            if (inList) {
+                formatted += '</ul>\n';
+                inList = false;
+            }
+            formatted += '<h3>' + line + '</h3>\n';
+        }
+        // List items
+        else if (line.match(/^[-•*]\s/)) {
+            if (currentParagraph) {
+                formatted += '<p>' + currentParagraph + '</p>\n';
+                currentParagraph = '';
+            }
+            if (!inList) {
+                formatted += '<ul>\n';
+                inList = true;
+            }
+            formatted += '<li>' + line.replace(/^[-•*]\s/, '') + '</li>\n';
+        }
+        // Regular text - accumulate into paragraph
+        else {
+            if (inList) {
+                formatted += '</ul>\n';
+                inList = false;
+            }
+            if (currentParagraph) {
+                currentParagraph += ' ' + line;
+            } else {
+                currentParagraph = line;
+            }
+        }
+    }
+
+    // Close any remaining paragraph or list
+    if (currentParagraph) {
+        formatted += '<p>' + currentParagraph + '</p>\n';
+    }
+    if (inList) {
+        formatted += '</ul>\n';
+    }
+
+    return formatted || '<p>Blueprint content not available.</p>';
 }
 
 function generateNotFoundHTML() {
