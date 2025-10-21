@@ -84,8 +84,9 @@ function generateBlueprintHTML(blueprint) {
     <title>Your AI Blueprint is Ready - Revamply</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <!-- Add html2pdf.js library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- Add pdfMake library for better PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <style>
         body { font-family: 'Inter', sans-serif; line-height: 1.6; }
         .gradient-text {
@@ -296,82 +297,202 @@ function generateBlueprintHTML(blueprint) {
         console.log('👤 ${contactName}');
         console.log('📋 ${submissionId}');
         
-        // PDF Download Function
+        // PDF Download Function using pdfMake
         function downloadPDF() {
-        const button = event.target.closest('button');
-        const originalHTML = button.innerHTML;
+            const button = event.target.closest('button');
+            const originalHTML = button.innerHTML;
 
-        button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Generating PDF...';
-        button.disabled = true;
+            button.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Generating PDF...';
+            button.disabled = true;
 
-        const element = document.getElementById('blueprint-container');
+            try {
+                // Get the blueprint content
+                const blueprintContainer = document.getElementById('blueprint-container');
+                const content = parseBlueprintToPDF(blueprintContainer);
 
-        // Clone and prepare element for PDF
-        const clone = element.cloneNode(true);
+                // Define PDF document
+                const docDefinition = {
+                    pageSize: 'LETTER',
+                    pageMargins: [60, 60, 60, 60],
+                    defaultStyle: {
+                        font: 'Roboto',
+                        fontSize: 11,
+                        lineHeight: 1.5
+                    },
+                    styles: {
+                        header: {
+                            fontSize: 24,
+                            bold: true,
+                            color: '#1f2937',
+                            margin: [0, 0, 0, 20]
+                        },
+                        h1: {
+                            fontSize: 20,
+                            bold: true,
+                            color: '#2563eb',
+                            margin: [0, 20, 0, 12]
+                        },
+                        h2: {
+                            fontSize: 16,
+                            bold: true,
+                            color: '#2563eb',
+                            margin: [0, 16, 0, 10]
+                        },
+                        h3: {
+                            fontSize: 14,
+                            bold: true,
+                            color: '#059669',
+                            margin: [0, 12, 0, 8]
+                        },
+                        paragraph: {
+                            fontSize: 11,
+                            color: '#374151',
+                            margin: [0, 0, 0, 10],
+                            alignment: 'justify'
+                        },
+                        listItem: {
+                            fontSize: 11,
+                            color: '#374151',
+                            margin: [0, 4, 0, 4]
+                        },
+                        emphasis: {
+                            bold: true,
+                            color: '#1f2937'
+                        },
+                        footer: {
+                            fontSize: 9,
+                            color: '#6b7280',
+                            alignment: 'center'
+                        }
+                    },
+                    content: [
+                        {
+                            text: 'AI Solution Blueprint',
+                            style: 'header',
+                            decoration: 'underline',
+                            decorationColor: '#2563eb'
+                        },
+                        {
+                            text: 'Prepared for: ${contactName}',
+                            style: 'paragraph',
+                            margin: [0, 0, 0, 5]
+                        },
+                        {
+                            text: 'Generated: ${new Date().toLocaleDateString()}',
+                            style: 'paragraph',
+                            margin: [0, 0, 0, 20]
+                        },
+                        ...content
+                    ],
+                    footer: function(currentPage, pageCount) {
+                        return {
+                            text: \`Page \${currentPage} of \${pageCount} | Powered by Revamply.AI\`,
+                            style: 'footer',
+                            margin: [40, 20]
+                        };
+                    }
+                };
 
-        // Remove any animations or transitions that might interfere
-        clone.querySelectorAll('*').forEach(el => {
-            el.style.animation = 'none';
-            el.style.transition = 'none';
-        });
+                const filename = 'AI-Blueprint-${contactName.replace(/[^a-z0-9]/gi, '_')}-${submissionId.substring(0, 8)}.pdf';
+                pdfMake.createPdf(docDefinition).download(filename);
 
-        // OPTIMIZED PDF OPTIONS for better text rendering
-        const opt = {
-            margin: [0.75, 0.75, 0.75, 0.75],  // Top, Right, Bottom, Left in inches
-            filename: 'AI-Blueprint-${contactName.replace(/[^a-z0-9]/gi, '_')}-${submissionId.substring(0, 8)}.pdf',
-            image: {
-                type: 'jpeg',
-                quality: 0.95
-            },
-            html2canvas: {
-                scale: 2,                      // Reduced from 3 to 2 for better text clarity
-                useCORS: true,
-                letterRendering: true,
-                logging: false,
-                backgroundColor: '#ffffff',
-                windowWidth: 1200,             // Set consistent width
-                windowHeight: element.scrollHeight,
-                scrollY: 0,
-                scrollX: 0,
-                removeContainer: true,
-                imageTimeout: 0,
-                allowTaint: false,
-                foreignObjectRendering: false,
-                onclone: function(clonedDoc) {
-                    // Apply print styles to cloned document
-                    const clonedElement = clonedDoc.getElementById('blueprint-container');
-                    if (clonedElement) {
-                        clonedElement.style.maxWidth = '100%';
-                        clonedElement.style.padding = '20px';
+                button.innerHTML = originalHTML;
+                button.disabled = false;
+                showNotification('✅ PDF downloaded successfully!');
+            } catch (error) {
+                console.error('PDF generation error:', error);
+                button.innerHTML = originalHTML;
+                button.disabled = false;
+                showNotification('❌ Error generating PDF. Please try again.', 'error');
+            }
+        }
+
+        // Parse blueprint HTML content to pdfMake format
+        function parseBlueprintToPDF(container) {
+            const content = [];
+            const blueprintContent = container.querySelector('.blueprint-content');
+
+            if (!blueprintContent) return content;
+
+            const elements = blueprintContent.children;
+
+            for (let i = 0; i < elements.length; i++) {
+                const el = elements[i];
+                const tagName = el.tagName.toLowerCase();
+                const text = el.textContent.trim();
+
+                if (!text) continue;
+
+                if (tagName === 'h1') {
+                    content.push({
+                        text: text,
+                        style: 'h1',
+                        pageBreak: i > 0 ? 'before' : undefined
+                    });
+                } else if (tagName === 'h2') {
+                    content.push({
+                        text: text,
+                        style: 'h2'
+                    });
+                } else if (tagName === 'h3') {
+                    content.push({
+                        text: text,
+                        style: 'h3'
+                    });
+                } else if (tagName === 'p') {
+                    // Parse bold text within paragraphs
+                    const textContent = parseInlineStyles(el);
+                    content.push({
+                        text: textContent,
+                        style: 'paragraph'
+                    });
+                } else if (tagName === 'ul') {
+                    const listItems = [];
+                    const lis = el.querySelectorAll('li');
+                    lis.forEach(li => {
+                        const liText = parseInlineStyles(li);
+                        listItems.push(liText);
+                    });
+                    content.push({
+                        ul: listItems,
+                        style: 'listItem',
+                        margin: [0, 5, 0, 10]
+                    });
+                }
+            }
+
+            return content;
+        }
+
+        // Parse inline styles (bold, etc.)
+        function parseInlineStyles(element) {
+            const result = [];
+            const childNodes = element.childNodes;
+
+            for (let i = 0; i < childNodes.length; i++) {
+                const node = childNodes[i];
+
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const text = node.textContent;
+                    if (text.trim()) {
+                        result.push(text);
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    const tagName = node.tagName.toLowerCase();
+                    const text = node.textContent.trim();
+
+                    if (tagName === 'strong' || tagName === 'b') {
+                        result.push({ text: text, bold: true });
+                    } else if (tagName === 'em' || tagName === 'i') {
+                        result.push({ text: text, italics: true });
+                    } else {
+                        result.push(text);
                     }
                 }
-            },
-            jsPDF: {
-                unit: 'in',
-                format: 'letter',
-                orientation: 'portrait',
-                compress: true,
-                precision: 16
-            },
-            pagebreak: {
-                mode: ['avoid-all', 'css', 'legacy'],
-                before: '.page-break-before',
-                after: '.page-break-after',
-                avoid: ['h1', 'h2', 'h3', '.blueprint-content', '.avoid-break']
             }
-        };
 
-        html2pdf().set(opt).from(element).save().then(() => {
-            button.innerHTML = originalHTML;
-            button.disabled = false;
-            showNotification('✅ PDF downloaded successfully!');
-        }).catch((error) => {
-            console.error('PDF generation error:', error);
-            button.innerHTML = originalHTML;
-            button.disabled = false;
-            showNotification('❌ Error generating PDF. Please try again.', 'error');
-        });
-    }
+            return result.length === 1 && typeof result[0] === 'string' ? result[0] : result;
+        }
         
         // Show notification
         function showNotification(message, type = 'success') {
