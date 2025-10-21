@@ -1195,10 +1195,14 @@
             container.innerHTML = `
                 <div class="text-center py-20">
                     <div class="mb-8">
-                        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 mb-6 animate-pulse">
-                            <i class="fa-solid fa-wand-magic-sparkles text-white text-4xl"></i>
+                        <!-- Enhanced spinning loader -->
+                        <div class="relative inline-block mb-6">
+                            <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 animate-pulse">
+                                <i class="fa-solid fa-wand-magic-sparkles text-white text-4xl"></i>
+                            </div>
+                            <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-blue-400 border-r-purple-400 animate-spin"></div>
                         </div>
-                        <h2 class="text-4xl font-bold mb-4 gradient-text">Generating Your Blueprint...</h2>
+                        <h2 class="text-4xl font-bold mb-4 gradient-text animate-pulse">Generating Your Blueprint...</h2>
                         <p class="text-xl text-gray-700 mb-2">Hi ${firstName}! 🎉</p>
                         <p class="text-lg text-gray-600 mb-6">Our AI is crafting your personalized solution.</p>
                         
@@ -1381,9 +1385,19 @@
             const submitButton = document.getElementById('submit-btn');
             const originalButtonText = submitButton.innerHTML;
             
-            // Show loading state
-            submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Processing...';
+            // Show enhanced loading state
+            submitButton.innerHTML = `
+                <div class="flex items-center justify-center">
+                    <svg class="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Generating Your Blueprint...</span>
+                </div>
+            `;
             submitButton.disabled = true;
+            submitButton.style.cursor = 'not-allowed';
+            submitButton.style.opacity = '0.8';
             
             try {
                 // Submit to n8n webhook via our API endpoint
@@ -1403,9 +1417,23 @@
                     // Get first name for personalization
                     const firstName = data.fullName.split(' ')[0];
                     
-                    // Hide form, show generating message
-                    document.getElementById('form-section').style.display = 'none';
-                    showGeneratingMessage(result.submissionId, firstName);
+                    // Hide form with fade out, show generating message with fade in
+                    const formSection = document.getElementById('form-section');
+                    formSection.style.transition = 'opacity 0.5s ease-out';
+                    formSection.style.opacity = '0';
+
+                    setTimeout(() => {
+                        formSection.style.display = 'none';
+                        showGeneratingMessage(result.submissionId, firstName);
+
+                        // Fade in the loading message
+                        const waitingContainer = document.getElementById('blueprint-waiting');
+                        waitingContainer.style.opacity = '0';
+                        setTimeout(() => {
+                            waitingContainer.style.transition = 'opacity 0.5s ease-in';
+                            waitingContainer.style.opacity = '1';
+                        }, 50);
+                    }, 500);
                     
                     // Start polling for blueprint
                     startPollingForBlueprint(result.submissionId, firstName);

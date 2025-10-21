@@ -601,3 +601,96 @@ body {
         background-size: 100px 100px;
     }
 }
+
+/* ===============================================
+   ENHANCED LOADING SPINNER STYLES
+   =============================================== */
+
+/* Smooth fade transitions */
+.fade-out {
+    opacity: 0 !important;
+    transition: opacity 0.5s ease-out;
+}
+
+.fade-in {
+    opacity: 1 !important;
+    transition: opacity 0.5s ease-in;
+}
+
+/* Enhanced spinning border animation */
+@keyframes spinBorder {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Pulse animation for text */
+@keyframes textPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* Gradient spinning effect */
+@keyframes gradientSpin {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Loading button enhancements */
+#submit-btn .animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* Blueprint waiting container enhancements */
+#blueprint-waiting {
+    position: relative;
+    overflow: hidden;
+}
+
+#blueprint-waiting::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+}
+
+/* Enhanced progress bar animation */
+#progress-bar-blueprint {
+    animation: progressPulse 2s ease-in-out infinite;
+}
+
+@keyframes progressPulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
