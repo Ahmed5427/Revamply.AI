@@ -97,15 +97,17 @@ Body (JSON):
   "email": "{{$('Webhook').item.json.body.email}}",
   "status": "duplicate",
   "message": "Email already has a blueprint",
-  "submissionId": "{{$('Search HubSpot for Email').item.json.properties.submission_id}}",
   "contactName": "{{$('Webhook').item.json.body.fullName}}"
 }
 ```
 
 **What this does:**
 - Sends duplicate notification to your system
+- Automatically looks up existing blueprint by email
 - Returns user-facing HTML saying "we'll email you the blueprint"
-- Optionally provides instant "View Blueprint" link if available
+- Provides instant "View Blueprint" link if blueprint is found
+
+**Note:** The endpoint automatically retrieves the blueprint using the email address, so `submissionId` is not required.
 
 ---
 
@@ -263,10 +265,18 @@ Body:
   "email": "user@example.com",
   "status": "duplicate",
   "message": "Email already has blueprint",
-  "submissionId": "uuid-here",
   "contactName": "John Doe"
 }
 ```
+
+**Required Fields:**
+- `email`: User's email address (required)
+- `contactName`: User's full name (optional, defaults to "Valued Customer")
+
+**Optional Fields:**
+- `submissionId`: If you have it, speeds up lookup (optional)
+- `status`: Status indicator (optional)
+- `message`: Custom message (optional)
 
 Returns HTML page telling user "we'll email you the blueprint"
 
