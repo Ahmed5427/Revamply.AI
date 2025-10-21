@@ -652,9 +652,10 @@ function generateBlueprintHTML(blueprint) {
         function handleEmailClick(event) {
             event.preventDefault();
             const email = 'solutions@revamply.ai';
+            const subject = "I'm Ready to Transform My Blueprint";
 
-            // Gmail compose URL with pre-filled recipient
-            const gmailUrl = \`https://mail.google.com/mail/?view=cm&fs=1&to=\${email}\`;
+            // Gmail compose URL with pre-filled recipient and subject
+            const gmailUrl = \`https://mail.google.com/mail/?view=cm&fs=1&to=\${email}&su=\${encodeURIComponent(subject)}\`;
 
             // Open Gmail in new tab
             window.open(gmailUrl, '_blank');
