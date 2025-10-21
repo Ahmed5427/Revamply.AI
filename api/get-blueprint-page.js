@@ -881,7 +881,7 @@ function generateErrorHTML(error, contactName = 'Valued Customer') {
         <h1 class="text-3xl font-bold mb-4">Almost There!</h1>
         <p class="text-gray-700 mb-6">Hi ${contactName}, we'll email your blueprint shortly.</p>
         <p class="text-sm text-gray-500 mb-8">${error}</p>
-        <a href="mailto:support@revamply.com" class="bg-blue-600 text-white px-8 py-3 rounded-lg inline-block font-semibold">
+        <a href="mailto:support@revamply.ai" class="bg-blue-600 text-white px-8 py-3 rounded-lg inline-block font-semibold">
             Contact Support
         </a>
     </div>

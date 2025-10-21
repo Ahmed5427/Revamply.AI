@@ -66,7 +66,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://revamply-ai.vercel.app/api/receive-blueprint",
+        "url": "=https://revamply.ai/api/receive-blueprint",
         "sendBody": true,
         "bodyParameters": {
           "parameters": [
@@ -396,7 +396,7 @@
             "businessImpactCategory": "Quality Enhancement",
             "processFrequencyCategory": "High Frequency",
             "webhookType": "simplified_form_submission",
-            "callbackUrl": "https://revamply-ai.vercel.app/api/receive-blueprint",
+            "callbackUrl": "https://revamply.ai/api/receive-blueprint",
             "formatted": {
               "contactName": "Dr. Jennifer Park",
               "contactEmail": "sarah.test@le.com",
