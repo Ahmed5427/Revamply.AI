@@ -1193,38 +1193,42 @@
         function showGeneratingMessage(submissionId, firstName) {
             const container = document.getElementById('blueprint-waiting');
             container.innerHTML = `
-                <div class="text-center py-20">
+                <div class="w-full">
                     <div class="mb-8">
-                        <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 mb-6 animate-pulse">
-                            <i class="fa-solid fa-wand-magic-sparkles text-white text-4xl"></i>
+                        <!-- Enhanced spinning loader -->
+                        <div class="relative inline-block mb-6">
+                            <div class="inline-flex items-center justify-center w-24 h-24 rounded-full bg-white bg-opacity-20 animate-pulse">
+                                <i class="fa-solid fa-wand-magic-sparkles text-white text-4xl"></i>
+                            </div>
+                            <div class="absolute inset-0 rounded-full border-4 border-transparent border-t-white border-r-blue-300 animate-spin"></div>
                         </div>
-                        <h2 class="text-4xl font-bold mb-4 gradient-text">Generating Your Blueprint...</h2>
-                        <p class="text-xl text-gray-700 mb-2">Hi ${firstName}! 🎉</p>
-                        <p class="text-lg text-gray-600 mb-6">Our AI is crafting your personalized solution.</p>
-                        
+                        <h2 class="text-4xl font-bold mb-4 text-white animate-pulse">Generating Your Blueprint...</h2>
+                        <p class="text-xl text-white mb-2">Hi ${firstName}! 🎉</p>
+                        <p class="text-lg text-blue-100 mb-6">Our AI is crafting your personalized solution.</p>
+
                         <!-- Progress indicator -->
                         <div class="max-w-md mx-auto mb-6">
-                            <div class="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                                <div id="progress-bar-blueprint" class="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full transition-all duration-500" style="width: 10%"></div>
+                            <div class="w-full bg-white bg-opacity-20 rounded-full h-3 overflow-hidden">
+                                <div id="progress-bar-blueprint" class="h-full bg-white rounded-full transition-all duration-500" style="width: 10%"></div>
                             </div>
                         </div>
-                        
+
                         <!-- Status messages -->
-                        <div id="status-message" class="text-gray-600 text-sm mb-4">
+                        <div id="status-message" class="text-blue-100 text-base mb-4">
                             <i class="fa-solid fa-circle-notch fa-spin mr-2"></i>
                             <span id="status-text">Analyzing your requirements...</span>
                         </div>
-                        
+
                         <!-- Estimated time -->
-                        <p class="text-gray-500 text-sm">
+                        <p class="text-blue-200 text-sm">
                             <i class="fa-regular fa-clock mr-2"></i>
                             Estimated time: <span id="time-estimate">30-60 seconds</span>
                         </p>
-                        
+
                         <!-- Fun fact while waiting -->
-                        <div class="mt-8 max-w-lg mx-auto bg-blue-50 border border-blue-200 rounded-xl p-6">
-                            <p class="text-sm text-gray-700">
-                                <i class="fa-solid fa-lightbulb text-yellow-500 mr-2"></i>
+                        <div class="mt-8 max-w-lg mx-auto bg-white bg-opacity-10 border border-white border-opacity-20 rounded-xl p-6">
+                            <p class="text-sm text-white">
+                                <i class="fa-solid fa-lightbulb text-yellow-300 mr-2"></i>
                                 <strong>Did you know?</strong> AI can reduce operational costs by 20-40% while improving service quality.
                             </p>
                         </div>
@@ -1381,9 +1385,19 @@
             const submitButton = document.getElementById('submit-btn');
             const originalButtonText = submitButton.innerHTML;
             
-            // Show loading state
-            submitButton.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Processing...';
+            // Show enhanced loading state
+            submitButton.innerHTML = `
+                <div class="flex items-center justify-center">
+                    <svg class="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Generating Your Blueprint...</span>
+                </div>
+            `;
             submitButton.disabled = true;
+            submitButton.style.cursor = 'not-allowed';
+            submitButton.style.opacity = '0.8';
             
             try {
                 // Submit to n8n webhook via our API endpoint
@@ -1403,9 +1417,36 @@
                     // Get first name for personalization
                     const firstName = data.fullName.split(' ')[0];
                     
-                    // Hide form, show generating message
-                    document.getElementById('form-section').style.display = 'none';
-                    showGeneratingMessage(result.submissionId, firstName);
+                    // Hide only the form and header, keep section visible
+                    const businessForm = document.getElementById('business-form');
+                    const formHeader = document.querySelector('#form-section .text-center.mb-16');
+
+                    // Fade out form and header
+                    businessForm.style.transition = 'opacity 0.3s ease-out';
+                    businessForm.style.opacity = '0';
+                    if (formHeader) {
+                        formHeader.style.transition = 'opacity 0.3s ease-out';
+                        formHeader.style.opacity = '0';
+                    }
+
+                    setTimeout(() => {
+                        businessForm.style.display = 'none';
+                        if (formHeader) formHeader.style.display = 'none';
+
+                        // Show generating message
+                        showGeneratingMessage(result.submissionId, firstName);
+
+                        // Scroll to the loading screen smoothly
+                        const waitingContainer = document.getElementById('blueprint-waiting');
+                        waitingContainer.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+                        // Fade in the loading message
+                        waitingContainer.style.opacity = '0';
+                        setTimeout(() => {
+                            waitingContainer.style.transition = 'opacity 0.5s ease-in';
+                            waitingContainer.style.opacity = '1';
+                        }, 50);
+                    }, 300);
                     
                     // Start polling for blueprint
                     startPollingForBlueprint(result.submissionId, firstName);
