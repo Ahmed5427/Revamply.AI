@@ -423,7 +423,7 @@ function generateBlueprintHTML(blueprint) {
                                 <a href="https://calendly.com/revamply/consultation" target="_blank" class="w-full bg-gradient-to-r from-cyan-400 to-pink-500 hover:from-cyan-500 hover:to-pink-600 px-8 py-4 rounded-xl text-white font-bold text-center block transition-all shadow-lg hover:shadow-xl transform hover:scale-105 neon-glow">
                                     <i class="fa-solid fa-calendar-check mr-3"></i>Schedule Consultation
                                 </a>
-                                <a href="mailto:solutions@revamply.com" class="w-full border-2 border-cyan-400 hover:bg-cyan-400/10 px-8 py-4 rounded-xl text-cyan-400 font-bold text-center block transition-all">
+                                <a href="mailto:solutions@revamply.ai" onclick="handleEmailClick(event)" class="w-full border-2 border-cyan-400 hover:bg-cyan-400/10 px-8 py-4 rounded-xl text-cyan-400 font-bold text-center block transition-all cursor-pointer">
                                     <i class="fa-solid fa-envelope mr-3"></i>Email Us
                                 </a>
                             </div>
@@ -648,13 +648,29 @@ function generateBlueprintHTML(blueprint) {
             return result.length === 1 && typeof result[0] === 'string' ? result[0] : result;
         }
         
+        // Handle email click - Open Gmail
+        function handleEmailClick(event) {
+            event.preventDefault();
+            const email = 'solutions@revamply.ai';
+            const subject = "I'm Ready to Transform My Blueprint";
+
+            // Gmail compose URL with pre-filled recipient and subject
+            const gmailUrl = \`https://mail.google.com/mail/?view=cm&fs=1&to=\${email}&su=\${encodeURIComponent(subject)}\`;
+
+            // Open Gmail in new tab
+            window.open(gmailUrl, '_blank');
+
+            // Show confirmation notification
+            showNotification(\`📧 Opening Gmail to compose email to \${email}\`, 'success');
+        }
+
         // Show notification
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
             notification.className = \`fixed bottom-6 right-6 px-6 py-4 rounded-lg shadow-xl z-50 transition-all transform translate-y-0 \${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white font-semibold\`;
             notification.textContent = message;
             document.body.appendChild(notification);
-            
+
             setTimeout(() => {
                 notification.style.transform = 'translateY(100px)';
                 notification.style.opacity = '0';
