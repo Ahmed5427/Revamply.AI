@@ -648,49 +648,19 @@ function generateBlueprintHTML(blueprint) {
             return result.length === 1 && typeof result[0] === 'string' ? result[0] : result;
         }
         
-        // Handle email click with fallback
+        // Handle email click - Open Gmail
         function handleEmailClick(event) {
             event.preventDefault();
             const email = 'solutions@revamply.ai';
 
-            // Try to open mailto link
-            try {
-                window.location.href = 'mailto:' + email;
+            // Gmail compose URL with pre-filled recipient
+            const gmailUrl = \`https://mail.google.com/mail/?view=cm&fs=1&to=\${email}\`;
 
-                // Show notification with email address as fallback
-                setTimeout(() => {
-                    showNotification(\`📧 Opening email to \${email}. If your email client doesn't open, please copy this address.\`, 'success');
-                }, 500);
-            } catch (error) {
-                // Fallback: copy to clipboard
-                copyToClipboard(email);
-            }
-        }
+            // Open Gmail in new tab
+            window.open(gmailUrl, '_blank');
 
-        // Copy email to clipboard
-        function copyToClipboard(text) {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
-                navigator.clipboard.writeText(text).then(() => {
-                    showNotification(\`📋 Email address copied: \${text}\`, 'success');
-                }).catch(() => {
-                    showNotification(\`📧 Email: \${text} (click to copy)\`, 'success');
-                });
-            } else {
-                // Fallback for older browsers
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                textarea.style.position = 'fixed';
-                textarea.style.opacity = '0';
-                document.body.appendChild(textarea);
-                textarea.select();
-                try {
-                    document.execCommand('copy');
-                    showNotification(\`📋 Email address copied: \${text}\`, 'success');
-                } catch (err) {
-                    showNotification(\`📧 Email: \${text}\`, 'success');
-                }
-                document.body.removeChild(textarea);
-            }
+            // Show confirmation notification
+            showNotification(\`📧 Opening Gmail to compose email to \${email}\`, 'success');
         }
 
         // Show notification
