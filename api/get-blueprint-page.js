@@ -423,7 +423,7 @@ function generateBlueprintHTML(blueprint) {
                                 <a href="https://calendly.com/revamply/consultation" target="_blank" class="w-full bg-gradient-to-r from-cyan-400 to-pink-500 hover:from-cyan-500 hover:to-pink-600 px-8 py-4 rounded-xl text-white font-bold text-center block transition-all shadow-lg hover:shadow-xl transform hover:scale-105 neon-glow">
                                     <i class="fa-solid fa-calendar-check mr-3"></i>Schedule Consultation
                                 </a>
-                                <a href="mailto:solutions@revamply.ai" onclick="window.location.href='mailto:solutions@revamply.ai'; return false;" class="w-full border-2 border-cyan-400 hover:bg-cyan-400/10 px-8 py-4 rounded-xl text-cyan-400 font-bold text-center block transition-all">
+                                <a href="mailto:solutions@revamply.ai" onclick="handleEmailClick(event)" class="w-full border-2 border-cyan-400 hover:bg-cyan-400/10 px-8 py-4 rounded-xl text-cyan-400 font-bold text-center block transition-all cursor-pointer">
                                     <i class="fa-solid fa-envelope mr-3"></i>Email Us
                                 </a>
                             </div>
@@ -648,13 +648,58 @@ function generateBlueprintHTML(blueprint) {
             return result.length === 1 && typeof result[0] === 'string' ? result[0] : result;
         }
         
+        // Handle email click with fallback
+        function handleEmailClick(event) {
+            event.preventDefault();
+            const email = 'solutions@revamply.ai';
+
+            // Try to open mailto link
+            try {
+                window.location.href = 'mailto:' + email;
+
+                // Show notification with email address as fallback
+                setTimeout(() => {
+                    showNotification(\`📧 Opening email to \${email}. If your email client doesn't open, please copy this address.\`, 'success');
+                }, 500);
+            } catch (error) {
+                // Fallback: copy to clipboard
+                copyToClipboard(email);
+            }
+        }
+
+        // Copy email to clipboard
+        function copyToClipboard(text) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showNotification(\`📋 Email address copied: \${text}\`, 'success');
+                }).catch(() => {
+                    showNotification(\`📧 Email: \${text} (click to copy)\`, 'success');
+                });
+            } else {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showNotification(\`📋 Email address copied: \${text}\`, 'success');
+                } catch (err) {
+                    showNotification(\`📧 Email: \${text}\`, 'success');
+                }
+                document.body.removeChild(textarea);
+            }
+        }
+
         // Show notification
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
             notification.className = \`fixed bottom-6 right-6 px-6 py-4 rounded-lg shadow-xl z-50 transition-all transform translate-y-0 \${type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white font-semibold\`;
             notification.textContent = message;
             document.body.appendChild(notification);
-            
+
             setTimeout(() => {
                 notification.style.transform = 'translateY(100px)';
                 notification.style.opacity = '0';
