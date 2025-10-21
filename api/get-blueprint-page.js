@@ -423,7 +423,7 @@ function generateBlueprintHTML(blueprint) {
                                 <a href="https://calendly.com/revamply/consultation" target="_blank" class="w-full bg-gradient-to-r from-cyan-400 to-pink-500 hover:from-cyan-500 hover:to-pink-600 px-8 py-4 rounded-xl text-white font-bold text-center block transition-all shadow-lg hover:shadow-xl transform hover:scale-105 neon-glow">
                                     <i class="fa-solid fa-calendar-check mr-3"></i>Schedule Consultation
                                 </a>
-                                <a href="mailto:solutions@revamply.ai" class="w-full border-2 border-cyan-400 hover:bg-cyan-400/10 px-8 py-4 rounded-xl text-cyan-400 font-bold text-center block transition-all">
+                                <a href="mailto:solutions@revamply.ai" onclick="window.location.href='mailto:solutions@revamply.ai'; return false;" class="w-full border-2 border-cyan-400 hover:bg-cyan-400/10 px-8 py-4 rounded-xl text-cyan-400 font-bold text-center block transition-all">
                                     <i class="fa-solid fa-envelope mr-3"></i>Email Us
                                 </a>
                             </div>
