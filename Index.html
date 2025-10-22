@@ -1372,7 +1372,23 @@
                     },
                     body: JSON.stringify(data)
                 });
-                
+
+                // Check if response is HTML (duplicate case) or JSON (normal case)
+                const contentType = response.headers.get('content-type');
+
+                // If HTML response (duplicate case), replace entire page with HTML
+                if (contentType && contentType.includes('text/html')) {
+                    console.log('✅ Received HTML response (duplicate detected)');
+                    const htmlContent = await response.text();
+
+                    // Replace entire page with the duplicate HTML
+                    document.open();
+                    document.write(htmlContent);
+                    document.close();
+                    return; // Stop execution
+                }
+
+                // Otherwise, expect JSON (normal case)
                 const result = await response.json();
                 
                 if (result.success && result.submissionId) {
