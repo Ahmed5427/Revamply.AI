@@ -136,23 +136,46 @@ export default async function handler(req, res) {
                 },
                 body: JSON.stringify(n8nPayload)
             });
-            
+
             if (!n8nResponse.ok) {
                 console.error('Failed to send data to n8n:', n8nResponse.statusText);
                 throw new Error('Failed to initiate blueprint generation');
-            } else {
-                console.log('Successfully sent form data to n8n for processing');
             }
+
+            console.log('Successfully sent form data to n8n for processing');
+
+            // Check the content type of N8N's response
+            const contentType = n8nResponse.headers.get('content-type');
+
+            // If N8N returns HTML (duplicate case), forward it to the browser
+            if (contentType && contentType.includes('text/html')) {
+                console.log('N8N returned HTML (likely duplicate case), forwarding to browser');
+                const htmlResponse = await n8nResponse.text();
+                return res.status(200).setHeader('Content-Type', 'text/html').send(htmlResponse);
+            }
+
+            // If N8N returns JSON, check if it indicates success
+            if (contentType && contentType.includes('application/json')) {
+                const jsonResponse = await n8nResponse.json();
+                console.log('N8N returned JSON:', jsonResponse);
+
+                // If N8N provides its own response structure, use it
+                if (jsonResponse.success !== undefined) {
+                    return res.status(200).json(jsonResponse);
+                }
+            }
+
         } catch (error) {
             console.error('Error sending to n8n:', error.message);
-            return res.status(500).json({ 
+            return res.status(500).json({
                 success: false,
                 message: 'Failed to initiate blueprint generation. Please try again.'
             });
         }
-        
+
+        // Default response for normal (non-duplicate) submissions
         console.log(`Form submission processed successfully. ID: ${submissionId}, Department: ${department}, Impact: ${businessImpact}`);
-        
+
         return res.status(200).json({
             success: true,
             submissionId,
