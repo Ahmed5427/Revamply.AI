@@ -178,8 +178,8 @@ function generateDuplicateHTML(contactName, email, blueprintUrl) {
                 <i class="fa-solid fa-calendar mr-2"></i>Schedule Consultation
             </a>
             <br>
-            <a href="mailto:solutions@revamply.ai" class="inline-block text-gray-600 hover:text-cyan-600 transition-colors">
-                <i class="fa-solid fa-envelope mr-2"></i>Contact Support: solutions@revamply.ai
+            <a href="javascript:void(Tawk_API.toggle())" class="inline-block text-gray-600 hover:text-cyan-600 transition-colors cursor-pointer">
+                <i class="fa-solid fa-comments mr-2"></i>Chat with Support
             </a>
         </div>
 
@@ -202,6 +202,20 @@ function generateDuplicateHTML(contactName, email, blueprintUrl) {
         // Log for debugging
         console.log('✅ Duplicate submission handled for: ${email}');
     </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/68f8c99b6b393f1951f9f0b9/1j85t71q7';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 </html>`;
 }

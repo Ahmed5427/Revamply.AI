@@ -423,8 +423,8 @@ function generateBlueprintHTML(blueprint) {
                                 <a href="https://calendly.com/revamply/consultation" target="_blank" class="w-full bg-gradient-to-r from-cyan-400 to-pink-500 hover:from-cyan-500 hover:to-pink-600 px-8 py-4 rounded-xl text-white font-bold text-center block transition-all shadow-lg hover:shadow-xl transform hover:scale-105 neon-glow">
                                     <i class="fa-solid fa-calendar-check mr-3"></i>Schedule Consultation
                                 </a>
-                                <a href="mailto:solutions@revamply.ai" onclick="handleEmailClick(event)" class="w-full border-2 border-cyan-400 hover:bg-cyan-400/10 px-8 py-4 rounded-xl text-cyan-400 font-bold text-center block transition-all cursor-pointer">
-                                    <i class="fa-solid fa-envelope mr-3"></i>Email Us
+                                <a href="javascript:void(Tawk_API.toggle())" class="w-full border-2 border-cyan-400 hover:bg-cyan-400/10 px-8 py-4 rounded-xl text-cyan-400 font-bold text-center block transition-all cursor-pointer">
+                                    <i class="fa-solid fa-comments mr-3"></i>Chat with Us
                                 </a>
                             </div>
                         </div>
@@ -721,6 +721,20 @@ function generateBlueprintHTML(blueprint) {
             animatedElements.forEach(el => observer.observe(el));
         });
     </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/68f8c99b6b393f1951f9f0b9/1j85t71q7';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 </html>`;
 }
@@ -856,10 +870,27 @@ function generateNotFoundHTML() {
         </div>
         <h1 class="text-2xl font-bold text-gray-900 mb-4">Blueprint Not Found</h1>
         <p class="text-gray-600 mb-6">The blueprint may still be generating or the link may be incorrect.</p>
-        <a href="/" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg block font-semibold">
+        <a href="/" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg block font-semibold mb-4">
             Create New Blueprint
         </a>
+        <a href="javascript:void(Tawk_API.toggle())" class="text-blue-600 hover:text-blue-700 cursor-pointer">
+            <i class="fa-solid fa-comments mr-2"></i>Need Help? Chat with us
+        </a>
     </div>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/68f8c99b6b393f1951f9f0b9/1j85t71q7';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 </html>`;
 }
@@ -881,10 +912,24 @@ function generateErrorHTML(error, contactName = 'Valued Customer') {
         <h1 class="text-3xl font-bold mb-4">Almost There!</h1>
         <p class="text-gray-700 mb-6">Hi ${contactName}, we'll email your blueprint shortly.</p>
         <p class="text-sm text-gray-500 mb-8">${error}</p>
-        <a href="mailto:support@revamply.ai" class="bg-blue-600 text-white px-8 py-3 rounded-lg inline-block font-semibold">
-            Contact Support
+        <a href="javascript:void(Tawk_API.toggle())" class="bg-blue-600 text-white px-8 py-3 rounded-lg inline-block font-semibold cursor-pointer">
+            <i class="fa-solid fa-comments mr-2"></i>Chat with Support
         </a>
     </div>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+    var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+    s1.async=true;
+    s1.src='https://embed.tawk.to/68f8c99b6b393f1951f9f0b9/1j85t71q7';
+    s1.charset='UTF-8';
+    s1.setAttribute('crossorigin','*');
+    s0.parentNode.insertBefore(s1,s0);
+    })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 </html>`;
 }
