@@ -80,9 +80,34 @@
     }
 
     #hero h1 {
-        font-size: 2rem !important;
-        margin-bottom: 1.25rem;
+        font-size: 1.875rem !important;
+        margin-bottom: 1.5rem;
         text-align: center;
+        line-height: 1.25;
+        padding: 0 0.5rem;
+    }
+
+    /* Better display for hero heading lines on mobile */
+    #hero h1 span {
+        display: block;
+        margin: 0.375rem 0;
+    }
+
+    #hero h1 .text-white {
+        font-size: 1.875rem !important;
+        color: #ffffff !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    #hero h1 .text-gradient {
+        font-size: 2rem !important;
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        font-weight: 900 !important;
+        letter-spacing: -0.02em;
+        padding: 0.25rem 0;
         line-height: 1.2;
     }
 
@@ -92,6 +117,7 @@
         text-align: center;
         padding: 0 0.75rem;
         line-height: 1.6;
+        color: #d1d5db !important;
     }
 
     #hero button {
@@ -124,6 +150,11 @@
 
     #hero .grid .text-3xl {
         font-size: 2rem !important;
+    }
+
+    #hero .grid .text-gray-400 {
+        color: #9ca3af !important;
+        font-size: 0.938rem;
     }
 }
 
@@ -1010,5 +1041,262 @@
 
     #footer {
         padding: 2rem 0 1.5rem;
+    }
+}
+
+/* ===============================================
+   MOBILE COLOR IMPROVEMENTS FOR BETTER VISIBILITY
+   =============================================== */
+@media (max-width: 768px) {
+    /* Ensure all white text is truly visible */
+    .text-white {
+        color: #ffffff !important;
+    }
+
+    /* Better gray text visibility */
+    .text-gray-300 {
+        color: #d1d5db !important;
+    }
+
+    .text-gray-400 {
+        color: #9ca3af !important;
+    }
+
+    .text-gray-500 {
+        color: #6b7280 !important;
+    }
+
+    .text-gray-600 {
+        color: #4b5563 !important;
+    }
+
+    .text-gray-700 {
+        color: #374151 !important;
+    }
+
+    /* Ensure gradient text is visible */
+    .text-gradient {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
+
+    /* Better gradient shift animation */
+    .gradient-shift {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
+
+    /* Section headings visibility */
+    section h2 {
+        color: #ffffff !important;
+    }
+
+    section h3 {
+        color: #ffffff !important;
+    }
+
+    section h4 {
+        color: #ffffff !important;
+    }
+
+    /* Form section text colors */
+    #form-section h2 {
+        color: #111827 !important;
+    }
+
+    #form-section p {
+        color: #4b5563 !important;
+    }
+
+    .field-label {
+        color: #111827 !important;
+    }
+
+    /* Blueprint section colors */
+    #blueprint-section h2,
+    #blueprint-section h3,
+    #blueprint-section h4 {
+        color: #111827 !important;
+    }
+
+    #blueprint-section p {
+        color: #4b5563 !important;
+    }
+
+    /* Social proof section */
+    #social-proof h2,
+    #social-proof h3 {
+        color: #111827 !important;
+    }
+
+    #social-proof p {
+        color: #4b5563 !important;
+    }
+
+    /* Process section - dark background */
+    #process h2,
+    #process h3,
+    #process h4 {
+        color: #ffffff !important;
+    }
+
+    #process p {
+        color: #d1d5db !important;
+    }
+
+    /* Features showcase section */
+    #features-showcase h2 {
+        color: #ffffff !important;
+    }
+
+    #features-showcase h3 {
+        color: #111827 !important;
+    }
+
+    #features-showcase p {
+        color: #4b5563 !important;
+    }
+
+    /* Why Revamply section */
+    #why-revamply h2 {
+        color: #ffffff !important;
+    }
+
+    #why-revamply h3 {
+        color: #111827 !important;
+    }
+
+    #why-revamply p {
+        color: #4b5563 !important;
+    }
+
+    /* CTA section colors */
+    #final-cta h2,
+    #final-cta h3 {
+        color: #ffffff !important;
+    }
+
+    #final-cta p {
+        color: #d1d5db !important;
+    }
+
+    /* Footer text colors */
+    #footer h4 {
+        color: #ffffff !important;
+    }
+
+    #footer p {
+        color: #9ca3af !important;
+    }
+
+    #footer a {
+        color: #9ca3af !important;
+    }
+
+    #footer a:hover {
+        color: #ffffff !important;
+    }
+
+    /* Button text always white */
+    button {
+        color: #ffffff !important;
+    }
+
+    /* Better link visibility */
+    a.text-cyan-600,
+    a.text-blue-600 {
+        color: #0891b2 !important;
+    }
+
+    /* Stats and metrics visibility */
+    .text-3xl,
+    .text-4xl,
+    .text-5xl,
+    .text-6xl {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Card text visibility on white backgrounds */
+    .bg-white h3,
+    .bg-white h4 {
+        color: #111827 !important;
+    }
+
+    .bg-white p,
+    .bg-white li {
+        color: #4b5563 !important;
+    }
+
+    /* Card text visibility on gray backgrounds */
+    .bg-gray-50 h3,
+    .bg-gray-50 h4 {
+        color: #111827 !important;
+    }
+
+    .bg-gray-50 p,
+    .bg-gray-50 li {
+        color: #4b5563 !important;
+    }
+
+    /* Card text visibility on dark backgrounds */
+    .bg-gray-800 h3,
+    .bg-gray-800 h4,
+    .bg-gray-900 h3,
+    .bg-gray-900 h4,
+    .bg-black h3,
+    .bg-black h4 {
+        color: #ffffff !important;
+    }
+
+    .bg-gray-800 p,
+    .bg-gray-800 li,
+    .bg-gray-900 p,
+    .bg-gray-900 li,
+    .bg-black p,
+    .bg-black li {
+        color: #d1d5db !important;
+    }
+
+    /* Error messages visibility */
+    .error-text,
+    .text-red-500 {
+        color: #ef4444 !important;
+    }
+
+    /* Success messages visibility */
+    .text-green-500 {
+        color: #22c55e !important;
+    }
+
+    /* Info messages visibility */
+    .text-blue-500 {
+        color: #3b82f6 !important;
+    }
+}
+
+/* ===============================================
+   MOBILE TEXT SHADOW FOR BETTER READABILITY
+   =============================================== */
+@media (max-width: 768px) {
+    /* Add subtle text shadow to headings on dark backgrounds */
+    #hero h1,
+    #hero h2 {
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Better button text visibility */
+    button,
+    .btn {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Footer text shadow */
+    #footer h4,
+    #footer a {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 }
