@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sitemap - Revamply AI Solutions</title>
+    <meta name="description" content="Complete sitemap of all pages on Revamply AI Solutions. Find what you're looking for quickly.">
+    <link rel="icon" type="image/png" href="/images/r-logo.png">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid rgba(0, 229, 255, 0.3);
+        }
+        
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #00E5FF, #FF00CC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+        }
+        
+        .subtitle {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #00E5FF;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .back-link:hover {
+            transform: translateX(-5px);
+            color: #FF00CC;
+        }
+        
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            transition: all 0.3s;
+        }
+        
+        .section:hover {
+            border-color: rgba(0, 229, 255, 0.5);
+            box-shadow: 0 10px 40px rgba(0, 229, 255, 0.2);
+        }
+        
+        .section h2 {
+            color: #00E5FF;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section h2::before {
+            content: '';
+            width: 4px;
+            height: 30px;
+            background: linear-gradient(to bottom, #00E5FF, #FF00CC);
+            border-radius: 2px;
+        }
+        
+        ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        li {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        li:hover {
+            background: rgba(0, 229, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        li a {
+            display: block;
+            padding: 15px 20px;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        li a:hover {
+            color: #00E5FF;
+            padding-left: 25px;
+        }
+        
+        .page-icon {
+            margin-right: 10px;
+            color: #00E5FF;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #666;
+        }
+        
+        .search-box {
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .search-box input {
+            width: 100%;
+            padding: 15px 20px;
+            border-radius: 30px;
+            border: 2px solid rgba(0, 229, 255, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        .search-box input:focus {
+            outline: none;
+            border-color: #00E5FF;
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+        }
+        
+        .search-box input::placeholder {
+            color: #666;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            ul {
+                grid-template-columns: 1fr;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">← Back to Home</a>
+        
+        <header>
+            <h1>Sitemap</h1>
+            <p class="subtitle">Find all pages on Revamply AI Solutions</p>
+        </header>
+        
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search pages..." onkeyup="searchPages()">
+        </div>
+
+        <div class="section" data-category="main">
+            <h2>Main Pages</h2>
+            <ul>
+                <li><a href="/"><span class="page-icon">🏠</span>Home</a></li>
+                <li><a href="/about"><span class="page-icon">👥</span>About Us</a></li>
+                <li><a href="/solutions"><span class="page-icon">⚡</span>Our Solutions</a></li>
+                <li><a href="/case-studies"><span class="page-icon">📊</span>Case Studies</a></li>
+                <li><a href="/contact"><span class="page-icon">📧</span>Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="section" data-category="resources">
+            <h2>Resources</h2>
+            <ul>
+                <li><a href="/blog"><span class="page-icon">📝</span>Blog</a></li>
+                <li><a href="/faq"><span class="page-icon">❓</span>FAQ</a></li>
+                <li><a href="/guides"><span class="page-icon">📚</span>Guides</a></li>
+                <li><a href="/webinars"><span class="page-icon">🎥</span>Webinars</a></li>
+            </ul>
+        </div>
+
+        <div class="section" data-category="services">
+            <h2>Services</h2>
+            <ul>
+                <li><a href="/ai-automation"><span class="page-icon">🤖</span>AI Automation</a></li>
+                <li><a href="/workflow-optimization"><span class="page-icon">⚙️</span>Workflow Optimization</a></li>
+                <li><a href="/custom-solutions"><span class="page-icon">🔧</span>Custom Solutions</a></li>
+                <li><a href="/consulting"><span class="page-icon">💡</span>Consulting</a></li>
+            </ul>
+        </div>
+
+        <div class="section" data-category="company">
+            <h2>Company</h2>
+            <ul>
+                <li><a href="/about"><span class="page-icon">🏢</span>About Revamply</a></li>
+                <li><a href="/team"><span class="page-icon">👨‍💼</span>Our Team</a></li>
+                <li><a href="/careers"><span class="page-icon">💼</span>Careers</a></li>
+                <li><a href="/press"><span class="page-icon">📰</span>Press & Media</a></li>
+            </ul>
+        </div>
+
+        <div class="section" data-category="legal">
+            <h2>Legal & Policies</h2>
+            <ul>
+                <li><a href="/privacy-policy"><span class="page-icon">🔒</span>Privacy Policy</a></li>
+                <li><a href="/terms-of-service"><span class="page-icon">📄</span>Terms of Service</a></li>
+                <li><a href="/cookie-policy"><span class="page-icon">🍪</span>Cookie Policy</a></li>
+            </ul>
+        </div>
+
+        <footer>
+            <p>&copy; 2025 Revamply AI Solutions. All rights reserved.</p>
+            <p style="margin-top: 10px;">
+                <a href="/sitemap.xml" style="color: #00E5FF; text-decoration: none;">XML Sitemap</a> • 
+                Last Updated: October 2025
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        function searchPages() {
+            const input = document.getElementById('searchInput');
+            const filter = input.value.toLowerCase();
+            const sections = document.querySelectorAll('.section');
+
+            sections.forEach(section => {
+                const links = section.querySelectorAll('li');
+                let hasVisibleLinks = false;
+
+                links.forEach(link => {
+                    const text = link.textContent.toLowerCase();
+                    if (text.includes(filter)) {
+                        link.style.display = '';
+                        hasVisibleLinks = true;
+                    } else {
+                        link.style.display = 'none';
+                    }
+                });
+
+                // Hide section if no visible links
+                section.style.display = hasVisibleLinks || filter === '' ? '' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

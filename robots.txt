@@ -1,0 +1,39 @@
+# robots.txt for Revamply AI Solutions
+# https://revamply.ai/robots.txt
+
+# Allow all search engines to crawl everything
+User-agent: *
+Allow: /
+
+# Block access to admin/private areas (if any)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+Disallow: /_next/
+Disallow: /node_modules/
+
+# Block access to specific file types (optional)
+Disallow: /*.json$
+Disallow: /*.xml$ 
+Disallow: /package.json
+Disallow: /vercel.json
+
+# Allow important files
+Allow: /sitemap.xml
+Allow: /*.css$
+Allow: /*.js$
+Allow: /images/
+
+# Sitemap location
+Sitemap: https://revamply.ai/sitemap.xml
+
+# Crawl-delay (optional - only if you want to slow down crawlers)
+# Crawl-delay: 10
+
+# Block specific bots (optional)
+# User-agent: BadBot
+# Disallow: /
+
+# === NOTES ===
+# Replace revamply.ai with your actual domain
+# Test your robots.txt at: https://www.google.com/webmasters/tools/robots-testing-tool

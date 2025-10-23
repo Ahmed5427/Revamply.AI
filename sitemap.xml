@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+
+<!-- 
+  Sitemap for Revamply AI Solutions
+  Last Updated: 2025-10-23
+  Replace revamply.ai with your actual domain
+-->
+
+<!-- Homepage - Highest Priority -->
+<url>
+  <loc>https://revamply.ai/</loc>
+  <lastmod>2025-10-23</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>1.0</priority>
+</url>
+
+<!-- About Page -->
+<url>
+  <loc>https://revamply.ai/about</loc>
+  <lastmod>2025-10-23</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<!-- Services/Solutions Page (if you have one) -->
+<url>
+  <loc>https://revamply.ai/solutions</loc>
+  <lastmod>2025-10-23</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+
+<!-- Case Studies/Portfolio (if you have one) -->
+<url>
+  <loc>https://revamply.ai/case-studies</loc>
+  <lastmod>2025-10-23</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<!-- Blog (if you have one) -->
+<url>
+  <loc>https://revamply.ai/blog</loc>
+  <lastmod>2025-10-23</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.7</priority>
+</url>
+
+<!-- Contact Page (if separate from homepage) -->
+<url>
+  <loc>https://revamply.ai/contact</loc>
+  <lastmod>2025-10-23</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.6</priority>
+</url>
+
+<!-- Privacy Policy -->
+<url>
+  <loc>https://revamply.ai/privacy-policy</loc>
+  <lastmod>2025-10-23</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.3</priority>
+</url>
+
+<!-- Terms of Service -->
+<url>
+  <loc>https://revamply.ai/terms-of-service</loc>
+  <lastmod>2025-10-23</lastmod>
+  <changefreq>yearly</changefreq>
+  <priority>0.3</priority>
+</url>
+
+<!-- 
+  Add more pages below as needed
+  
+  Priority Guide:
+  1.0 = Homepage (most important)
+  0.8 = Major pages (About, Services)
+  0.6-0.7 = Secondary pages (Blog, Case Studies)
+  0.3-0.5 = Legal pages (Privacy, Terms)
+  
+  Change Frequency Guide:
+  - always: Changes each time it's accessed
+  - hourly: Changes every hour
+  - daily: Changes every day
+  - weekly: Changes every week
+  - monthly: Changes every month
+  - yearly: Changes once a year
+  - never: Archived/static content
+-->
+
+</urlset>
