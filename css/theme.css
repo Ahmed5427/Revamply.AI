@@ -614,6 +614,50 @@ section p {
     color: #111827 !important;
 }
 
+/* Social proof - font-bold with text-lg */
+[data-theme="light"] #social-proof .font-bold.text-lg {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] #social-proof .font-bold.text-lg {
+    color: #ffffff !important;
+}
+
+/* Social proof - blockquote text-lg text-gray-700 */
+[data-theme="light"] #social-proof blockquote.text-lg.text-gray-700 {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] #social-proof blockquote.text-lg.text-gray-700 {
+    color: #e5e7eb !important;
+}
+
+[data-theme="light"] #social-proof blockquote.text-gray-700 {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] #social-proof blockquote.text-gray-700 {
+    color: #e5e7eb !important;
+}
+
+/* All blockquotes in bg-gray-50 */
+[data-theme="light"] .bg-gray-50 blockquote {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .bg-gray-50 blockquote {
+    color: #e5e7eb !important;
+}
+
+/* All font-bold text-lg in bg-gray-50 */
+[data-theme="light"] .bg-gray-50 .font-bold.text-lg {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .bg-gray-50 .font-bold.text-lg {
+    color: #ffffff !important;
+}
+
 /* Blueprint section */
 [data-theme="light"] #blueprint-section .text-gray-500,
 [data-theme="light"] #blueprint-section .text-gray-600 {
@@ -781,6 +825,23 @@ section p {
 
 [data-theme="dark"] .bg-white .text-lg,
 [data-theme="dark"] .bg-gray-50 .text-lg {
+    color: #e5e7eb !important;
+}
+
+/* Text-lg combined with text-gray-700 */
+[data-theme="light"] .text-lg.text-gray-700 {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .text-lg.text-gray-700 {
+    color: #e5e7eb !important;
+}
+
+[data-theme="light"] .bg-gray-50 .text-lg.text-gray-700 {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .bg-gray-50 .text-lg.text-gray-700 {
     color: #e5e7eb !important;
 }
 
