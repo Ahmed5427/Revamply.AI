@@ -61,6 +61,7 @@
     
     .text-lg {
         font-size: 1rem !important;
+        color: black;
     }
 }
 
@@ -83,7 +84,7 @@
         font-size: 1.875rem !important;
         margin-bottom: 1.5rem;
         text-align: center;
-        line-height: 1.25;
+        line-height: 0.25;
         padding: 0 0.5rem;
     }
 
@@ -1105,15 +1106,23 @@
 
     /* Form section text colors */
     #form-section h2 {
-        color: #111827 !important;
+        color: #ffffff !important;
     }
 
     #form-section p {
-        color: #4b5563 !important;
+        color: #8796aa !important;
+    }
+
+    .text-gray-600 {
+        color: #8d98a7 !important;
+    }
+
+    .text-gray-500 {
+        color: #8e98ab !important;
     }
 
     .field-label {
-        color: #111827 !important;
+        color: #afb6c5 !important;
     }
 
     /* Blueprint section colors */
@@ -1128,13 +1137,16 @@
     }
 
     /* Social proof section */
-    #social-proof h2,
-    #social-proof h3 {
-        color: #111827 !important;
+    #social-proof h2, #social-proof h3 {
+        color: #ffffff !important;
     }
 
     #social-proof p {
-        color: #4b5563 !important;
+        color: #a2aebf !important;
+    }
+
+    #social-proof .text-center div {
+        margin-bottom: 0rem;
     }
 
     /* Process section - dark background */
@@ -1154,11 +1166,20 @@
     }
 
     #features-showcase h3 {
-        color: #111827 !important;
+        color: #ffffff !important;
     }
 
     #features-showcase p {
-        color: #4b5563 !important;
+        color: #a7b3c4 !important;
+    }
+
+    .text-gray-500 {
+        color: #000000 !important;
+    }
+
+    .font-medium {
+        font-weight: 500;
+        color: black;
     }
 
     /* Why Revamply section */
@@ -1167,11 +1188,11 @@
     }
 
     #why-revamply h3 {
-        color: #111827 !important;
+        color: #ffffff !important;
     }
 
     #why-revamply p {
-        color: #4b5563 !important;
+        color: #a5b1c2 !important;
     }
 
     /* CTA section colors */
@@ -1252,13 +1273,8 @@
         color: #ffffff !important;
     }
 
-    .bg-gray-800 p,
-    .bg-gray-800 li,
-    .bg-gray-900 p,
-    .bg-gray-900 li,
-    .bg-black p,
-    .bg-black li {
-        color: #d1d5db !important;
+    .bg-gray-800 p, .bg-gray-800 li, .bg-gray-900 p, .bg-gray-900 li, .bg-black p, .bg-black li {
+        color: #424953 !important;
     }
 
     /* Error messages visibility */
