@@ -29,6 +29,49 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap">
+
+    <!-- CRITICAL: Inline styles to override Tailwind CDN after it loads -->
+    <style id="theme-overrides">
+        /* Force text colors in cards based on theme - HIGHEST PRIORITY */
+        html[data-theme="light"] body .bg-white,
+        html[data-theme="light"] body .bg-white *:not(.text-gradient):not(i):not(svg),
+        html[data-theme="light"] .bg-white,
+        html[data-theme="light"] .bg-white *:not(.text-gradient):not(i):not(svg) {
+            color: #111827 !important;
+        }
+
+        html[data-theme="light"] body .bg-gray-50,
+        html[data-theme="light"] body .bg-gray-50 *:not(.text-gradient):not(i):not(svg),
+        html[data-theme="light"] .bg-gray-50,
+        html[data-theme="light"] .bg-gray-50 *:not(.text-gradient):not(i):not(svg) {
+            color: #111827 !important;
+        }
+
+        html[data-theme="dark"] body .bg-white,
+        html[data-theme="dark"] body .bg-white *:not(.text-gradient):not(i):not(svg),
+        html[data-theme="dark"] .bg-white,
+        html[data-theme="dark"] .bg-white *:not(.text-gradient):not(i):not(svg) {
+            color: #ffffff !important;
+        }
+
+        html[data-theme="dark"] body .bg-gray-50,
+        html[data-theme="dark"] body .bg-gray-50 *:not(.text-gradient):not(i):not(svg),
+        html[data-theme="dark"] .bg-gray-50,
+        html[data-theme="dark"] .bg-gray-50 *:not(.text-gradient):not(i):not(svg) {
+            color: #ffffff !important;
+        }
+
+        /* Preserve gradient text */
+        .text-gradient,
+        .gradient-shift,
+        span.text-gradient,
+        span.gradient-shift {
+            background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            background-clip: text !important;
+        }
+    </style>
 </head>
 <body class="bg-black text-white overflow-x-hidden">
     
