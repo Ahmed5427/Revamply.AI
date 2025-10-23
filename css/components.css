@@ -1,0 +1,239 @@
+/* ===============================================
+   REVAMPLY - COMPONENT STYLES
+   Purpose-built classes for proper text visibility
+   =============================================== */
+
+/* ===============================================
+   TESTIMONIAL CARDS
+   =============================================== */
+.testimonial-card {
+    background: #ffffff;
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    position: relative;
+}
+
+html[data-theme="dark"] .testimonial-card {
+    background: #1f2937;
+}
+
+.testimonial-name {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: #111827 !important;
+    line-height: 1.75rem;
+}
+
+html[data-theme="dark"] .testimonial-name {
+    color: #ffffff !important;
+}
+
+.testimonial-title {
+    color: #6b7280 !important;
+    font-size: 0.875rem;
+}
+
+html[data-theme="dark"] .testimonial-title {
+    color: #9ca3af !important;
+}
+
+.testimonial-quote {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+    color: #374151 !important;
+    margin-bottom: 1.5rem;
+}
+
+html[data-theme="dark"] .testimonial-quote {
+    color: #e5e7eb !important;
+}
+
+.testimonial-stat-label {
+    font-size: 0.875rem;
+    color: #6b7280 !important;
+}
+
+html[data-theme="dark"] .testimonial-stat-label {
+    color: #9ca3af !important;
+}
+
+/* ===============================================
+   CONVERSATION CARDS (Blue/Pink backgrounds)
+   =============================================== */
+.conversation-card {
+    border-radius: 1rem;
+    padding: 1rem;
+}
+
+.conversation-card-blue {
+    background-color: #dbeafe;
+}
+
+html[data-theme="dark"] .conversation-card-blue {
+    background-color: #1e3a8a;
+}
+
+.conversation-card-pink {
+    background-color: #fce7f3;
+}
+
+html[data-theme="dark"] .conversation-card-pink {
+    background-color: #831843;
+}
+
+.conversation-label {
+    font-size: 0.875rem;
+    color: #6b7280 !important;
+    margin-bottom: 0.5rem;
+}
+
+html[data-theme="dark"] .conversation-label {
+    color: #d1d5db !important;
+}
+
+.conversation-text {
+    font-weight: 500;
+    color: #111827 !important;
+}
+
+html[data-theme="dark"] .conversation-text {
+    color: #f9fafb !important;
+}
+
+/* ===============================================
+   FEATURE LISTS
+   =============================================== */
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.feature-list-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    color: #374151 !important;
+}
+
+html[data-theme="dark"] .feature-list-item {
+    color: #d1d5db !important;
+}
+
+/* ===============================================
+   WHY REVAMPLY CARDS
+   =============================================== */
+.why-card {
+    background: #ffffff;
+    border-radius: 1rem;
+    padding: 1.5rem;
+}
+
+html[data-theme="dark"] .why-card {
+    background: #1f2937;
+}
+
+.why-card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827 !important;
+    margin-bottom: 0.75rem;
+}
+
+html[data-theme="dark"] .why-card-title {
+    color: #ffffff !important;
+}
+
+.why-card-text {
+    color: #4b5563 !important;
+    line-height: 1.625;
+}
+
+html[data-theme="dark"] .why-card-text {
+    color: #9ca3af !important;
+}
+
+/* ===============================================
+   STATS & METRICS
+   =============================================== */
+.stat-number {
+    font-weight: 700;
+    background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    color: #6b7280 !important;
+}
+
+html[data-theme="dark"] .stat-label {
+    color: #9ca3af !important;
+}
+
+/* ===============================================
+   MOBILE RESPONSIVE
+   =============================================== */
+@media (max-width: 768px) {
+    .testimonial-card {
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+    }
+
+    .testimonial-name {
+        font-size: 1rem;
+    }
+
+    .testimonial-quote {
+        font-size: 1rem;
+        line-height: 1.625;
+    }
+
+    .why-card {
+        padding: 1.25rem;
+    }
+
+    .why-card-title {
+        font-size: 1.125rem;
+    }
+
+    .feature-list-item {
+        padding: 0.75rem 0;
+        font-size: 0.938rem;
+    }
+}
+
+/* ===============================================
+   CRITICAL OVERRIDES - Must come last
+   =============================================== */
+
+/* Ensure names in testimonials are always visible */
+.testimonial-card .testimonial-name {
+    color: #111827 !important;
+}
+
+html[data-theme="dark"] .testimonial-card .testimonial-name {
+    color: #ffffff !important;
+}
+
+/* Ensure conversation text is always dark on light backgrounds */
+.conversation-card-blue .conversation-text,
+.conversation-card-pink .conversation-text {
+    color: #111827 !important;
+}
+
+html[data-theme="dark"] .conversation-card-blue .conversation-text,
+html[data-theme="dark"] .conversation-card-pink .conversation-text {
+    color: #f9fafb !important;
+}
+
+/* Ensure all card text is properly colored */
+.why-card *:not(.text-gradient):not(i):not(svg) {
+    color: inherit;
+}
+
+.testimonial-card *:not(.text-gradient):not(.stat-number):not(i):not(svg) {
+    color: inherit;
+}
