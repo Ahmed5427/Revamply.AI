@@ -649,12 +649,27 @@ section p {
     color: #e5e7eb !important;
 }
 
-/* All font-bold text-lg in bg-gray-50 */
-[data-theme="light"] .bg-gray-50 .font-bold.text-lg {
+/* All font-bold text-lg in bg-gray-50 - CRITICAL */
+[data-theme="light"] .bg-gray-50 .font-bold.text-lg,
+[data-theme="light"] .bg-gray-50 .font-bold,
+[data-theme="light"] .bg-gray-50 div.font-bold.text-lg {
     color: #111827 !important;
 }
 
-[data-theme="dark"] .bg-gray-50 .font-bold.text-lg {
+[data-theme="dark"] .bg-gray-50 .font-bold.text-lg,
+[data-theme="dark"] .bg-gray-50 .font-bold,
+[data-theme="dark"] .bg-gray-50 div.font-bold.text-lg {
+    color: #ffffff !important;
+}
+
+/* Extra specificity for social proof names */
+[data-theme="light"] #social-proof .bg-gray-50 div.font-bold.text-lg,
+[data-theme="light"] #social-proof .bg-gray-50 .font-bold {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] #social-proof .bg-gray-50 div.font-bold.text-lg,
+[data-theme="dark"] #social-proof .bg-gray-50 .font-bold {
     color: #ffffff !important;
 }
 
@@ -865,12 +880,12 @@ section p {
 
 [data-theme="light"] .bg-white .font-bold,
 [data-theme="light"] .bg-gray-50 .font-bold {
-    color: #111827;
+    color: #111827 !important;
 }
 
 [data-theme="dark"] .bg-white .font-bold,
 [data-theme="dark"] .bg-gray-50 .font-bold {
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
 /* Stats and numbers on various backgrounds */
@@ -924,6 +939,17 @@ section p {
 }
 
 [data-theme="dark"] .font-bold.text-lg {
+    color: #ffffff !important;
+}
+
+/* Ensure font-bold text-lg is dark in light mode on all white/gray backgrounds */
+[data-theme="light"] .bg-white .font-bold.text-lg,
+[data-theme="light"] .bg-gray-50 .font-bold.text-lg {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .bg-white .font-bold.text-lg,
+[data-theme="dark"] .bg-gray-50 .font-bold.text-lg {
     color: #ffffff !important;
 }
 
@@ -1088,6 +1114,25 @@ section p {
 [data-theme="light"] .text-5xl,
 [data-theme="light"] .text-6xl {
     color: #111827 !important;
+}
+
+/* CRITICAL FIX: Font-bold on light backgrounds must be dark */
+[data-theme="light"] .bg-white .font-bold,
+[data-theme="light"] .bg-gray-50 .font-bold,
+[data-theme="light"] .bg-white div.font-bold,
+[data-theme="light"] .bg-gray-50 div.font-bold,
+[data-theme="light"] .bg-white .font-bold.text-lg,
+[data-theme="light"] .bg-gray-50 .font-bold.text-lg {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .bg-white .font-bold,
+[data-theme="dark"] .bg-gray-50 .font-bold,
+[data-theme="dark"] .bg-white div.font-bold,
+[data-theme="dark"] .bg-gray-50 div.font-bold,
+[data-theme="dark"] .bg-white .font-bold.text-lg,
+[data-theme="dark"] .bg-gray-50 .font-bold.text-lg {
+    color: #ffffff !important;
 }
 
 /* Link colors */
