@@ -103,6 +103,17 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Override body text-white class in light mode */
+html[data-theme="light"] body,
+html[data-theme="light"] body.text-white {
+    color: var(--text-primary) !important;
+}
+
+html[data-theme="dark"] body,
+html[data-theme="dark"] body.text-white {
+    color: var(--text-primary) !important;
+}
+
 /* Header */
 #header {
     background-color: var(--bg-header) !important;
@@ -170,6 +181,19 @@ section p {
     color: var(--card-text) !important;
 }
 
+/* All text inside white backgrounds - override body text-white */
+html[data-theme="light"] body .bg-white,
+html[data-theme="light"] .bg-white,
+[data-theme="light"] .bg-white {
+    color: #111827 !important;
+}
+
+html[data-theme="dark"] body .bg-white,
+html[data-theme="dark"] .bg-white,
+[data-theme="dark"] .bg-white {
+    color: #e5e7eb !important;
+}
+
 /* Cards with gray background */
 .bg-gray-50 {
     background-color: var(--card-bg-gray) !important;
@@ -185,6 +209,19 @@ section p {
 .bg-gray-50 p,
 .bg-gray-50 li {
     color: var(--card-text) !important;
+}
+
+/* All text inside gray backgrounds - override body text-white */
+html[data-theme="light"] body .bg-gray-50,
+html[data-theme="light"] .bg-gray-50,
+[data-theme="light"] .bg-gray-50 {
+    color: #111827 !important;
+}
+
+html[data-theme="dark"] body .bg-gray-50,
+html[data-theme="dark"] .bg-gray-50,
+[data-theme="dark"] .bg-gray-50 {
+    color: #e5e7eb !important;
 }
 
 /* Dark background cards (remain dark in both modes) */
@@ -1116,7 +1153,19 @@ section p {
     color: #111827 !important;
 }
 
-/* CRITICAL FIX: Font-bold on light backgrounds must be dark */
+/* CRITICAL FIX: Font-bold on light backgrounds must be dark - OVERRIDE BODY TEXT-WHITE */
+html[data-theme="light"] body .bg-white .font-bold,
+html[data-theme="light"] body .bg-gray-50 .font-bold,
+html[data-theme="light"] body .bg-white div.font-bold,
+html[data-theme="light"] body .bg-gray-50 div.font-bold,
+html[data-theme="light"] body .bg-white .font-bold.text-lg,
+html[data-theme="light"] body .bg-gray-50 .font-bold.text-lg,
+html[data-theme="light"] .bg-white .font-bold,
+html[data-theme="light"] .bg-gray-50 .font-bold,
+html[data-theme="light"] .bg-white div.font-bold,
+html[data-theme="light"] .bg-gray-50 div.font-bold,
+html[data-theme="light"] .bg-white .font-bold.text-lg,
+html[data-theme="light"] .bg-gray-50 .font-bold.text-lg,
 [data-theme="light"] .bg-white .font-bold,
 [data-theme="light"] .bg-gray-50 .font-bold,
 [data-theme="light"] .bg-white div.font-bold,
@@ -1126,6 +1175,12 @@ section p {
     color: #111827 !important;
 }
 
+html[data-theme="dark"] body .bg-white .font-bold,
+html[data-theme="dark"] body .bg-gray-50 .font-bold,
+html[data-theme="dark"] body .bg-white div.font-bold,
+html[data-theme="dark"] body .bg-gray-50 div.font-bold,
+html[data-theme="dark"] body .bg-white .font-bold.text-lg,
+html[data-theme="dark"] body .bg-gray-50 .font-bold.text-lg,
 [data-theme="dark"] .bg-white .font-bold,
 [data-theme="dark"] .bg-gray-50 .font-bold,
 [data-theme="dark"] .bg-white div.font-bold,
