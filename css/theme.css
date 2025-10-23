@@ -395,6 +395,294 @@ section p {
     color: var(--text-secondary) !important;
 }
 
+/* Context-aware text colors for cards and containers */
+
+/* Text inside white background cards - always dark in light mode, light in dark mode */
+[data-theme="light"] .bg-white .text-gray-500,
+[data-theme="light"] .bg-white .text-gray-600 {
+    color: #6b7280 !important;
+}
+
+[data-theme="dark"] .bg-white .text-gray-500 {
+    color: #9ca3af !important;
+}
+
+[data-theme="dark"] .bg-white .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+/* Text inside gray background cards */
+[data-theme="light"] .bg-gray-50 .text-gray-500,
+[data-theme="light"] .bg-gray-50 .text-gray-600 {
+    color: #6b7280 !important;
+}
+
+[data-theme="dark"] .bg-gray-50 .text-gray-500 {
+    color: #9ca3af !important;
+}
+
+[data-theme="dark"] .bg-gray-50 .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+/* Text inside colored backgrounds (blue, pink, etc.) - always dark for contrast */
+.bg-blue-100 .text-gray-500,
+.bg-blue-100 .text-gray-600,
+.bg-pink-100 .text-gray-500,
+.bg-pink-100 .text-gray-600,
+.bg-purple-100 .text-gray-500,
+.bg-purple-100 .text-gray-600,
+.bg-green-100 .text-gray-500,
+.bg-green-100 .text-gray-600 {
+    color: #4b5563 !important;
+}
+
+/* Text on main section backgrounds */
+[data-theme="light"] section:not(.bg-white):not(.bg-gray-50) .text-gray-500 {
+    color: #6b7280 !important;
+}
+
+[data-theme="light"] section:not(.bg-white):not(.bg-gray-50) .text-gray-600 {
+    color: #4b5563 !important;
+}
+
+[data-theme="dark"] section:not(.bg-white):not(.bg-gray-50) .text-gray-500 {
+    color: #9ca3af !important;
+}
+
+[data-theme="dark"] section:not(.bg-white):not(.bg-gray-50) .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+/* Form section specific */
+[data-theme="light"] #form-section .text-gray-500,
+[data-theme="light"] #form-section .text-gray-600 {
+    color: #6b7280 !important;
+}
+
+[data-theme="dark"] #form-section .text-gray-500 {
+    color: #9ca3af !important;
+}
+
+[data-theme="dark"] #form-section .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+/* Social proof section */
+[data-theme="light"] #social-proof .text-gray-600 {
+    color: #4b5563 !important;
+}
+
+[data-theme="dark"] #social-proof .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+/* Blueprint section */
+[data-theme="light"] #blueprint-section .text-gray-500,
+[data-theme="light"] #blueprint-section .text-gray-600 {
+    color: #6b7280 !important;
+}
+
+[data-theme="dark"] #blueprint-section .text-gray-500 {
+    color: #9ca3af !important;
+}
+
+[data-theme="dark"] #blueprint-section .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+/* Pricing section */
+[data-theme="light"] #pricing-preview .text-gray-600 {
+    color: #4b5563 !important;
+}
+
+[data-theme="dark"] #pricing-preview .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+/* Features showcase */
+[data-theme="light"] #features-showcase .text-gray-600 {
+    color: #4b5563 !important;
+}
+
+[data-theme="dark"] #features-showcase .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+/* Why Revamply section cards */
+[data-theme="light"] #why-revamply .bg-white .text-gray-600 {
+    color: #4b5563 !important;
+}
+
+[data-theme="dark"] #why-revamply .bg-white .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+/* Process section */
+[data-theme="light"] #process .text-gray-600 {
+    color: #4b5563 !important;
+}
+
+[data-theme="dark"] #process .text-gray-600 {
+    color: #9ca3af !important;
+}
+
+/* Text-black class should be dark in light mode, light in dark mode */
+[data-theme="light"] .text-black {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .text-black {
+    color: #ffffff !important;
+}
+
+/* Font-medium with context awareness */
+[data-theme="light"] .font-medium {
+    color: #111827;
+}
+
+[data-theme="dark"] .font-medium {
+    color: #ffffff;
+}
+
+[data-theme="light"] .bg-white .font-medium,
+[data-theme="light"] .bg-gray-50 .font-medium {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .bg-white .font-medium,
+[data-theme="dark"] .bg-gray-50 .font-medium {
+    color: #ffffff !important;
+}
+
+/* Font-semibold context awareness */
+[data-theme="light"] .font-semibold {
+    color: #111827;
+}
+
+[data-theme="dark"] .font-semibold {
+    color: #ffffff;
+}
+
+/* Text-sm and text-lg with context */
+[data-theme="light"] .text-sm {
+    color: inherit;
+}
+
+[data-theme="dark"] .text-sm {
+    color: inherit;
+}
+
+[data-theme="light"] .bg-white .text-sm.text-gray-500,
+[data-theme="light"] .bg-white .text-sm.text-gray-600 {
+    color: #6b7280 !important;
+}
+
+[data-theme="dark"] .bg-white .text-sm.text-gray-500,
+[data-theme="dark"] .bg-white .text-sm.text-gray-600 {
+    color: #9ca3af !important;
+}
+
+/* Text-lg color fixes */
+[data-theme="light"] .text-lg {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .text-lg {
+    color: #ffffff !important;
+}
+
+[data-theme="light"] .bg-white .text-lg,
+[data-theme="light"] .bg-gray-50 .text-lg {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .bg-white .text-lg,
+[data-theme="dark"] .bg-gray-50 .text-lg {
+    color: #e5e7eb !important;
+}
+
+/* Text-gray-900 for error/important messages */
+[data-theme="light"] .text-gray-900 {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .text-gray-900 {
+    color: #f9fafb !important;
+}
+
+/* Font-bold elements with context awareness */
+[data-theme="light"] .font-bold {
+    color: inherit;
+}
+
+[data-theme="dark"] .font-bold {
+    color: inherit;
+}
+
+[data-theme="light"] .bg-white .font-bold,
+[data-theme="light"] .bg-gray-50 .font-bold {
+    color: #111827;
+}
+
+[data-theme="dark"] .bg-white .font-bold,
+[data-theme="dark"] .bg-gray-50 .font-bold {
+    color: #ffffff;
+}
+
+/* Stats and numbers on various backgrounds */
+[data-theme="light"] .text-2xl,
+[data-theme="light"] .text-3xl,
+[data-theme="light"] .text-4xl {
+    color: inherit;
+}
+
+[data-theme="dark"] .text-2xl,
+[data-theme="dark"] .text-3xl,
+[data-theme="dark"] .text-4xl {
+    color: inherit;
+}
+
+/* Stats in cards */
+[data-theme="light"] .bg-gray-50 .text-2xl,
+[data-theme="light"] .bg-gray-50 .text-3xl,
+[data-theme="light"] .bg-gray-50 .text-4xl {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .bg-gray-50 .text-2xl,
+[data-theme="dark"] .bg-gray-50 .text-3xl,
+[data-theme="dark"] .bg-gray-50 .text-4xl {
+    color: #ffffff !important;
+}
+
+/* Labels and descriptive text */
+[data-theme="light"] .text-sm.font-semibold {
+    color: #374151 !important;
+}
+
+[data-theme="dark"] .text-sm.font-semibold {
+    color: #d1d5db !important;
+}
+
+/* Divs with font-bold and text-lg combination (often used for labels) */
+[data-theme="light"] .font-bold.text-lg {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .font-bold.text-lg {
+    color: #ffffff !important;
+}
+
+/* Icons next to text should inherit color */
+[data-theme="light"] .flex.items-center i {
+    color: inherit;
+}
+
+[data-theme="dark"] .flex.items-center i {
+    color: inherit;
+}
+
 /* Light Mode Specific Overrides */
 [data-theme="light"] #hero {
     background: linear-gradient(135deg, #f0f9ff 0%, #fdf2f8 100%) !important;
