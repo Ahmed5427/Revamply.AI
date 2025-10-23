@@ -395,6 +395,35 @@ section p {
     color: var(--text-secondary) !important;
 }
 
+/* Fix text-gray-300 visibility - too light for light backgrounds */
+[data-theme="light"] .text-gray-300 {
+    color: #4b5563 !important;
+}
+
+[data-theme="dark"] .text-gray-300 {
+    color: #d1d5db !important;
+}
+
+/* Fix text-gray-700 for proper contrast */
+[data-theme="light"] .text-gray-700 {
+    color: #374151 !important;
+}
+
+[data-theme="dark"] .text-gray-700 {
+    color: #d1d5db !important;
+}
+
+/* Text-gray-700 in blockquotes and cards */
+[data-theme="light"] blockquote.text-gray-700,
+[data-theme="light"] .bg-gray-50 .text-gray-700 {
+    color: #374151 !important;
+}
+
+[data-theme="dark"] blockquote.text-gray-700,
+[data-theme="dark"] .bg-gray-50 .text-gray-700 {
+    color: #d1d5db !important;
+}
+
 /* Context-aware text colors for cards and containers */
 
 /* Text inside white background cards - always dark in light mode, light in dark mode */
@@ -425,6 +454,24 @@ section p {
     color: #9ca3af !important;
 }
 
+/* Gray cards with text-gray-700 */
+[data-theme="light"] .bg-gray-50 .text-gray-700 {
+    color: #374151 !important;
+}
+
+[data-theme="dark"] .bg-gray-50 .text-gray-700 {
+    color: #d1d5db !important;
+}
+
+/* Gray cards .text-sm with gray classes */
+[data-theme="light"] .bg-gray-50 .text-sm.text-gray-500 {
+    color: #6b7280 !important;
+}
+
+[data-theme="dark"] .bg-gray-50 .text-sm.text-gray-500 {
+    color: #9ca3af !important;
+}
+
 /* Text inside colored backgrounds (blue, pink, etc.) - always dark for contrast */
 .bg-blue-100 .text-gray-500,
 .bg-blue-100 .text-gray-600,
@@ -435,6 +482,29 @@ section p {
 .bg-green-100 .text-gray-500,
 .bg-green-100 .text-gray-600 {
     color: #4b5563 !important;
+}
+
+/* Font-medium in colored backgrounds always dark */
+.bg-blue-100 .font-medium,
+.bg-pink-100 .font-medium,
+.bg-purple-100 .font-medium,
+.bg-green-100 .font-medium {
+    color: #111827 !important;
+}
+
+/* All text inside colored light backgrounds should be dark */
+[data-theme="light"] .bg-blue-100,
+[data-theme="light"] .bg-pink-100,
+[data-theme="light"] .bg-purple-100,
+[data-theme="light"] .bg-green-100 {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] .bg-blue-100,
+[data-theme="dark"] .bg-pink-100,
+[data-theme="dark"] .bg-purple-100,
+[data-theme="dark"] .bg-green-100 {
+    color: #111827 !important;
 }
 
 /* Text on main section backgrounds */
@@ -477,6 +547,32 @@ section p {
     color: #9ca3af !important;
 }
 
+[data-theme="light"] #social-proof .text-gray-500 {
+    color: #6b7280 !important;
+}
+
+[data-theme="dark"] #social-proof .text-gray-500 {
+    color: #9ca3af !important;
+}
+
+[data-theme="light"] #social-proof .text-gray-700 {
+    color: #374151 !important;
+}
+
+[data-theme="dark"] #social-proof .text-gray-700 {
+    color: #d1d5db !important;
+}
+
+/* Social proof cards need high contrast */
+[data-theme="light"] #social-proof .bg-gray-50 {
+    background-color: #ffffff !important;
+}
+
+[data-theme="light"] #social-proof .bg-gray-50 .font-bold,
+[data-theme="light"] #social-proof .bg-gray-50 blockquote {
+    color: #111827 !important;
+}
+
 /* Blueprint section */
 [data-theme="light"] #blueprint-section .text-gray-500,
 [data-theme="light"] #blueprint-section .text-gray-600 {
@@ -489,6 +585,27 @@ section p {
 
 [data-theme="dark"] #blueprint-section .text-gray-600 {
     color: #9ca3af !important;
+}
+
+/* Blueprint section colored cards */
+[data-theme="light"] #blueprint-section .bg-blue-100 .text-gray-500,
+[data-theme="light"] #blueprint-section .bg-pink-100 .text-gray-500 {
+    color: #4b5563 !important;
+}
+
+[data-theme="dark"] #blueprint-section .bg-blue-100 .text-gray-500,
+[data-theme="dark"] #blueprint-section .bg-pink-100 .text-gray-500 {
+    color: #374151 !important;
+}
+
+[data-theme="light"] #blueprint-section .bg-blue-100 .font-medium,
+[data-theme="light"] #blueprint-section .bg-pink-100 .font-medium {
+    color: #111827 !important;
+}
+
+[data-theme="dark"] #blueprint-section .bg-blue-100 .font-medium,
+[data-theme="dark"] #blueprint-section .bg-pink-100 .font-medium {
+    color: #111827 !important;
 }
 
 /* Pricing section */
@@ -507,6 +624,22 @@ section p {
 
 [data-theme="dark"] #features-showcase .text-gray-600 {
     color: #9ca3af !important;
+}
+
+[data-theme="light"] #features-showcase .text-gray-300 {
+    color: #374151 !important;
+}
+
+[data-theme="dark"] #features-showcase .text-gray-300 {
+    color: #d1d5db !important;
+}
+
+[data-theme="light"] #features-showcase ul.text-gray-300 li {
+    color: #374151 !important;
+}
+
+[data-theme="dark"] #features-showcase ul.text-gray-300 li {
+    color: #d1d5db !important;
 }
 
 /* Why Revamply section cards */
@@ -654,6 +787,16 @@ section p {
 [data-theme="dark"] .bg-gray-50 .text-3xl,
 [data-theme="dark"] .bg-gray-50 .text-4xl {
     color: #ffffff !important;
+}
+
+/* Stats with gradient in any card should remain gradient */
+.text-gradient.text-2xl,
+.text-gradient.text-3xl,
+.text-gradient.text-4xl {
+    background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
 }
 
 /* Labels and descriptive text */
@@ -896,6 +1039,26 @@ button {
 [data-theme="light"] ul li,
 [data-theme="light"] ol li {
     color: #374151 !important;
+}
+
+/* Lists with text-gray-300 class need proper contrast */
+[data-theme="light"] ul.text-gray-300,
+[data-theme="light"] ul.text-gray-300 li {
+    color: #374151 !important;
+}
+
+[data-theme="dark"] ul.text-gray-300,
+[data-theme="dark"] ul.text-gray-300 li {
+    color: #d1d5db !important;
+}
+
+/* Ensure list items inside sections are visible */
+[data-theme="light"] section ul li {
+    color: #374151 !important;
+}
+
+[data-theme="dark"] section ul li {
+    color: #d1d5db !important;
 }
 
 /* Table text if any */
