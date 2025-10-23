@@ -24,6 +24,7 @@
     </script>
     
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/theme.css">
     <link rel="stylesheet" href="/css/mobile.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -48,6 +49,9 @@
                     </nav>
                 </div>
                 <div class="flex items-center space-x-4">
+                    <button id="themeToggle" class="w-10 h-10 rounded-lg bg-gray-800 hover:bg-gray-700 flex items-center justify-center transition-colors" aria-label="Toggle theme">
+                        <i class="fa-solid fa-moon text-gray-300" id="themeIcon"></i>
+                    </button>
                     <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-6 py-2 rounded-lg text-white font-semibold hover-glow" onclick="scrollToForm()">
                         Get Started
                     </button>
@@ -1696,13 +1700,46 @@
         </style>
         `;
         
+        // Theme switching functionality
+        function initTheme() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const htmlElement = document.documentElement;
+
+            // Check for saved theme preference or default to 'dark'
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            htmlElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', function() {
+                const currentTheme = htmlElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+                htmlElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+
+            function updateThemeIcon(theme) {
+                if (theme === 'dark') {
+                    themeIcon.className = 'fa-solid fa-moon text-gray-300';
+                } else {
+                    themeIcon.className = 'fa-solid fa-sun text-yellow-500';
+                }
+            }
+        }
+
         // Initialize email validation when page loads
         document.addEventListener('DOMContentLoaded', function() {
             // Add CSS
             document.head.insertAdjacentHTML('beforeend', emailValidationCSS);
-            
+
             // Setup email validation
             setupEmailValidation();
+
+            // Initialize theme
+            initTheme();
         });
 </script>
 

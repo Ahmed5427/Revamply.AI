@@ -1,0 +1,676 @@
+/* ===============================================
+   REVAMPLY - THEME STYLES
+   Dark and Light Mode Color Schemes
+   =============================================== */
+
+/* ===============================================
+   DARK MODE (DEFAULT)
+   =============================================== */
+:root,
+[data-theme="dark"] {
+    /* Background Colors */
+    --bg-primary: #000000;
+    --bg-secondary: #111827;
+    --bg-tertiary: #1f2937;
+    --bg-card: #1f2937;
+    --bg-card-hover: #374151;
+    --bg-header: rgba(0, 0, 0, 0.9);
+
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #d1d5db;
+    --text-tertiary: #9ca3af;
+    --text-muted: #6b7280;
+    --text-heading: #ffffff;
+
+    /* Border Colors */
+    --border-primary: #374151;
+    --border-secondary: #4b5563;
+
+    /* Card Backgrounds */
+    --card-bg-white: #1f2937;
+    --card-bg-gray: #111827;
+    --card-text: #d1d5db;
+    --card-heading: #ffffff;
+
+    /* Form Colors */
+    --form-bg: #ffffff;
+    --form-text: #111827;
+    --form-label: #374151;
+    --form-border: #e5e7eb;
+    --form-placeholder: #9ca3af;
+
+    /* Footer Colors */
+    --footer-bg: #000000;
+    --footer-text: #9ca3af;
+    --footer-heading: #ffffff;
+    --footer-link: #9ca3af;
+    --footer-link-hover: #ffffff;
+}
+
+/* ===============================================
+   LIGHT MODE
+   =============================================== */
+[data-theme="light"] {
+    /* Background Colors */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f9fafb;
+    --bg-tertiary: #f3f4f6;
+    --bg-card: #ffffff;
+    --bg-card-hover: #f9fafb;
+    --bg-header: rgba(255, 255, 255, 0.95);
+
+    /* Text Colors */
+    --text-primary: #111827;
+    --text-secondary: #374151;
+    --text-tertiary: #6b7280;
+    --text-muted: #9ca3af;
+    --text-heading: #111827;
+
+    /* Border Colors */
+    --border-primary: #e5e7eb;
+    --border-secondary: #d1d5db;
+
+    /* Card Backgrounds */
+    --card-bg-white: #ffffff;
+    --card-bg-gray: #f9fafb;
+    --card-text: #374151;
+    --card-heading: #111827;
+
+    /* Form Colors */
+    --form-bg: #ffffff;
+    --form-text: #111827;
+    --form-label: #374151;
+    --form-border: #d1d5db;
+    --form-placeholder: #9ca3af;
+
+    /* Footer Colors */
+    --footer-bg: #111827;
+    --footer-text: #d1d5db;
+    --footer-heading: #ffffff;
+    --footer-link: #d1d5db;
+    --footer-link-hover: #ffffff;
+}
+
+/* ===============================================
+   APPLY THEME COLORS TO ELEMENTS
+   =============================================== */
+
+/* Body and Background */
+body {
+    background-color: var(--bg-primary) !important;
+    color: var(--text-primary) !important;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Header */
+#header {
+    background-color: var(--bg-header) !important;
+    border-bottom-color: var(--border-primary) !important;
+}
+
+#header nav span {
+    color: var(--text-tertiary) !important;
+}
+
+#header nav span:hover {
+    color: var(--text-primary) !important;
+}
+
+/* Hero Section */
+#hero {
+    background-color: var(--bg-primary) !important;
+}
+
+#hero h1 .text-white {
+    color: var(--text-heading) !important;
+}
+
+#hero p {
+    color: var(--text-secondary) !important;
+}
+
+#hero .text-gray-300 {
+    color: var(--text-secondary) !important;
+}
+
+#hero .text-gray-400 {
+    color: var(--text-tertiary) !important;
+}
+
+/* Sections */
+section {
+    background-color: var(--bg-primary) !important;
+}
+
+section h2,
+section h3,
+section h4 {
+    color: var(--text-heading) !important;
+}
+
+section p {
+    color: var(--text-secondary) !important;
+}
+
+/* Cards with white background */
+.bg-white {
+    background-color: var(--card-bg-white) !important;
+    border: 1px solid var(--border-primary);
+}
+
+.bg-white h2,
+.bg-white h3,
+.bg-white h4 {
+    color: var(--card-heading) !important;
+}
+
+.bg-white p,
+.bg-white li {
+    color: var(--card-text) !important;
+}
+
+/* Cards with gray background */
+.bg-gray-50 {
+    background-color: var(--card-bg-gray) !important;
+    border: 1px solid var(--border-primary);
+}
+
+.bg-gray-50 h2,
+.bg-gray-50 h3,
+.bg-gray-50 h4 {
+    color: var(--card-heading) !important;
+}
+
+.bg-gray-50 p,
+.bg-gray-50 li {
+    color: var(--card-text) !important;
+}
+
+/* Dark background cards (remain dark in both modes) */
+.bg-gray-800,
+.bg-gray-900,
+.bg-black {
+    background-color: #1f2937 !important;
+}
+
+.bg-gray-800 h2,
+.bg-gray-800 h3,
+.bg-gray-800 h4,
+.bg-gray-900 h2,
+.bg-gray-900 h3,
+.bg-gray-900 h4,
+.bg-black h2,
+.bg-black h3,
+.bg-black h4 {
+    color: #ffffff !important;
+}
+
+.bg-gray-800 p,
+.bg-gray-800 li,
+.bg-gray-900 p,
+.bg-gray-900 li,
+.bg-black p,
+.bg-black li {
+    color: #d1d5db !important;
+}
+
+/* Form Section */
+#form-section {
+    background-color: var(--bg-primary) !important;
+}
+
+#form-section h2 {
+    color: var(--text-heading) !important;
+}
+
+#form-section p {
+    color: var(--text-secondary) !important;
+}
+
+.field-label {
+    color: var(--form-label) !important;
+}
+
+.field-input {
+    background-color: var(--form-bg) !important;
+    color: var(--form-text) !important;
+    border-color: var(--form-border) !important;
+}
+
+.field-input::placeholder {
+    color: var(--form-placeholder) !important;
+}
+
+/* Why Revamply Section */
+#why-revamply {
+    background-color: var(--bg-primary) !important;
+}
+
+#why-revamply h2 {
+    color: var(--text-heading) !important;
+}
+
+#why-revamply h3 {
+    color: var(--card-heading) !important;
+}
+
+#why-revamply p {
+    color: var(--card-text) !important;
+}
+
+/* Social Proof Section */
+#social-proof {
+    background-color: var(--bg-primary) !important;
+}
+
+#social-proof h2,
+#social-proof h3 {
+    color: var(--text-heading) !important;
+}
+
+#social-proof p {
+    color: var(--text-secondary) !important;
+}
+
+/* Process Section */
+#process {
+    background-color: var(--bg-primary) !important;
+}
+
+#process h2,
+#process h3,
+#process h4 {
+    color: var(--text-heading) !important;
+}
+
+#process p {
+    color: var(--text-secondary) !important;
+}
+
+/* Features Showcase */
+#features-showcase {
+    background-color: var(--bg-primary) !important;
+}
+
+#features-showcase h2 {
+    color: var(--text-heading) !important;
+}
+
+#features-showcase h3 {
+    color: var(--card-heading) !important;
+}
+
+#features-showcase p,
+#features-showcase li {
+    color: var(--card-text) !important;
+}
+
+/* Blueprint Section */
+#blueprint-section {
+    background-color: var(--bg-primary) !important;
+}
+
+#blueprint-section h2,
+#blueprint-section h3,
+#blueprint-section h4 {
+    color: var(--text-heading) !important;
+}
+
+#blueprint-section p {
+    color: var(--text-secondary) !important;
+}
+
+/* Pricing Section */
+#pricing-preview {
+    background-color: var(--bg-primary) !important;
+}
+
+#pricing-preview h2,
+#pricing-preview h3 {
+    color: var(--text-heading) !important;
+}
+
+#pricing-preview p {
+    color: var(--text-secondary) !important;
+}
+
+/* CTA Section */
+#final-cta {
+    background-color: var(--bg-primary) !important;
+}
+
+#final-cta h2,
+#final-cta h3 {
+    color: var(--text-heading) !important;
+}
+
+#final-cta p {
+    color: var(--text-secondary) !important;
+}
+
+/* Footer */
+#footer {
+    background-color: var(--footer-bg) !important;
+}
+
+#footer h4 {
+    color: var(--footer-heading) !important;
+}
+
+#footer p {
+    color: var(--footer-text) !important;
+}
+
+#footer a {
+    color: var(--footer-link) !important;
+}
+
+#footer a:hover {
+    color: var(--footer-link-hover) !important;
+}
+
+#footer li {
+    color: var(--footer-text) !important;
+}
+
+/* Text Utility Classes */
+.text-gray-300 {
+    color: var(--text-secondary) !important;
+}
+
+.text-gray-400 {
+    color: var(--text-tertiary) !important;
+}
+
+.text-gray-500 {
+    color: var(--text-muted) !important;
+}
+
+.text-gray-600 {
+    color: var(--text-tertiary) !important;
+}
+
+.text-gray-700 {
+    color: var(--text-secondary) !important;
+}
+
+/* Light Mode Specific Overrides */
+[data-theme="light"] #hero {
+    background: linear-gradient(135deg, #f0f9ff 0%, #fdf2f8 100%) !important;
+}
+
+[data-theme="light"] .bg-gray-800,
+[data-theme="light"] .bg-gray-900,
+[data-theme="light"] .bg-black {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%) !important;
+}
+
+/* Smooth transitions for theme changes */
+* {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Prevent transition on gradient text */
+.text-gradient,
+.gradient-shift {
+    transition: none !important;
+}
+
+/* ===============================================
+   MOBILE THEME OVERRIDES
+   =============================================== */
+@media (max-width: 768px) {
+    /* Mobile-specific theme adjustments */
+    [data-theme="light"] #hero h1 .text-white {
+        color: #111827 !important;
+    }
+
+    [data-theme="light"] #form-section h2 {
+        color: #111827 !important;
+    }
+
+    [data-theme="light"] #form-section p {
+        color: #4b5563 !important;
+    }
+
+    [data-theme="light"] .field-label {
+        color: #374151 !important;
+    }
+
+    [data-theme="light"] #why-revamply h3 {
+        color: #111827 !important;
+    }
+
+    [data-theme="light"] #why-revamply p {
+        color: #4b5563 !important;
+    }
+
+    [data-theme="light"] #social-proof h2,
+    [data-theme="light"] #social-proof h3 {
+        color: #111827 !important;
+    }
+
+    [data-theme="light"] #social-proof p {
+        color: #4b5563 !important;
+    }
+
+    [data-theme="light"] #features-showcase h3 {
+        color: #111827 !important;
+    }
+
+    [data-theme="light"] #features-showcase p {
+        color: #4b5563 !important;
+    }
+
+    /* Maintain dark mode colors on mobile */
+    [data-theme="dark"] #form-section h2 {
+        color: #ffffff !important;
+    }
+
+    [data-theme="dark"] #form-section p {
+        color: #8796aa !important;
+    }
+
+    [data-theme="dark"] .text-gray-600 {
+        color: #8d98a7 !important;
+    }
+
+    [data-theme="dark"] .text-gray-500 {
+        color: #ffffff !important;
+    }
+
+    [data-theme="dark"] .field-label {
+        color: #afb6c5 !important;
+    }
+
+    [data-theme="dark"] #why-revamply p {
+        color: #a5b1c2 !important;
+    }
+
+    [data-theme="dark"] #why-revamply h3 {
+        color: #ffffff !important;
+    }
+
+    [data-theme="dark"] #social-proof h2,
+    [data-theme="dark"] #social-proof h3 {
+        color: #ffffff !important;
+    }
+
+    [data-theme="dark"] #social-proof p {
+        color: #a2aebf !important;
+    }
+
+    [data-theme="dark"] #features-showcase p {
+        color: #a7b3c4 !important;
+    }
+
+    [data-theme="dark"] #features-showcase h3 {
+        color: #ffffff !important;
+    }
+
+    [data-theme="dark"] .font-medium {
+        font-weight: 500;
+        color: #ffffff !important;
+    }
+
+    [data-theme="dark"] .text-lg {
+        color: #ffffff !important;
+    }
+
+    [data-theme="dark"] .bg-gray-800 p,
+    [data-theme="dark"] .bg-gray-800 li,
+    [data-theme="dark"] .bg-gray-900 p,
+    [data-theme="dark"] .bg-gray-900 li,
+    [data-theme="dark"] .bg-black p,
+    [data-theme="dark"] .bg-black li {
+        color: #424953 !important;
+    }
+}
+
+/* ===============================================
+   ADDITIONAL VISIBILITY FIXES
+   =============================================== */
+
+/* Ensure gradient text is always visible */
+.text-gradient,
+.gradient-shift {
+    background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+}
+
+/* Stats and numbers visibility */
+[data-theme="light"] .text-3xl,
+[data-theme="light"] .text-4xl,
+[data-theme="light"] .text-5xl,
+[data-theme="light"] .text-6xl {
+    color: #111827 !important;
+}
+
+/* Link colors */
+[data-theme="light"] a:not(.bg-gradient-to-r) {
+    color: #2563eb !important;
+}
+
+[data-theme="light"] a:not(.bg-gradient-to-r):hover {
+    color: #1d4ed8 !important;
+}
+
+/* Button text always white */
+button {
+    color: #ffffff !important;
+}
+
+/* Input placeholders */
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+    color: #9ca3af !important;
+}
+
+/* Success, error, and warning messages */
+.text-green-500,
+.text-green-600 {
+    color: #22c55e !important;
+}
+
+.text-red-500,
+.text-red-600 {
+    color: #ef4444 !important;
+}
+
+.text-yellow-500,
+.text-yellow-600 {
+    color: #f59e0b !important;
+}
+
+.text-blue-500,
+.text-blue-600 {
+    color: #3b82f6 !important;
+}
+
+/* Light mode specific text colors for better contrast */
+[data-theme="light"] .text-white {
+    color: #111827 !important;
+}
+
+[data-theme="light"] #hero h1 .text-white {
+    color: #111827 !important;
+}
+
+/* Dark mode keeps white text white */
+[data-theme="dark"] .text-white {
+    color: #ffffff !important;
+}
+
+/* List items visibility */
+[data-theme="light"] ul li,
+[data-theme="light"] ol li {
+    color: #374151 !important;
+}
+
+/* Table text if any */
+[data-theme="light"] table {
+    color: #111827 !important;
+}
+
+[data-theme="light"] th,
+[data-theme="light"] td {
+    color: #374151 !important;
+    border-color: #e5e7eb !important;
+}
+
+/* Code blocks if any */
+[data-theme="light"] code,
+[data-theme="light"] pre {
+    background-color: #f3f4f6 !important;
+    color: #111827 !important;
+}
+
+[data-theme="dark"] code,
+[data-theme="dark"] pre {
+    background-color: #1f2937 !important;
+    color: #d1d5db !important;
+}
+
+/* Ensure icons inherit proper colors */
+[data-theme="light"] i {
+    color: inherit;
+}
+
+/* Navigation links in light mode */
+[data-theme="light"] #header nav span {
+    color: #4b5563 !important;
+}
+
+[data-theme="light"] #header nav span:hover {
+    color: #111827 !important;
+}
+
+/* Theme toggle button styling */
+#themeToggle {
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#themeToggle:hover {
+    transform: scale(1.1);
+}
+
+[data-theme="light"] #themeToggle {
+    background-color: #f3f4f6 !important;
+}
+
+[data-theme="light"] #themeToggle:hover {
+    background-color: #e5e7eb !important;
+}
+
+/* Prevent theme transition flicker on page load */
+html {
+    background-color: #000000;
+}
+
+html[data-theme="light"] {
+    background-color: #ffffff;
+}
+}
