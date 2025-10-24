@@ -1,7 +1,8 @@
 /* ===============================================
-   MOBILE FIXES FOR REVAMPLY WEB APP
+   MOBILE FIXES FOR REVAMPLY WEB APP - FIXED VERSION
    Addresses: Long scrolling, footer structure, 
    color contrast, and overall mobile optimization
+   WITHOUT breaking desktop header in light mode
    =============================================== */
 
 /* ===============================================
@@ -313,68 +314,55 @@
 }
 
 /* ===============================================
-   4. IMPROVED COLOR CONTRAST FOR LIGHT/DARK MODE
+   4. IMPROVED COLOR CONTRAST - MOBILE ONLY
+   IMPORTANT: Only applies to mobile, not desktop header
    =============================================== */
 
-/* Light mode fixes (when browser is in light mode) */
-@media (prefers-color-scheme: light) {
-    /* Ensure dark text on light backgrounds */
-    .bg-white h2,
-    .bg-white h3,
-    .bg-white h4,
-    .bg-white p,
-    .bg-white li {
+/* MOBILE Light mode fixes - DOES NOT affect header */
+@media (max-width: 768px) and (prefers-color-scheme: light) {
+    /* Content sections - light mode */
+    section:not(header) .bg-white h2,
+    section:not(header) .bg-white h3,
+    section:not(header) .bg-white h4,
+    section:not(header) .bg-white p,
+    section:not(header) .bg-white li {
         color: #111827 !important;
     }
     
-    .bg-gray-50 h2,
-    .bg-gray-50 h3,
-    .bg-gray-50 h4,
-    .bg-gray-50 p,
-    .bg-gray-50 li {
+    section:not(header) .bg-gray-50 h2,
+    section:not(header) .bg-gray-50 h3,
+    section:not(header) .bg-gray-50 h4,
+    section:not(header) .bg-gray-50 p,
+    section:not(header) .bg-gray-50 li {
         color: #1f2937 !important;
     }
     
-    /* Ensure light text on dark backgrounds */
-    .bg-gray-800 h2,
-    .bg-gray-800 h3,
-    .bg-gray-800 h4,
-    .bg-gray-900 h2,
-    .bg-gray-900 h3,
-    .bg-gray-900 h4,
-    .bg-black h2,
-    .bg-black h3,
-    .bg-black h4 {
+    /* Dark backgrounds with light text */
+    section:not(header) .bg-gray-800 h2,
+    section:not(header) .bg-gray-800 h3,
+    section:not(header) .bg-gray-800 h4,
+    section:not(header) .bg-gray-900 h2,
+    section:not(header) .bg-gray-900 h3,
+    section:not(header) .bg-gray-900 h4,
+    section:not(header) .bg-black h2,
+    section:not(header) .bg-black h3,
+    section:not(header) .bg-black h4 {
         color: #ffffff !important;
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
     
-    .bg-gray-800 p,
-    .bg-gray-800 li,
-    .bg-gray-900 p,
-    .bg-gray-900 li,
-    .bg-black p,
-    .bg-black li {
+    section:not(header) .bg-gray-800 p,
+    section:not(header) .bg-gray-800 li,
+    section:not(header) .bg-gray-900 p,
+    section:not(header) .bg-gray-900 li,
+    section:not(header) .bg-black p,
+    section:not(header) .bg-black li {
         color: #d1d5db !important;
-    }
-    
-    /* Navbar contrast */
-    header {
-        background: rgba(255, 255, 255, 0.95) !important;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
-    
-    header nav span {
-        color: #374151 !important;
-    }
-    
-    header nav span:hover {
-        color: #111827 !important;
     }
 }
 
-/* Dark mode fixes (default) */
-@media (prefers-color-scheme: dark) {
+/* MOBILE Dark mode fixes */
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
     /* Ensure light text on dark backgrounds */
     section h2,
     section h3,
@@ -419,40 +407,42 @@
     }
 }
 
-/* Force contrast on specific elements regardless of mode */
-.text-gradient,
-.gradient-text {
-    background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-    background-clip: text !important;
-}
+/* Force contrast on specific elements regardless of mode - MOBILE ONLY */
+@media (max-width: 768px) {
+    .text-gradient,
+    .gradient-text {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
 
-/* Button text always readable */
-button,
-.btn,
-a.btn {
-    color: #ffffff !important;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
+    /* Button text always readable */
+    button,
+    .btn,
+    a.btn {
+        color: #ffffff !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
 
-/* Link contrast */
-a.text-cyan-600,
-a.text-blue-600 {
-    color: #0891b2 !important;
-    font-weight: 500;
-}
+    /* Link contrast */
+    a.text-cyan-600,
+    a.text-blue-600 {
+        color: #0891b2 !important;
+        font-weight: 500;
+    }
 
-/* Form inputs contrast */
-input, textarea, select {
-    background: rgba(255, 255, 255, 0.95) !important;
-    color: #111827 !important;
-    border: 2px solid #d1d5db !important;
-}
+    /* Form inputs contrast */
+    input, textarea, select {
+        background: rgba(255, 255, 255, 0.95) !important;
+        color: #111827 !important;
+        border: 2px solid #d1d5db !important;
+    }
 
-input::placeholder,
-textarea::placeholder {
-    color: #6b7280 !important;
+    input::placeholder,
+    textarea::placeholder {
+        color: #6b7280 !important;
+    }
 }
 
 /* ===============================================
@@ -552,5 +542,21 @@ textarea::placeholder {
     .mobile-compact {
         padding: 0.75rem !important;
         margin-bottom: 0.75rem !important;
+    }
+}
+
+/* ===============================================
+   DESKTOP PROTECTION - DO NOT MODIFY HEADER
+   Ensures desktop header remains unchanged
+   =============================================== */
+@media (min-width: 769px) {
+    /* Preserve original header styling on desktop */
+    header {
+        /* No changes to header on desktop */
+    }
+    
+    header nav span,
+    header nav a {
+        /* No changes to navigation on desktop */
     }
 }
