@@ -1,8 +1,6 @@
 /* ===============================================
-   MOBILE FIXES FOR REVAMPLY WEB APP - FIXED VERSION
-   Addresses: Long scrolling, footer structure, 
-   color contrast, and overall mobile optimization
-   WITHOUT breaking desktop header in light mode
+   MOBILE FIXES FOR REVAMPLY WEB APP - FINAL VERSION
+   Fixes: Dark mode contrast, 3-column footer, realistic animations
    =============================================== */
 
 /* ===============================================
@@ -29,7 +27,7 @@
     height: 3px;
     background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%);
     border-radius: 2px;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
 }
 
 .hamburger.active span:nth-child(1) {
@@ -53,7 +51,7 @@
     height: 100vh;
     background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     box-shadow: 2px 0 20px rgba(0, 0, 0, 0.5);
-    transition: left 0.3s ease;
+    transition: left 0.5s ease;
     z-index: 999;
     overflow-y: auto;
     padding: 80px 0 30px;
@@ -77,7 +75,7 @@
     font-weight: 500;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     cursor: pointer;
-    transition: all 0.3s;
+    transition: all 0.5s;
 }
 
 .mobile-nav-overlay nav a:hover,
@@ -95,7 +93,7 @@
     background: rgba(0, 0, 0, 0.7);
     opacity: 0;
     visibility: hidden;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
     z-index: 998;
 }
 
@@ -222,47 +220,56 @@
 }
 
 /* ===============================================
-   3. COMPACT FOOTER - TWO COLUMN LAYOUT
+   3. SUPER COMPACT FOOTER - THREE COLUMN LAYOUT
    =============================================== */
 @media (max-width: 768px) {
     #footer {
-        padding: 2rem 0 1.5rem !important;
+        padding: 1.75rem 0 1.25rem !important;
     }
     
     #footer .container {
-        padding: 0 1.25rem !important;
+        padding: 0 1rem !important;
     }
     
-    /* Two-column footer grid */
+    /* Three-column footer grid - even more compact! */
     #footer .grid {
-        grid-template-columns: 1fr 1fr !important;
-        gap: 1.5rem 1rem !important;
+        grid-template-columns: 1fr 1fr 1fr !important;
+        gap: 1rem 0.75rem !important;
         text-align: left !important;
     }
     
-    /* Logo section spans both columns */
+    /* Logo section spans all three columns */
     #footer .md\\:col-span-2 {
         grid-column: 1 / -1 !important;
         text-align: center !important;
         order: -1;
         margin-bottom: 0.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     #footer .md\\:col-span-2 img {
-        height: 2rem !important;
-        margin-bottom: 0.75rem;
+        height: 1.75rem !important;
+        margin-bottom: 0.5rem;
     }
     
     #footer .md\\:col-span-2 p {
-        font-size: 0.875rem !important;
+        font-size: 0.813rem !important;
         padding: 0 !important;
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+    }
+    
+    /* Hide or minimize social icons in company info */
+    #footer .md\\:col-span-2 .flex.space-x-4 {
+        display: none !important;
     }
     
     /* Compact footer headings */
     #footer h4 {
-        font-size: 1rem !important;
-        margin-bottom: 0.75rem !important;
+        font-size: 0.938rem !important;
+        margin-bottom: 0.625rem !important;
+        font-weight: 600;
     }
     
     /* Compact footer links */
@@ -271,56 +278,229 @@
     }
     
     #footer li {
-        margin-bottom: 0.5rem !important;
-        font-size: 0.875rem !important;
+        margin-bottom: 0.375rem !important;
+        font-size: 0.813rem !important;
+        line-height: 1.3;
     }
     
-    /* Social icons - centered in footer */
-    #footer .flex.space-x-4 {
-        justify-content: flex-start !important;
-        gap: 0.75rem !important;
-        margin-top: 0.75rem;
+    #footer li a {
+        font-size: 0.813rem !important;
     }
     
-    #footer .flex.space-x-4 a,
-    #footer .flex.space-x-4 span {
-        width: 36px !important;
-        height: 36px !important;
-        font-size: 1rem;
-    }
-    
-    /* Footer bottom section */
+    /* Footer bottom section - spans all columns */
     #footer .flex.flex-col {
         grid-column: 1 / -1 !important;
         flex-direction: column;
         align-items: center;
-        gap: 1rem !important;
-        margin-top: 1rem;
-        padding-top: 1rem;
+        gap: 0.625rem !important;
+        margin-top: 0.75rem;
+        padding-top: 0.75rem;
         border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    #footer .flex.flex-col p {
+        font-size: 0.75rem !important;
+        margin-bottom: 0 !important;
     }
     
     #footer .flex.space-x-6 {
         flex-direction: row !important;
         flex-wrap: wrap;
-        gap: 0.75rem !important;
+        gap: 0.625rem !important;
         justify-content: center;
         margin-top: 0 !important;
     }
     
     #footer .flex.space-x-6 a {
-        font-size: 0.813rem !important;
+        font-size: 0.75rem !important;
+    }
+    
+    /* Social icons in footer bottom (if present) */
+    #footer .flex.space-x-4 a,
+    #footer .flex.space-x-4 span {
+        width: 32px !important;
+        height: 32px !important;
+        font-size: 0.875rem;
     }
 }
 
 /* ===============================================
-   4. IMPROVED COLOR CONTRAST - MOBILE ONLY
-   IMPORTANT: Only applies to mobile, not desktop header
+   4. DARK MODE CONTRAST FIXES
+   CRITICAL: Fixes low contrast text on dark backgrounds
    =============================================== */
 
-/* MOBILE Light mode fixes - DOES NOT affect header */
+/* Dark mode - ensure high contrast everywhere */
+@media (prefers-color-scheme: dark) {
+    /* Main sections - bright white text */
+    section h1,
+    section h2,
+    section h3,
+    section h4 {
+        color: #ffffff !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Paragraph text - light gray for readability */
+    section p {
+        color: #e5e7eb !important;
+    }
+    
+    /* List items */
+    section li {
+        color: #e5e7eb !important;
+    }
+    
+    /* Predictive Analytics section */
+    #predictive-analytics h2,
+    #predictive-analytics h3,
+    #predictive-analytics h4 {
+        color: #ffffff !important;
+    }
+    
+    #predictive-analytics p,
+    #predictive-analytics li {
+        color: #e5e7eb !important;
+    }
+    
+    /* Stats cards - ensure visibility */
+    .bg-gray-800 h2,
+    .bg-gray-800 h3,
+    .bg-gray-800 h4,
+    .bg-gray-900 h2,
+    .bg-gray-900 h3,
+    .bg-gray-900 h4,
+    .bg-black h2,
+    .bg-black h3,
+    .bg-black h4 {
+        color: #ffffff !important;
+    }
+    
+    .bg-gray-800 p,
+    .bg-gray-800 li,
+    .bg-gray-900 p,
+    .bg-gray-900 li,
+    .bg-black p,
+    .bg-black li {
+        color: #e5e7eb !important;
+    }
+    
+    /* Testimonial cards - high contrast */
+    #social-proof h2,
+    #social-proof h3,
+    #social-proof h4 {
+        color: #ffffff !important;
+    }
+    
+    #social-proof p {
+        color: #e5e7eb !important;
+    }
+    
+    #social-proof .bg-gray-50,
+    #social-proof .bg-white {
+        background: #374151 !important;
+    }
+    
+    #social-proof .bg-gray-50 h3,
+    #social-proof .bg-gray-50 h4,
+    #social-proof .bg-white h3,
+    #social-proof .bg-white h4 {
+        color: #ffffff !important;
+    }
+    
+    #social-proof .bg-gray-50 p,
+    #social-proof .bg-white p {
+        color: #e5e7eb !important;
+    }
+    
+    /* Form section - ensure labels and text are visible */
+    #form-section h2,
+    #form-section h3,
+    #form-section h4 {
+        color: #ffffff !important;
+    }
+    
+    #form-section p {
+        color: #e5e7eb !important;
+    }
+    
+    /* Form labels */
+    label,
+    .field-label,
+    .text-gray-600,
+    .text-gray-700 {
+        color: #e5e7eb !important;
+    }
+    
+    /* Form inputs - ensure good contrast */
+    input,
+    textarea,
+    select {
+        background: #1f2937 !important;
+        color: #ffffff !important;
+        border: 2px solid #4b5563 !important;
+    }
+    
+    input::placeholder,
+    textarea::placeholder,
+    select::placeholder {
+        color: #9ca3af !important;
+    }
+    
+    /* Dropdown text */
+    select option {
+        background: #1f2937 !important;
+        color: #ffffff !important;
+    }
+    
+    /* Progress bar section */
+    .text-gray-500,
+    .text-gray-400 {
+        color: #d1d5db !important;
+    }
+    
+    /* Card backgrounds in dark mode */
+    .bg-white {
+        background: #1f2937 !important;
+    }
+    
+    .bg-gray-50 {
+        background: #374151 !important;
+    }
+    
+    /* All card text should be white/light */
+    .bg-white h2,
+    .bg-white h3,
+    .bg-white h4,
+    .bg-gray-50 h2,
+    .bg-gray-50 h3,
+    .bg-gray-50 h4 {
+        color: #ffffff !important;
+    }
+    
+    .bg-white p,
+    .bg-white li,
+    .bg-gray-50 p,
+    .bg-gray-50 li {
+        color: #e5e7eb !important;
+    }
+    
+    /* Specific metric text (40%, 2x, 75%, etc.) */
+    .text-3xl,
+    .text-4xl,
+    .text-5xl,
+    .text-6xl {
+        color: #ffffff !important;
+        font-weight: 700;
+    }
+    
+    /* Percentage and stat labels */
+    .text-sm {
+        color: #d1d5db !important;
+    }
+}
+
+/* Light mode - ensure dark text on light backgrounds */
 @media (max-width: 768px) and (prefers-color-scheme: light) {
-    /* Content sections - light mode */
     section:not(header) .bg-white h2,
     section:not(header) .bg-white h3,
     section:not(header) .bg-white h4,
@@ -336,117 +516,88 @@
     section:not(header) .bg-gray-50 li {
         color: #1f2937 !important;
     }
-    
-    /* Dark backgrounds with light text */
-    section:not(header) .bg-gray-800 h2,
-    section:not(header) .bg-gray-800 h3,
-    section:not(header) .bg-gray-800 h4,
-    section:not(header) .bg-gray-900 h2,
-    section:not(header) .bg-gray-900 h3,
-    section:not(header) .bg-gray-900 h4,
-    section:not(header) .bg-black h2,
-    section:not(header) .bg-black h3,
-    section:not(header) .bg-black h4 {
-        color: #ffffff !important;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    }
-    
-    section:not(header) .bg-gray-800 p,
-    section:not(header) .bg-gray-800 li,
-    section:not(header) .bg-gray-900 p,
-    section:not(header) .bg-gray-900 li,
-    section:not(header) .bg-black p,
-    section:not(header) .bg-black li {
-        color: #d1d5db !important;
-    }
 }
 
-/* MOBILE Dark mode fixes */
-@media (max-width: 768px) and (prefers-color-scheme: dark) {
-    /* Ensure light text on dark backgrounds */
-    section h2,
-    section h3,
-    section h4 {
-        color: #ffffff !important;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
-    
-    section p {
-        color: #d1d5db !important;
-    }
-    
-    /* Light background sections in dark mode */
-    .bg-white {
-        background: #1f2937 !important;
-    }
-    
-    .bg-white h2,
-    .bg-white h3,
-    .bg-white h4 {
-        color: #ffffff !important;
-    }
-    
-    .bg-white p,
-    .bg-white li {
-        color: #d1d5db !important;
-    }
-    
-    .bg-gray-50 {
-        background: #374151 !important;
-    }
-    
-    .bg-gray-50 h2,
-    .bg-gray-50 h3,
-    .bg-gray-50 h4 {
-        color: #ffffff !important;
-    }
-    
-    .bg-gray-50 p,
-    .bg-gray-50 li {
-        color: #d1d5db !important;
-    }
+/* Force contrast on gradient text - all modes */
+.text-gradient,
+.gradient-text {
+    background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
 }
 
-/* Force contrast on specific elements regardless of mode - MOBILE ONLY */
-@media (max-width: 768px) {
-    .text-gradient,
-    .gradient-text {
-        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-    }
+/* Button text always white with shadow */
+button,
+.btn,
+a.btn {
+    color: #ffffff !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
 
-    /* Button text always readable */
-    button,
-    .btn,
-    a.btn {
-        color: #ffffff !important;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Link contrast */
-    a.text-cyan-600,
-    a.text-blue-600 {
-        color: #0891b2 !important;
-        font-weight: 500;
-    }
-
-    /* Form inputs contrast */
-    input, textarea, select {
-        background: rgba(255, 255, 255, 0.95) !important;
-        color: #111827 !important;
-        border: 2px solid #d1d5db !important;
-    }
-
-    input::placeholder,
-    textarea::placeholder {
-        color: #6b7280 !important;
-    }
+/* Link contrast */
+a.text-cyan-600,
+a.text-blue-600 {
+    color: #0891b2 !important;
+    font-weight: 500;
 }
 
 /* ===============================================
-   5. MOBILE TOUCH OPTIMIZATIONS
+   5. REALISTIC ANIMATIONS - SLOWER & SMOOTHER
+   =============================================== */
+
+/* Global animation speed - more realistic */
+* {
+    transition-duration: 0.5s !important;
+}
+
+/* Specific animation timings */
+.hamburger span {
+    transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+.mobile-nav-overlay {
+    transition: left 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+.nav-backdrop {
+    transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+button,
+.btn,
+a {
+    transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+/* Hover effects - smooth */
+button:hover,
+.btn:hover,
+a:hover {
+    transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+/* Card hover effects */
+.bg-white:hover,
+.bg-gray-50:hover,
+.bg-gray-800:hover {
+    transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+/* Focus states - smooth */
+input:focus,
+textarea:focus,
+select:focus {
+    transition: all 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) !important;
+}
+
+/* Scroll behavior - smooth but not too slow */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ===============================================
+   6. MOBILE TOUCH OPTIMIZATIONS
    =============================================== */
 @media (max-width: 768px) {
     /* Larger touch targets */
@@ -462,11 +613,6 @@
         -webkit-tap-highlight-color: transparent;
     }
     
-    /* Smooth scrolling */
-    html {
-        scroll-behavior: smooth;
-    }
-    
     /* Better input focus */
     input:focus, textarea:focus, select:focus {
         outline: 2px solid #60a5fa;
@@ -475,7 +621,7 @@
 }
 
 /* ===============================================
-   6. MOBILE TYPOGRAPHY IMPROVEMENTS
+   7. MOBILE TYPOGRAPHY IMPROVEMENTS
    =============================================== */
 @media (max-width: 768px) {
     /* Better readability */
@@ -499,14 +645,9 @@
 }
 
 /* ===============================================
-   7. MOBILE PERFORMANCE OPTIMIZATIONS
+   8. MOBILE PERFORMANCE OPTIMIZATIONS
    =============================================== */
 @media (max-width: 768px) {
-    /* Reduce animation complexity on mobile */
-    * {
-        animation-duration: 0.3s !important;
-    }
-    
     /* Optimize images */
     img {
         max-width: 100%;
@@ -520,7 +661,7 @@
 }
 
 /* ===============================================
-   8. MOBILE-SPECIFIC UTILITY CLASSES
+   9. MOBILE-SPECIFIC UTILITY CLASSES
    =============================================== */
 @media (max-width: 768px) {
     .mobile-hidden {
@@ -542,21 +683,5 @@
     .mobile-compact {
         padding: 0.75rem !important;
         margin-bottom: 0.75rem !important;
-    }
-}
-
-/* ===============================================
-   DESKTOP PROTECTION - DO NOT MODIFY HEADER
-   Ensures desktop header remains unchanged
-   =============================================== */
-@media (min-width: 769px) {
-    /* Preserve original header styling on desktop */
-    header {
-        /* No changes to header on desktop */
-    }
-    
-    header nav span,
-    header nav a {
-        /* No changes to navigation on desktop */
     }
 }
