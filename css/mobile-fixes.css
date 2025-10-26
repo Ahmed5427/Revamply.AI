@@ -340,10 +340,10 @@
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     }
 
-    /* Add this new rule to override for the pricing text */
-    #pricing-preview .text-center p {
-       color: #000000 !important; /* darker gray for better contrast */
-     }
+   .pricing-text {
+    color: #000000 !important;
+   }
+
     /* Paragraph text - light gray for readability */
     section p {
         color: #e5e7eb !important;
