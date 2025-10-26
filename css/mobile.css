@@ -1058,7 +1058,9 @@
     .text-gray-300 {
         color: #d1d5db !important;
     }
-
+      .pricing-text {
+    color: #383838 !important;
+   }
     .text-gray-400 {
         color: #9ca3af !important;
     }
