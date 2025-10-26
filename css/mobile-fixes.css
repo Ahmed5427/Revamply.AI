@@ -341,7 +341,7 @@
     }
 
    .pricing-text {
-    color: #000000 !important;
+    color: #383838 !important;
    }
 
     /* Paragraph text - light gray for readability */
@@ -385,7 +385,6 @@
     .bg-gray-900 li,
     .bg-black p,
     .bg-black li {
-        color: #e5e7eb !important;
     }
     
     /* Testimonial cards - high contrast */
