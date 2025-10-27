@@ -2,6 +2,12 @@
    MOBILE FIXES FOR REVAMPLY WEB APP - FINAL VERSION
    Fixes: Dark mode contrast, 3-column footer, realistic animations
    =============================================== */
+/* Light mode - ensure high contrast everywhere */
+@media (prefers-color-scheme: light), (max-width: 768px) {
+    .pricing-text {
+        color: #383838 !important; /* Ensure dark text for light mode and mobile view */
+    }
+}
 
 /* ===============================================
    1. HAMBURGER MENU STYLES
