@@ -1,5 +1,5 @@
 /**
- * Mobile Navigation Menu Script
+ * Mobile Navigation Menu Script - FIXED VERSION
  * Handles hamburger menu toggle and smooth scrolling
  */
 
@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // Close menu when nav link is clicked
-    const navLinks = mobileNavOverlay.querySelectorAll('a, span[onclick]');
+    const navLinks = mobileNavOverlay.querySelectorAll('a, span');
     navLinks.forEach(link => {
         link.addEventListener('click', function() {
             closeMenu();
@@ -194,16 +194,21 @@ function scrollToForm() {
 
 /**
  * Handle smooth scrolling for navigation links
+ * FIXED: Now works with regular spans without onclick attribute
  */
 document.addEventListener('click', function(e) {
     const target = e.target;
     
-    // Check if it's a navigation link with smooth scroll
-    if (target.matches('nav span[onclick], nav a[href^="#"]')) {
+    // FIXED: Check if it's any navigation link (span or a tag inside nav)
+    // Changed from: target.matches('nav span[onclick], nav a[href^="#"]')
+    // To: target.matches('.mobile-nav-overlay nav span, .mobile-nav-overlay nav a, header nav span, header nav a')
+    if (target.closest('nav') && (target.tagName === 'SPAN' || target.tagName === 'A')) {
         e.preventDefault();
         
-        const text = target.textContent.toLowerCase();
+        const text = target.textContent.toLowerCase().trim();
         let targetSection = null;
+        
+        console.log('Clicked navigation item:', text); // Debug logging
         
         // Map navigation items to sections
         if (text.includes('solution')) {
@@ -220,6 +225,7 @@ document.addEventListener('click', function(e) {
         }
         
         if (targetSection) {
+            console.log('Scrolling to section:', targetSection.id); // Debug logging
             const headerHeight = document.querySelector('header')?.offsetHeight || 80;
             const targetPosition = targetSection.getBoundingClientRect().top + window.pageYOffset - headerHeight;
             
@@ -227,6 +233,8 @@ document.addEventListener('click', function(e) {
                 top: targetPosition,
                 behavior: 'smooth'
             });
+        } else {
+            console.warn('Target section not found for:', text); // Debug logging
         }
     }
 });
