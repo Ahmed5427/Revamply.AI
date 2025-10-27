@@ -369,7 +369,7 @@
     
     #predictive-analytics p,
     #predictive-analytics li {
-        color: #e5e7eb !important;
+        color: rgb(185, 119, 203) !important;
     }
     
     /* Stats cards - ensure visibility */
