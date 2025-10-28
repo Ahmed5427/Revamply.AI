@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revamply Admin Panel - Restricted Access</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* Login Screen */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-box {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #00E5FF 0%, #FF00CC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-logo p {
+            color: #9ca3af;
+            font-size: 0.875rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #d1d5db;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            background: #0f1419;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #00E5FF;
+            box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.1);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #00E5FF 0%, #FF00CC 100%);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            display: none;
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            display: none;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .admin-title h1 {
+            font-size: 2rem;
+            background: linear-gradient(135deg, #00E5FF 0%, #FF00CC 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.875rem;
+        }
+
+        .btn-save {
+            background: linear-gradient(135deg, #00E5FF 0%, #FF00CC 100%);
+            color: #ffffff;
+        }
+
+        .btn-preview {
+            background: #374151;
+            color: #ffffff;
+        }
+
+        .btn-logout {
+            background: #ef4444;
+            color: #ffffff;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .editor-grid {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+        }
+
+        .sidebar {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .sidebar h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: #00E5FF;
+        }
+
+        .section-btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: #0f1419;
+            border: 1px solid #374151;
+            color: #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            text-align: left;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .section-btn:hover,
+        .section-btn.active {
+            background: #374151;
+            border-color: #00E5FF;
+            color: #ffffff;
+        }
+
+        .editor-content {
+            background: #1a1a1a;
+            border: 1px solid #2a2a2a;
+            border-radius: 12px;
+            padding: 2rem;
+        }
+
+        .editor-section {
+            display: none;
+        }
+
+        .editor-section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+
+        .section-subtitle {
+            color: #9ca3af;
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+        }
+
+        .control-group {
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #2a2a2a;
+        }
+
+        .control-group:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .control-label {
+            display: block;
+            color: #ffffff;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .control-description {
+            color: #9ca3af;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+        }
+
+        .color-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .color-picker-group {
+            background: #0f1419;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .color-picker-group label {
+            display: block;
+            color: #d1d5db;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .color-picker-group input[type="color"] {
+            width: 100%;
+            height: 40px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .color-picker-group input[type="text"] {
+            width: 100%;
+            padding: 0.5rem;
+            background: #1a1a1a;
+            border: 1px solid #374151;
+            color: #ffffff;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+
+        .text-input,
+        .textarea-input {
+            width: 100%;
+            padding: 1rem;
+            background: #0f1419;
+            border: 1px solid #374151;
+            color: #ffffff;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        .text-input:focus,
+        .textarea-input:focus {
+            outline: none;
+            border-color: #00E5FF;
+            box-shadow: 0 0 0 3px rgba(0, 229, 255, 0.1);
+        }
+
+        .textarea-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .success-message {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(34, 197, 94, 0.9);
+            color: #ffffff;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            display: none;
+            z-index: 1000;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid #374151;
+            border-top-color: #00E5FF;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .editor-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .admin-header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .admin-actions {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginContainer">
+        <div class="login-box">
+            <div class="login-logo">
+                <h1>Revamply Admin</h1>
+                <p>🔒 Secure Access Only</p>
+            </div>
+            
+            <div class="error-message" id="loginError">
+                Invalid credentials. Access denied.
+            </div>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="login-btn">Access Admin Panel</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <div class="admin-title">
+                <h1>Content & Style Manager</h1>
+                <p style="color: #9ca3af; margin-top: 0.5rem;">Control every aspect of your landing page</p>
+            </div>
+            <div class="admin-actions">
+                <button class="btn btn-save" onclick="saveChanges()">💾 Save Changes</button>
+                <button class="btn btn-preview" onclick="previewChanges()">👁️ Preview</button>
+                <button class="btn btn-logout" onclick="logout()">🚪 Logout</button>
+            </div>
+        </div>
+
+        <div class="editor-grid">
+            <!-- Sidebar Navigation -->
+            <div class="sidebar">
+                <h3>📝 Sections</h3>
+                <button class="section-btn active" onclick="showSection('hero')">Hero Section</button>
+                <button class="section-btn" onclick="showSection('why-trust')">Why Trust Us</button>
+                <button class="section-btn" onclick="showSection('process')">Process</button>
+                <button class="section-btn" onclick="showSection('expectations')">Expectations</button>
+                <button class="section-btn" onclick="showSection('capabilities')">Capabilities</button>
+                <button class="section-btn" onclick="showSection('metrics')">Metrics</button>
+                <button class="section-btn" onclick="showSection('roi')">ROI Section</button>
+                <button class="section-btn" onclick="showSection('bottlenecks')">Bottlenecks</button>
+                <button class="section-btn" onclick="showSection('footer')">Footer</button>
+                <button class="section-btn" onclick="showSection('form')">Form Section</button>
+            </div>
+
+            <!-- Editor Content -->
+            <div class="editor-content">
+                <!-- Hero Section -->
+                <div class="editor-section active" id="section-hero">
+                    <h2 class="section-title">Hero Section</h2>
+                    <p class="section-subtitle">Main headline and call-to-action</p>
+
+                    <div class="control-group">
+                        <label class="control-label">Title Line 1</label>
+                        <input type="text" class="text-input" id="hero-title-1" value="AI Solutions That" data-class="hero-title-line1">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Title Line 2 (Gradient)</label>
+                        <input type="text" class="text-input" id="hero-title-2" value="Save Time, Cut Costs" data-class="hero-title-line2">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Title Line 3</label>
+                        <input type="text" class="text-input" id="hero-title-3" value="& Grow Revenue" data-class="hero-title-line3">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Description</label>
+                        <textarea class="textarea-input" id="hero-description" data-class="hero-description">Revamply develops tailored AI solutions using advanced machine learning, natural language processing, and automation.</textarea>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">CTA Button Text</label>
+                        <input type="text" class="text-input" id="hero-cta" value="Get Your Free Blueprint" data-class="hero-cta-btn">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">🎨 Colors</label>
+                        <p class="control-description">Customize colors for the hero section</p>
+                        <div class="color-controls">
+                            <div class="color-picker-group">
+                                <label>Background Color</label>
+                                <input type="color" id="hero-bg-color" value="#0a0a0a" data-css-var="--hero-bg">
+                                <input type="text" value="#0a0a0a" readonly>
+                            </div>
+                            <div class="color-picker-group">
+                                <label>Title Color</label>
+                                <input type="color" id="hero-title-color" value="#ffffff" data-css-var="--hero-title">
+                                <input type="text" value="#ffffff" readonly>
+                            </div>
+                            <div class="color-picker-group">
+                                <label>Description Color</label>
+                                <input type="color" id="hero-desc-color" value="#d1d5db" data-css-var="--hero-desc">
+                                <input type="text" value="#d1d5db" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Why Trust Section -->
+                <div class="editor-section" id="section-why-trust">
+                    <h2 class="section-title">Why Trust Revamply</h2>
+                    <p class="section-subtitle">Benefits section with cards</p>
+
+                    <div class="control-group">
+                        <label class="control-label">Section Title</label>
+                        <input type="text" class="text-input" id="trust-title" value="Why Businesses Trust Revamply for AI Transformation" data-class="why-trust-title">
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Card 1: Efficiency</label>
+                        <input type="text" class="text-input" id="efficiency-title" value="Intelligent Efficiency" data-class="efficiency-title" style="margin-bottom: 0.5rem;">
+                        <textarea class="textarea-input" id="efficiency-text" data-class="efficiency-text">Automate repetitive tasks with AI so your team can focus on high-value growth activities.</textarea>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Card 2: Overhead</label>
+                        <input type="text" class="text-input" id="overhead-title" value="Reduce Overhead" data-class="overhead-title" style="margin-bottom: 0.5rem;">
+                        <textarea class="textarea-input" id="overhead-text" data-class="overhead-text">Eliminate inefficiencies and lower operational expenses with intelligent automation.</textarea>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Card 3: Growth</label>
+                        <input type="text" class="text-input" id="growth-title" value="Accelerate Growth" data-class="growth-title" style="margin-bottom: 0.5rem;">
+                        <textarea class="textarea-input" id="growth-text" data-class="growth-text">Scale faster with data-driven insights and AI-powered decision making.</textarea>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">🎨 Colors</label>
+                        <div class="color-controls">
+                            <div class="color-picker-group">
+                                <label>Section Background</label>
+                                <input type="color" id="trust-bg-color" value="#0a0a0a" data-css-var="--trust-bg">
+                                <input type="text" value="#0a0a0a" readonly>
+                            </div>
+                            <div class="color-picker-group">
+                                <label>Card Background</label>
+                                <input type="color" id="trust-card-bg" value="#1a1a1a" data-css-var="--trust-card-bg">
+                                <input type="text" value="#1a1a1a" readonly>
+                            </div>
+                            <div class="color-picker-group">
+                                <label>Card Title Color</label>
+                                <input type="color" id="trust-card-title" value="#ffffff" data-css-var="--trust-card-title">
+                                <input type="text" value="#ffffff" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Additional sections will be loaded dynamically -->
+                <div class="editor-section" id="section-process">
+                    <h2 class="section-title">Transformation Process</h2>
+                    <p class="section-subtitle">4-step process section</p>
+                    <p style="color: #9ca3af;">More controls coming soon...</p>
+                </div>
+
+                <div class="editor-section" id="section-expectations">
+                    <h2 class="section-title">What You Can Expect</h2>
+                    <p class="section-subtitle">Timeline and deliverables</p>
+                    <p style="color: #9ca3af;">More controls coming soon...</p>
+                </div>
+
+                <div class="editor-section" id="section-capabilities">
+                    <h2 class="section-title">Advanced AI Capabilities</h2>
+                    <p class="section-subtitle">Technical features showcase</p>
+                    <p style="color: #9ca3af;">More controls coming soon...</p>
+                </div>
+
+                <div class="editor-section" id="section-metrics">
+                    <h2 class="section-title">Metrics & Results</h2>
+                    <p class="section-subtitle">Performance indicators</p>
+                    <p style="color: #9ca3af;">More controls coming soon...</p>
+                </div>
+
+                <div class="editor-section" id="section-roi">
+                    <h2 class="section-title">ROI Section</h2>
+                    <p class="section-subtitle">Pricing and value proposition</p>
+                    <p style="color: #9ca3af;">More controls coming soon...</p>
+                </div>
+
+                <div class="editor-section" id="section-bottlenecks">
+                    <h2 class="section-title">Business Bottlenecks</h2>
+                    <p class="section-subtitle">Final CTA section</p>
+                    <p style="color: #9ca3af;">More controls coming soon...</p>
+                </div>
+
+                <div class="editor-section" id="section-footer">
+                    <h2 class="section-title">Footer</h2>
+                    <p class="section-subtitle">Navigation and contact info</p>
+                    <p style="color: #9ca3af;">More controls coming soon...</p>
+                </div>
+
+                <div class="editor-section" id="section-form">
+                    <h2 class="section-title">Form Section</h2>
+                    <p class="section-subtitle">Lead capture form</p>
+                    <p style="color: #9ca3af;">More controls coming soon...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message" id="successMessage">
+        ✅ Changes saved successfully!
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner"></div>
+    </div>
+
+    <script src="admin-panel.js"></script>
+</body>
+</html>
