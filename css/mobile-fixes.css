@@ -468,9 +468,10 @@
     }
     
     /* Card backgrounds in dark mode */
-    .bg-white {
-        background: #1f2937 !important;
-    }
+    /* Card backgrounds in dark mode - but NOT rounded cards */
+   .bg-white:not(.rounded-xl):not(.rounded-2xl):not(.rounded-3xl) {
+       background: #1f2937 !important;
+   }
     
     .bg-gray-50 {
         background: #374151 !important;
