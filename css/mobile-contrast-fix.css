@@ -1,0 +1,410 @@
+/* ===============================================
+   REVAMPLY MOBILE - SECTION-SPECIFIC CONTRAST FIX
+   Prevents cascade conflicts by targeting specific sections
+   =============================================== */
+
+/* ===============================================
+   DARK MODE - SECTION BY SECTION
+   =============================================== */
+
+/* Hero Section - Always light text on dark background */
+@media (prefers-color-scheme: dark) {
+    header,
+    #hero,
+    .hero-section {
+        background-color: #0a0a0a !important;
+        color: #ffffff !important;
+    }
+    
+    #hero h1,
+    #hero h2,
+    #hero p,
+    .hero-section h1,
+    .hero-section h2,
+    .hero-section p {
+        color: #ffffff !important;
+    }
+}
+
+/* Why Trust Revamply Section - Light cards on dark background */
+@media (prefers-color-scheme: dark) {
+    #why-revamply,
+    #why-trust {
+        background-color: #0a0a0a !important;
+    }
+    
+    #why-revamply h2,
+    #why-trust h2 {
+        color: #ffffff !important;
+    }
+    
+    #why-revamply .card,
+    #why-trust .card,
+    .bg-white.dark\:bg-gray-800 {
+        background-color: #1a1a1a !important;
+        border: 1px solid #2a2a2a !important;
+    }
+    
+    #why-revamply .card h3,
+    #why-revamply .card p,
+    #why-trust .card h3,
+    #why-trust .card p {
+        color: #ffffff !important;
+    }
+}
+
+/* AI Transformation Process - Light background with dark text */
+@media (prefers-color-scheme: dark) {
+    #process,
+    #transformation-process {
+        background-color: #f5f5f5 !important;
+    }
+    
+    #process h2,
+    #transformation-process h2 {
+        color: #0a0a0a !important;
+    }
+    
+    #process .step,
+    #process .process-card,
+    #transformation-process .step {
+        background-color: #ffffff !important;
+        color: #0a0a0a !important;
+    }
+    
+    #process .step h3,
+    #process .step p,
+    #transformation-process .step h3,
+    #transformation-process .step p {
+        color: #0a0a0a !important;
+    }
+}
+
+/* What You Can Expect Section - Light background */
+@media (prefers-color-scheme: dark) {
+    #expectations,
+    #what-to-expect {
+        background-color: #f9f9f9 !important;
+    }
+    
+    #expectations h2,
+    #what-to-expect h2 {
+        color: #0a0a0a !important;
+    }
+    
+    #expectations ul li,
+    #what-to-expect ul li {
+        color: #1a1a1a !important;
+    }
+    
+    #expectations .highlight,
+    #what-to-expect .highlight,
+    .text-6xl {
+        color: #00E5FF !important;
+    }
+}
+
+/* Advanced AI Capabilities - Dark card */
+@media (prefers-color-scheme: dark) {
+    #capabilities,
+    #advanced-ai,
+    .bg-gray-800 {
+        background-color: #1a1a1a !important;
+    }
+    
+    #capabilities h2,
+    #advanced-ai h2,
+    .bg-gray-800 h2,
+    .bg-gray-800 h3 {
+        color: #ffffff !important;
+    }
+    
+    #capabilities p,
+    #advanced-ai p,
+    .bg-gray-800 p {
+        color: #e5e5e5 !important;
+    }
+}
+
+/* Metrics/Stats Section - Dark background with stats cards */
+@media (prefers-color-scheme: dark) {
+    #metrics,
+    #stats,
+    #risk-assessment {
+        background-color: #0f1419 !important;
+    }
+    
+    #metrics h2,
+    #stats h2,
+    #risk-assessment h3 {
+        color: #ffffff !important;
+    }
+    
+    .stat-card,
+    .metric-card {
+        background-color: #1e2937 !important;
+        color: #ffffff !important;
+        border: 1px solid #374151 !important;
+    }
+    
+    .stat-value,
+    .metric-value {
+        color: #00E5FF !important;
+    }
+}
+
+/* AI That Pays Section - Light background */
+@media (prefers-color-scheme: dark) {
+    #roi,
+    #ai-pays {
+        background-color: #f5f5f5 !important;
+    }
+    
+    #roi h2,
+    #roi p,
+    #ai-pays h2,
+    #ai-pays p {
+        color: #0a0a0a !important;
+    }
+}
+
+/* CTA Sections - Gradient buttons stay visible */
+@media (prefers-color-scheme: dark) {
+    .cta-button,
+    .gradient-button,
+    button[class*="gradient"] {
+        background: linear-gradient(135deg, #00E5FF 0%, #FF00CC 100%) !important;
+        color: #ffffff !important;
+        border: none !important;
+    }
+    
+    .cta-button:hover,
+    .gradient-button:hover {
+        opacity: 0.9;
+    }
+}
+
+/* Footer - Dark background */
+@media (prefers-color-scheme: dark) {
+    footer,
+    #footer {
+        background-color: #0a0a0a !important;
+        border-top: 1px solid #2a2a2a !important;
+    }
+    
+    footer h3,
+    footer a,
+    footer p,
+    footer li {
+        color: #ffffff !important;
+    }
+    
+    footer a:hover {
+        color: #00E5FF !important;
+    }
+}
+
+/* ===============================================
+   LIGHT MODE - SECTION BY SECTION
+   =============================================== */
+
+/* Hero Section - Dark background even in light mode */
+@media (prefers-color-scheme: light) {
+    header,
+    #hero,
+    .hero-section {
+        background-color: #0f1419 !important;
+        color: #ffffff !important;
+    }
+    
+    #hero h1,
+    #hero h2,
+    #hero p,
+    .hero-section h1,
+    .hero-section h2,
+    .hero-section p {
+        color: #ffffff !important;
+    }
+}
+
+/* Why Trust Revamply - White background with dark text */
+@media (prefers-color-scheme: light) {
+    #why-revamply,
+    #why-trust {
+        background-color: #ffffff !important;
+    }
+    
+    #why-revamply h2,
+    #why-trust h2 {
+        color: #0a0a0a !important;
+    }
+    
+    #why-revamply .card,
+    #why-trust .card {
+        background-color: #f9f9f9 !important;
+        border: 1px solid #e5e5e5 !important;
+    }
+    
+    #why-revamply .card h3,
+    #why-revamply .card p,
+    #why-trust .card h3,
+    #why-trust .card p {
+        color: #1a1a1a !important;
+    }
+}
+
+/* AI Transformation Process - Light gray background */
+@media (prefers-color-scheme: light) {
+    #process,
+    #transformation-process {
+        background-color: #f5f5f5 !important;
+    }
+    
+    #process h2,
+    #transformation-process h2 {
+        color: #0a0a0a !important;
+    }
+    
+    #process .step,
+    #transformation-process .step {
+        background-color: #ffffff !important;
+        color: #0a0a0a !important;
+        border: 1px solid #e5e5e5 !important;
+    }
+    
+    #process .step h3,
+    #process .step p,
+    #transformation-process .step h3,
+    #transformation-process .step p {
+        color: #1a1a1a !important;
+    }
+}
+
+/* What You Can Expect - White background */
+@media (prefers-color-scheme: light) {
+    #expectations,
+    #what-to-expect {
+        background-color: #ffffff !important;
+    }
+    
+    #expectations h2,
+    #what-to-expect h2 {
+        color: #0a0a0a !important;
+    }
+    
+    #expectations ul li,
+    #what-to-expect ul li {
+        color: #1a1a1a !important;
+    }
+}
+
+/* Advanced AI Capabilities - Dark card in light mode */
+@media (prefers-color-scheme: light) {
+    #capabilities,
+    #advanced-ai {
+        background-color: #0f1419 !important;
+    }
+    
+    #capabilities h2,
+    #advanced-ai h2 {
+        color: #ffffff !important;
+    }
+    
+    #capabilities p,
+    #advanced-ai p {
+        color: #e5e5e5 !important;
+    }
+}
+
+/* Metrics Section - Dark in light mode too */
+@media (prefers-color-scheme: light) {
+    #metrics,
+    #stats,
+    #risk-assessment {
+        background-color: #0f1419 !important;
+    }
+    
+    .stat-card,
+    .metric-card {
+        background-color: #1e2937 !important;
+        color: #ffffff !important;
+    }
+}
+
+/* Footer - Dark in light mode */
+@media (prefers-color-scheme: light) {
+    footer,
+    #footer {
+        background-color: #0a0a0a !important;
+    }
+    
+    footer * {
+        color: #ffffff !important;
+    }
+}
+
+/* ===============================================
+   MOBILE-SPECIFIC OVERRIDES (MAX-WIDTH 768PX)
+   =============================================== */
+
+@media (max-width: 768px) {
+    /* Ensure text remains readable at smaller sizes */
+    body {
+        font-size: 16px !important;
+        line-height: 1.6 !important;
+    }
+    
+    h1 {
+        font-size: 2rem !important;
+    }
+    
+    h2 {
+        font-size: 1.75rem !important;
+    }
+    
+    h3 {
+        font-size: 1.25rem !important;
+    }
+    
+    /* Increase padding for touch targets */
+    .card,
+    .step,
+    button {
+        padding: 1.5rem !important;
+        min-height: 44px !important;
+    }
+    
+    /* Ensure contrast in cards */
+    .card,
+    .process-card,
+    .stat-card {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+    }
+}
+
+/* ===============================================
+   FORCE RULES - USE ONLY IF NEEDED
+   These override everything else
+   =============================================== */
+
+/* If you still see issues, uncomment these force rules */
+
+/*
+@media (prefers-color-scheme: dark) {
+    .text-white-important {
+        color: #ffffff !important;
+    }
+    
+    .text-dark-important {
+        color: #0a0a0a !important;
+    }
+    
+    .bg-dark-important {
+        background-color: #0a0a0a !important;
+    }
+    
+    .bg-light-important {
+        background-color: #ffffff !important;
+    }
+}
+*/
