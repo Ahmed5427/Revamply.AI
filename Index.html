@@ -23,35 +23,46 @@
       };
     </script>
     
-    <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/mobile-fixes.css">
-    <link rel="stylesheet" href="/css/dark-mode-text-fix.css">
-    <link rel="stylesheet" href="/css/contrast-fix-complete.css">
-    <link rel="stylesheet" href="css/mobile-contrast-fix.css">
+    <!-- UPDATED CSS ARCHITECTURE - Clean Separation -->
+    <!-- Dark Mode -->
+    <link rel="stylesheet" href="/css/dark-desktop.css" 
+          media="(prefers-color-scheme: dark) and (min-width: 769px)">
+    <link rel="stylesheet" href="/css/dark-mobile.css" 
+          media="(prefers-color-scheme: dark) and (max-width: 768px)">
+    
+    <!-- Light Mode -->
+    <link rel="stylesheet" href="/css/light-desktop.css" 
+          media="(prefers-color-scheme: light) and (min-width: 769px)">
+    <link rel="stylesheet" href="/css/light-mobile.css" 
+          media="(prefers-color-scheme: light) and (max-width: 768px)">
+    
+    <!-- Admin Overrides (load last) -->
+    <link rel="stylesheet" href="/css/admin-overrides.css">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap">
 </head>
-<body class="bg-black text-white overflow-x-hidden">
+<body class="page-body">
     
     <div class="particle-container" id="particleContainer"></div>
     
-    <header id="header" class="relative z-50 bg-black/90 backdrop-blur-sm border-b border-gray-800">
-        <div class="container mx-auto px-6 py-4">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-8">
-                    <div class="flex items-center space-x-3">
-                        <img src="/images/revamply-logo.png" alt="Revamply" class="h-12">
+    <header id="header" class="site-header">
+        <div class="header-container">
+            <div class="header-content">
+                <div class="header-left">
+                    <div class="logo-container">
+                        <img src="/images/revamply-logo.png" alt="Revamply" class="logo-image">
                     </div>
-                    <nav class="hidden md:flex space-x-8">
-                        <span class="text-gray-300 hover:text-white transition-colors cursor-pointer">Solutions</span>
-                        <span class="text-gray-300 hover:text-white transition-colors cursor-pointer">Process</span>
-                        <span class="text-gray-300 hover:text-white transition-colors cursor-pointer">About</span>
-                        <span class="text-gray-300 hover:text-white transition-colors cursor-pointer">Contact</span>
+                    <nav class="main-nav">
+                        <span class="nav-link">Solutions</span>
+                        <span class="nav-link">Process</span>
+                        <span class="nav-link">About</span>
+                        <span class="nav-link">Contact</span>
                     </nav>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-6 py-2 rounded-lg text-white font-semibold hover-glow" onclick="scrollToForm()">
+                <div class="header-right">
+                    <button class="cta-button" onclick="scrollToForm()">
                         Get Started
                     </button>
                 </div>
@@ -59,85 +70,85 @@
         </div>
     </header>
 
-    <section id="hero" class="relative min-h-[800px] bg-black flex items-center justify-center overflow-hidden">
-        <div class="absolute inset-0">
-            <div class="absolute top-20 left-10 w-1 h-32 bg-gradient-to-b from-blue-400 to-transparent data-flow"></div>
-            <div class="absolute top-40 right-20 w-1 h-24 bg-gradient-to-b from-pink-500 to-transparent data-flow" style="animation-delay: 1s;"></div>
-            <div class="absolute bottom-20 left-1/4 w-1 h-40 bg-gradient-to-b from-blue-400 to-transparent data-flow" style="animation-delay: 2s;"></div>
-            <div class="absolute top-60 right-1/3 w-1 h-28 bg-gradient-to-b from-pink-500 to-transparent data-flow" style="animation-delay: 3s;"></div>
+    <section id="hero" class="hero-section">
+        <div class="hero-background">
+            <div class="data-flow-1"></div>
+            <div class="data-flow-2"></div>
+            <div class="data-flow-3"></div>
+            <div class="data-flow-4"></div>
         </div>
         
-        <div class="container mx-auto px-6 text-center relative z-10">
-            <div class="max-w-5xl mx-auto">
-                <div class="flex items-center justify-center mb-8">
-                    <div class="relative">
-                        <i class="fa-solid fa-lightbulb text-6xl text-gradient pulse-glow mr-4"></i>
-                        <div class="absolute -top-2 -right-2 w-4 h-4 bg-yellow-400 rounded-full neon-glow"></div>
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-icon-wrapper">
+                    <div class="hero-icon-container">
+                        <i class="fa-solid fa-lightbulb hero-icon"></i>
+                        <div class="hero-icon-badge"></div>
                     </div>
                 </div>
                 
-                <h1 class="text-5xl md:text-7xl font-black mb-6 leading-tight">
-                    <span class="text-white">AI Solutions That</span><br>
-                    <span class="text-gradient gradient-shift">Save Time, Cut Costs</span><br>
-                    <span class="text-white">& Grow Revenue</span>
+                <h1 class="hero-title">
+                    <span class="hero-title-line1">AI Solutions That</span><br>
+                    <span class="hero-title-line2">Save Time, Cut Costs</span><br>
+                    <span class="hero-title-line3">& Grow Revenue</span>
                 </h1>
                 
-                <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-4xl mx-auto leading-relaxed">
+                <p class="hero-description">
                     Revamply develops tailored AI solutions using advanced machine learning, natural language processing, and automation. From predictive analytics to enterprise-grade AI platforms — we engineer systems that drive efficiency and unlock new revenue streams.
                 </p>
                 
-                <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow neon-glow transform hover:scale-105 transition-all duration-300" onclick="scrollToForm()">
-                    <i class="fa-solid fa-arrow-right mr-3"></i>
+                <button class="hero-cta-button" onclick="scrollToForm()">
+                    <i class="fa-solid fa-arrow-right hero-cta-icon"></i>
                     Get Your Free AI Solution Blueprint
                 </button>
                 
-                <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-gradient mb-2">80%</div>
-                        <div class="text-gray-400">of executives say AI boosts productivity</div>
+                <div class="hero-stats">
+                    <div class="hero-stat-item">
+                        <div class="hero-stat-number">80%</div>
+                        <div class="hero-stat-text">of executives say AI boosts productivity</div>
                     </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-gradient mb-2">$15.7T</div>
-                        <div class="text-gray-400">projected global AI contribution by 2030</div>
+                    <div class="hero-stat-item">
+                        <div class="hero-stat-number">$15.7T</div>
+                        <div class="hero-stat-text">projected global AI contribution by 2030</div>
                     </div>
-                    <div class="text-center">
-                        <div class="text-3xl font-bold text-gradient mb-2">67%</div>
-                        <div class="text-gray-400">of businesses are actively exploring AI adoption</div>
+                    <div class="hero-stat-item">
+                        <div class="hero-stat-number">67%</div>
+                        <div class="hero-stat-text">of businesses are actively exploring AI adoption</div>
                     </div>
                 </div>
             </div>
         </div>
         
-        <div class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent"></div>
+        <div class="hero-gradient-overlay"></div>
     </section>
 
-    <section id="form-section" class="py-20 bg-white text-black relative overflow-hidden">
-        <div class="absolute inset-0 opacity-5">
-            <div class="absolute top-10 left-10 w-2 h-2 bg-blue-400 rounded-full floating-particle"></div>
-            <div class="absolute top-20 right-20 w-2 h-2 bg-pink-500 rounded-full floating-particle" style="animation-delay: 1s;"></div>
-            <div class="absolute bottom-20 left-1/4 w-2 h-2 bg-blue-400 rounded-full floating-particle" style="animation-delay: 2s;"></div>
-            <div class="absolute top-1/2 right-1/3 w-2 h-2 bg-pink-500 rounded-full floating-particle" style="animation-delay: 3s;"></div>
+    <section id="form-section" class="form-section">
+        <div class="form-section-background">
+            <div class="floating-particle-1"></div>
+            <div class="floating-particle-2"></div>
+            <div class="floating-particle-3"></div>
+            <div class="floating-particle-4"></div>
         </div>
         
-        <div class="container mx-auto px-6">
-            <div class="max-w-5xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-5xl font-black mb-6">Tell Us About Your Business & Processes</h2>
-                    <p class="text-xl text-gray-700 max-w-4xl mx-auto leading-relaxed">
+        <div class="form-container">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <h2 class="form-title">Tell Us About Your Business & Processes</h2>
+                    <p class="form-subtitle">
                         Every business faces bottlenecks: wasted time, high overhead, missed revenue. Share details about your business and current processes so we can generate a tailored AI Blueprint that shows exactly how automation and machine learning can remove those roadblocks.
                     </p>
                 </div>
                 
-                <div class="bg-white rounded-3xl shadow-2xl p-10 border-glow relative">
-                    <div class="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full pulse-glow"></div>
+                <div class="form-card">
+                    <div class="form-card-badge"></div>
                     
                     <!-- Progress Bar -->
-                    <div class="mb-8">
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-sm font-semibold text-gray-600">Step <span id="current-step">1</span> of 3</span>
-                            <span class="text-sm text-gray-500">Complete all fields for best results</span>
+                    <div class="progress-section">
+                        <div class="progress-header">
+                            <span class="progress-step">Step <span id="current-step">1</span> of 3</span>
+                            <span class="progress-label">Complete all fields for best results</span>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="progress-track">
                             <div class="progress-bar" id="progress-bar" style="width: 33%"></div>
                         </div>
                     </div>
@@ -148,20 +159,20 @@
                     <!-- Blueprint Waiting Message (hidden initially) -->
                     <div id="blueprint-waiting" class="blueprint-waiting hidden">
                         <div class="spinner"></div>
-                        <h3 class="text-2xl font-bold mb-2">Generating Your AI Blueprint...</h3>
-                        <p class="text-blue-100">Our AI is analyzing your business requirements and creating a customized solution plan. This will take about 2-3 minutes.</p>
-                        <div class="mt-4 text-sm text-blue-200">
+                        <h3 class="blueprint-waiting-title">Generating Your AI Blueprint...</h3>
+                        <p class="blueprint-waiting-text">Our AI is analyzing your business requirements and creating a customized solution plan. This will take about 2-3 minutes.</p>
+                        <div class="blueprint-waiting-status">
                             <p>✨ Analyzing your current processes</p>
                             <p>🤖 Designing AI solution architecture</p>
                             <p>📊 Calculating ROI and implementation timeline</p>
                         </div>
                     </div>
                     
-                    <form id="business-form" class="space-y-8">
+                    <form id="business-form" class="business-form">
                         
                         <!-- Step 1: Business & Process Details -->
                         <div class="form-step active" id="step-1">
-                            <h3 class="text-2xl font-bold mb-6 text-center">Business & Process Information</h3>
+                            <h3 class="step-title">Business & Process Information</h3>
                             
                             <div class="form-grid">
                                 <!-- Business Description -->
@@ -170,7 +181,7 @@
                                     <textarea 
                                         id="business-description" 
                                         name="businessDescription" 
-                                        class="field-input h-32 resize-none" 
+                                        class="field-input field-textarea" 
                                         placeholder="Briefly describe what your business does, who you serve, and the systems you rely on today. This helps us understand the bigger picture before designing your AI solution."
                                         required
                                     ></textarea>
@@ -210,7 +221,7 @@
                                     <textarea 
                                         id="current-process" 
                                         name="currentProcess" 
-                                        class="field-input h-32 resize-none" 
+                                        class="field-input field-textarea" 
                                         placeholder="Walk us through your current process step-by-step. How do you handle this workflow today? What tools and systems are involved?"
                                         required
                                     ></textarea>
@@ -218,17 +229,17 @@
                                 </div>
                             </div>
 
-                            <div class="text-center pt-6">
-                                <button type="button" onclick="nextStep()" class="bg-gradient-to-r from-blue-400 to-pink-500 px-8 py-3 rounded-xl text-white font-bold hover-glow">
+                            <div class="step-actions">
+                                <button type="button" onclick="nextStep()" class="step-button step-button-next">
                                     Continue to Process Details
-                                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                                    <i class="fa-solid fa-arrow-right step-button-icon"></i>
                                 </button>
                             </div>
                         </div>
 
                         <!-- Step 2: Pain Points & Impact -->
                         <div class="form-step" id="step-2">
-                            <h3 class="text-2xl font-bold mb-6 text-center">Process Challenges & Business Impact</h3>
+                            <h3 class="step-title">Process Challenges & Business Impact</h3>
                             
                             <div class="form-grid">
                                 <!-- Pain Points -->
@@ -237,10 +248,10 @@
                                     <textarea 
                                         id="pain-points" 
                                         name="painPoints" 
-                                        class="field-input h-32 resize-none" 
+                                        class="field-input field-textarea" 
                                         placeholder="What specific challenges do you face with this process? Where do bottlenecks occur? What takes too much time or causes errors? (Optional but helpful for better recommendations)"
                                     ></textarea>
-                                    <div class="text-sm text-gray-500 mt-1">Optional: Help us understand your specific challenges</div>
+                                    <div class="field-helper">Optional: Help us understand your specific challenges</div>
                                 </div>
 
                                 <!-- Business Impact -->
@@ -289,23 +300,23 @@
                                 </div>
                             </div>
 
-                            <div class="flex justify-between pt-6">
-                                <button type="button" onclick="prevStep()" class="border-2 border-gray-300 px-6 py-3 rounded-xl text-gray-700 font-semibold hover:border-gray-400 transition-colors">
-                                    <i class="fa-solid fa-arrow-left mr-2"></i>
+                            <div class="step-actions step-actions-split">
+                                <button type="button" onclick="prevStep()" class="step-button step-button-back">
+                                    <i class="fa-solid fa-arrow-left step-button-icon"></i>
                                     Back
                                 </button>
-                                <button type="button" onclick="nextStep()" class="bg-gradient-to-r from-blue-400 to-pink-500 px-8 py-3 rounded-xl text-white font-bold hover-glow">
+                                <button type="button" onclick="nextStep()" class="step-button step-button-next">
                                     Continue to Contact Info
-                                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                                    <i class="fa-solid fa-arrow-right step-button-icon"></i>
                                 </button>
                             </div>
                         </div>
 
                         <!-- Step 3: Contact Information -->
                         <div class="form-step" id="step-3">
-                            <h3 class="text-2xl font-bold mb-6 text-center">Contact Information</h3>
+                            <h3 class="step-title">Contact Information</h3>
                             
-                            <div class="form-grid form-grid-2">
+                            <div class="form-grid form-grid-contact">
                                 <!-- Full Name -->
                                 <div class="form-field">
                                     <label class="field-label required">Full Name</label>
@@ -335,7 +346,7 @@
                                 </div>
 
                                 <!-- Phone Number with Country Code -->
-                                <div class="form-field md:col-span-2">
+                                <div class="form-field phone-field">
                                     <label class="field-label">Phone Number (Optional)</label>
                                     <div class="phone-input-group">
                                         <div class="country-selector">
@@ -375,17 +386,17 @@
                                             placeholder="Phone number (optional)"
                                         >
                                     </div>
-                                    <div class="text-sm text-gray-500 mt-1">Optional: For faster follow-up and consultation scheduling</div>
+                                    <div class="field-helper">Optional: For faster follow-up and consultation scheduling</div>
                                 </div>
                             </div>
 
-                            <div class="flex justify-between pt-6">
-                                <button type="button" onclick="prevStep()" class="border-2 border-gray-300 px-6 py-3 rounded-xl text-gray-700 font-semibold hover:border-gray-400 transition-colors">
-                                    <i class="fa-solid fa-arrow-left mr-2"></i>
+                            <div class="step-actions step-actions-split">
+                                <button type="button" onclick="prevStep()" class="step-button step-button-back">
+                                    <i class="fa-solid fa-arrow-left step-button-icon"></i>
                                     Back
                                 </button>
-                                <button type="submit" id="submit-btn" class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow transform hover:scale-105 transition-all duration-300">
-                                    <i class="fa-solid fa-bolt mr-3"></i>
+                                <button type="submit" id="submit-btn" class="step-button step-button-submit">
+                                    <i class="fa-solid fa-bolt submit-icon"></i>
                                     <span id="submit-text">Generate My AI Blueprint</span>
                                 </button>
                             </div>
@@ -393,18 +404,18 @@
                     </form>
                 </div>
                 
-                <div class="text-center mt-12">
-                    <div class="flex items-center justify-center space-x-6 text-gray-500">
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-shield-halved text-green-500 mr-2"></i>
+                <div class="form-trust-badges">
+                    <div class="trust-badge-container">
+                        <div class="trust-badge">
+                            <i class="fa-solid fa-shield-halved trust-icon trust-icon-secure"></i>
                             <span>100% Secure</span>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-clock text-blue-500 mr-2"></i>
+                        <div class="trust-badge">
+                            <i class="fa-solid fa-clock trust-icon trust-icon-fast"></i>
                             <span>5-Min Setup</span>
                         </div>
-                        <div class="flex items-center">
-                            <i class="fa-solid fa-gift text-pink-500 mr-2"></i>
+                        <div class="trust-badge">
+                            <i class="fa-solid fa-gift trust-icon trust-icon-free"></i>
                             <span>Completely Free</span>
                         </div>
                     </div>
@@ -414,69 +425,69 @@
     </section>
 
     <!-- Blueprint Section (hidden initially) -->
-    <section id="blueprint-section" class="py-20 bg-gray-50 text-black hidden">
-        <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16">
-                    <div class="inline-flex items-center bg-gradient-to-r from-blue-400 to-pink-500 px-6 py-2 rounded-full text-white font-semibold mb-6">
-                        <i class="fa-solid fa-check mr-2"></i>
+    <section id="blueprint-section" class="blueprint-section hidden">
+        <div class="blueprint-container">
+            <div class="blueprint-wrapper">
+                <div class="blueprint-header">
+                    <div class="blueprint-badge">
+                        <i class="fa-solid fa-check blueprint-badge-icon"></i>
                         Blueprint Generated
                     </div>
-                    <h2 class="text-5xl font-black mb-6">Your AI Solution Blueprint Is Ready</h2>
-                    <p class="text-xl text-gray-700">Customized for: <span id="business-type" class="font-bold text-gradient">Your Business</span></p>
+                    <h2 class="blueprint-title">Your AI Solution Blueprint Is Ready</h2>
+                    <p class="blueprint-subtitle">Customized for: <span id="business-type" class="blueprint-business-type">Your Business</span></p>
                 </div>
                 
-                <div id="blueprint-content" class="grid md:grid-cols-3 gap-8 mb-16">
+                <div id="blueprint-content" class="blueprint-grid">
                     <!-- Blueprint content will be dynamically generated here -->
                 </div>
                 
-                <div class="bg-white rounded-3xl p-10 shadow-2xl border-glow">
-                    <div class="grid md:grid-cols-2 gap-12">
-                        <div>
-                            <h3 class="text-3xl font-bold mb-6">Implementation Details</h3>
-                            <div class="space-y-6">
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mr-4">
-                                        <i class="fa-solid fa-calendar text-white"></i>
+                <div class="blueprint-details-card">
+                    <div class="blueprint-details-grid">
+                        <div class="blueprint-implementation">
+                            <h3 class="implementation-title">Implementation Details</h3>
+                            <div class="implementation-items">
+                                <div class="implementation-item">
+                                    <div class="implementation-icon implementation-icon-time">
+                                        <i class="fa-solid fa-calendar"></i>
                                     </div>
-                                    <div>
-                                        <div class="font-semibold text-lg">Build Time</div>
-                                        <div class="text-gray-600">3–5 Weeks</div>
-                                    </div>
-                                </div>
-                                
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center mr-4">
-                                        <i class="fa-solid fa-headset text-white"></i>
-                                    </div>
-                                    <div>
-                                        <div class="font-semibold text-lg">Maintenance & Support</div>
-                                        <div class="text-gray-600">Included</div>
+                                    <div class="implementation-info">
+                                        <div class="implementation-label">Build Time</div>
+                                        <div class="implementation-value">3–5 Weeks</div>
                                     </div>
                                 </div>
                                 
-                                <div class="flex items-center">
-                                    <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full flex items-center justify-center mr-4">
-                                        <i class="fa-solid fa-rocket text-white"></i>
+                                <div class="implementation-item">
+                                    <div class="implementation-icon implementation-icon-support">
+                                        <i class="fa-solid fa-headset"></i>
                                     </div>
-                                    <div>
-                                        <div class="font-semibold text-lg">Expected ROI</div>
-                                        <div class="text-gray-600">300%+ within 12 months</div>
+                                    <div class="implementation-info">
+                                        <div class="implementation-label">Maintenance & Support</div>
+                                        <div class="implementation-value">Included</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="implementation-item">
+                                    <div class="implementation-icon implementation-icon-roi">
+                                        <i class="fa-solid fa-rocket"></i>
+                                    </div>
+                                    <div class="implementation-info">
+                                        <div class="implementation-label">Expected ROI</div>
+                                        <div class="implementation-value">300%+ within 12 months</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         
-                        <div class="bg-gray-50 rounded-2xl p-8">
-                            <h4 class="text-2xl font-bold mb-6">Ready to Move Forward?</h4>
-                            <p class="text-gray-600 mb-8">Speak with our solutions expert to get full pricing, timeline, and implementation details.</p>
+                        <div class="blueprint-next-steps">
+                            <h4 class="next-steps-title">Ready to Move Forward?</h4>
+                            <p class="next-steps-text">Speak with our solutions expert to get full pricing, timeline, and implementation details.</p>
                             
-                            <form id="next-steps-form" class="space-y-4">
-                                <input type="text" name="businessName" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="Business Name" required>
-                                <input type="tel" name="phone" class="w-full p-4 border-2 border-gray-200 rounded-xl focus:border-blue-400 focus:outline-none transition-colors" placeholder="Phone Number" required>
+                            <form id="next-steps-form" class="next-steps-form">
+                                <input type="text" name="businessName" class="next-steps-input" placeholder="Business Name" required>
+                                <input type="tel" name="phone" class="next-steps-input" placeholder="Phone Number" required>
                                 
-                                <button type="submit" class="w-full bg-gradient-to-r from-blue-400 to-pink-500 px-8 py-4 rounded-xl text-white font-bold hover-glow">
-                                    <i class="fa-solid fa-link mr-3"></i>
+                                <button type="submit" class="next-steps-button">
+                                    <i class="fa-solid fa-link next-steps-icon"></i>
                                     Speak With a Solutions Expert
                                 </button>
                             </form>
@@ -487,129 +498,130 @@
         </div>
     </section>
 
-<section id="why-revamply" class="py-20 bg-black">
-        <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-5xl font-black text-white mb-6">Why Businesses Trust Revamply for AI Transformation</h2>
-                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">We don’t deliver cookie-cutter software — we engineer AI systems that transform workflows, unlock revenue, and give your business a competitive edge.</p>
+    <section id="why-revamply" class="why-section">
+        <div class="why-container">
+            <div class="why-wrapper">
+                <div class="why-header">
+                    <h2 class="why-title">Why Businesses Trust Revamply for AI Transformation</h2>
+                    <p class="why-subtitle">We don't deliver cookie-cutter software — we engineer AI systems that transform workflows, unlock revenue, and give your business a competitive edge.</p>
                 </div>
                 
-                <div class="grid md:grid-cols-3 gap-8">
-                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
-                        <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
-                            <i class="fa-solid fa-clock text-white text-2xl"></i>
+                <div class="why-grid">
+                    <div class="why-card efficiency-card">
+                        <div class="why-icon why-icon-efficiency">
+                            <i class="fa-solid fa-clock"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4 text-black">Intelligent Efficiency</h3>
-                        <p class="text-gray-600">Automate repetitive tasks with AI so your team can focus on high-value growth activities.</p>
+                        <h3 class="why-card-title">Intelligent Efficiency</h3>
+                        <p class="why-card-text">Automate repetitive tasks with AI so your team can focus on high-value growth activities.</p>
                     </div>
                     
-                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
-                        <div class="w-16 h-16 bg-gradient-to-r from-red-400 to-red-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
-                            <i class="fa-solid fa-dollar-sign text-white text-2xl"></i>
+                    <div class="why-card overhead-card">
+                        <div class="why-icon why-icon-overhead">
+                            <i class="fa-solid fa-dollar-sign"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4 text-black">Reduce Overhead</h3>
-                        <p class="text-gray-600">Eliminate inefficiencies and lower operational expenses with intelligent automation and optimized workflows.</p>
+                        <h3 class="why-card-title">Reduce Overhead</h3>
+                        <p class="why-card-text">Eliminate inefficiencies and lower operational expenses with intelligent automation and optimized workflows.</p>
                     </div>
                     
-                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
-                        <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
-                            <i class="fa-solid fa-chart-line text-white text-2xl"></i>
+                    <div class="why-card growth-card">
+                        <div class="why-icon why-icon-growth">
+                            <i class="fa-solid fa-chart-line"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4 text-black">Unlock Growth</h3>
-                        <p class="text-gray-600">Turn data into dollars — create new revenue streams and optimize existing ones through predictive AI insights.</p>
+                        <h3 class="why-card-title">Unlock Growth</h3>
+                        <p class="why-card-text">Turn data into dollars — create new revenue streams and optimize existing ones through predictive AI insights.</p>
                     </div>
                     
-                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
-                        <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-purple-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
-                            <i class="fa-solid fa-cog text-white text-2xl"></i>
+                    <div class="why-card custom-card">
+                        <div class="why-icon why-icon-custom">
+                            <i class="fa-solid fa-cog"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4 text-black">Built for You</h3>
-                        <p class="text-gray-600">Every solution is tailored to your exact workflows and challenges — no one-size-fits-all AI.</p>
+                        <h3 class="why-card-title">Built for You</h3>
+                        <p class="why-card-text">Every solution is tailored to your exact workflows and challenges — no one-size-fits-all AI.</p>
                     </div>
                     
-                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
-                        <div class="w-16 h-16 bg-gradient-to-r from-indigo-400 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
-                            <i class="fa-solid fa-handshake text-white text-2xl"></i>
+                    <div class="why-card partner-card">
+                        <div class="why-icon why-icon-partner">
+                            <i class="fa-solid fa-handshake"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4 text-black">Your AI Partner</h3>
-                        <p class="text-gray-600">From strategy and design to deployment and ongoing optimization, we stay with you every step of the journey.</p>
+                        <h3 class="why-card-title">Your AI Partner</h3>
+                        <p class="why-card-text">From strategy and design to deployment and ongoing optimization, we stay with you every step of the journey.</p>
                     </div>
                     
-                    <div class="bg-white rounded-2xl p-8 hover-glow border-glow">
-                        <div class="w-16 h-16 bg-gradient-to-r from-pink-400 to-pink-600 rounded-2xl flex items-center justify-center mb-6 pulse-glow">
-                            <i class="fa-solid fa-building text-white text-2xl"></i>
+                    <div class="why-card scalable-card">
+                        <div class="why-icon why-icon-scalable">
+                            <i class="fa-solid fa-building"></i>
                         </div>
-                        <h3 class="text-2xl font-bold mb-4 text-black">Scalable & Secure</h3>
-                        <p class="text-gray-600">Our AI systems are robust, secure, and built to scale — whether you’re a fast-growing startup or an enterprise.</p>
+                        <h3 class="why-card-title">Scalable & Secure</h3>
+                        <p class="why-card-text">Our AI systems are robust, secure, and built to scale — whether you're a fast-growing startup or an enterprise.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="social-proof" class="py-20 bg-white text-black">
-        <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-5xl font-black mb-6">Real Results from Real Businesses</h2>
-                    <p class="text-xl text-gray-700">See how companies like yours transformed their operations with Revamply's AI solutions.</p>
+    <section id="social-proof" class="social-proof-section">
+        <div class="social-proof-container">
+            <div class="social-proof-wrapper">
+                <div class="social-proof-header">
+                    <h2 class="social-proof-title">Real Results from Real Businesses</h2>
+                    <p class="social-proof-subtitle">See how companies like yours transformed their operations with Revamply's AI solutions.</p>
                 </div>
                 
-                <div class="grid md:grid-cols-2 gap-12 mb-16">
-                    <div class="bg-gray-50 rounded-3xl p-10 border-glow relative">
-                        <div class="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full pulse-glow"></div>
-                        <div class="flex items-center mb-6">
-                            <img src="images/Tony Bacily.jfif" alt="Client" class="w-16 h-16 rounded-full mr-4">
-                            <div>
-                                <div class="font-bold text-lg">Tony Bacily</div>
-                                <div class="text-gray-600">CEO, STG Auto Group</div>
-                                <div class="text-gray-600">Custom AI Vehicle Acquisitions Platform</div>
+                <div class="testimonial-grid">
+                    <div class="testimonial-card testimonial-card-1">
+                        <div class="testimonial-badge testimonial-badge-1"></div>
+                        <div class="testimonial-author">
+                            <img src="images/Tony Bacily.jfif" alt="Client" class="testimonial-avatar">
+                            <div class="testimonial-author-info">
+                                <div class="testimonial-name">Tony Bacily</div>
+                                <div class="testimonial-role">CEO, STG Auto Group</div>
+                                <div class="testimonial-project">Custom AI Vehicle Acquisitions Platform</div>
                             </div>
                         </div>
-                        <blockquote class="text-lg text-gray-700 mb-6">
-                            "Revamply built a fully automated AI Vehicle Acquisition Platform for our group. The system now sources, qualifies, and negotiates hundreds of vehicle purchases every month — completely hands-off. Since implementation, we’ve seen faster turnaround, higher closing rates, and an average of $1,800 profit gained per vehicle on the front-end margin. It’s transformed how we acquire inventory."
+                        <blockquote class="testimonial-quote">
+                            "Revamply built a fully automated AI Vehicle Acquisition Platform for our group. The system now sources, qualifies, and negotiates hundreds of vehicle purchases every month — completely hands-off. Since implementation, we've seen faster turnaround, higher closing rates, and an average of $1,800 profit gained per vehicle on the front-end margin. It's transformed how we acquire inventory."
                         </blockquote>
-                        <div class="flex space-x-4">
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-gradient">+$1,800</div>
-                                <div class="text-sm text-gray-500">Average front-end margin gain</div>
+                        <div class="testimonial-stats">
+                            <div class="testimonial-stat">
+                                <div class="testimonial-stat-value">+$1,800</div>
+                                <div class="testimonial-stat-label">Average front-end margin gain</div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-gradient">2x</div>
-                                <div class="text-sm text-gray-500">Faster offer turnaround</div>
+                            <div class="testimonial-stat">
+                                <div class="testimonial-stat-value">2x</div>
+                                <div class="testimonial-stat-label">Faster offer turnaround</div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-gradient">70%</div>
-                                <div class="text-sm text-gray-500">Reduction in manual processing</div>
+                            <div class="testimonial-stat">
+                                <div class="testimonial-stat-value">70%</div>
+                                <div class="testimonial-stat-label">Reduction in manual processing</div>
                             </div>
                         </div>
                     </div>
                     
-                    <div class="bg-gray-50 rounded-3xl p-10 border-glow relative">
-                        <div class="absolute -top-4 -right-4 w-8 h-8 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full pulse-glow"></div>
-                        <div class="flex items-center mb-6">
-                            <img src="images/Theresa Magner.jfif" alt="Client" class="w-16 h-16 rounded-full mr-4">
-                            <div>
-                                <div class="font-bold text-lg">Theresa Magner</div>
-                                <div class="text-gray-600">Founder, Magner Homes & Investments</div>
-                                <div class="text-gray-600">AI Receptionist & Lead Automation System</div>
+                    <div class="testimonial-card testimonial-card-2">
+                        <div class="testimonial-badge testimonial-badge-2"></div>
+                        <div class="testimonial-author">
+                            <img src="images/Theresa Magner.jfif" alt="Client" class="testimonial-avatar">
+                            <div class="testimonial-author-info">
+                                <div class="testimonial-name">Theresa Magner</div>
+                                <div class="testimonial-role">Founder, Magner Homes & Investments</div>
+                                <div class="testimonial-project">AI Receptionist & Lead Automation System</div>
                             </div>
                         </div>
-                        <blockquote class="text-lg text-gray-700 mb-6">
-                            "Revamply built a custom AI system for our real estate brokerage that completely automated our reception and lead handling. Before, we were losing leads between missed calls and delayed follow-ups — now every enquiry is answered instantly. The AI Receptionist books viewings, qualifies leads, manages follow-ups, and syncs directly with our CRM. It’s like having a full-time assistant who never takes a break."</blockquote>
-                        <div class="flex space-x-4">
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-gradient">35%</div>
-                                <div class="text-sm text-gray-500">reduction in admin time</div>
+                        <blockquote class="testimonial-quote">
+                            "Revamply built a custom AI system for our real estate brokerage that completely automated our reception and lead handling. Before, we were losing leads between missed calls and delayed follow-ups — now every enquiry is answered instantly. The AI Receptionist books viewings, qualifies leads, manages follow-ups, and syncs directly with our CRM. It's like having a full-time assistant who never takes a break."
+                        </blockquote>
+                        <div class="testimonial-stats">
+                            <div class="testimonial-stat">
+                                <div class="testimonial-stat-value">35%</div>
+                                <div class="testimonial-stat-label">reduction in admin time</div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-gradient">60%</div>
-                                <div class="text-sm text-gray-500">Faster response</div>
+                            <div class="testimonial-stat">
+                                <div class="testimonial-stat-value">60%</div>
+                                <div class="testimonial-stat-label">Faster response</div>
                             </div>
-                            <div class="text-center">
-                                <div class="text-2xl font-bold text-gradient">47%</div>
-                                <div class="text-sm text-gray-500">More viewings</div>
+                            <div class="testimonial-stat">
+                                <div class="testimonial-stat-value">47%</div>
+                                <div class="testimonial-stat-label">More viewings</div>
                             </div>
                         </div>
                     </div>
@@ -618,82 +630,82 @@
         </div>
     </section>
 
-    <section id="process" class="py-20 bg-gray-900">
-        <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-5xl font-black text-white mb-6">Our Proven AI Transformation Process</h2>
-                    <p class="text-xl text-gray-300 max-w-3xl mx-auto">From discovery to deployment, Revamply follows a systematic AI-first framework to ensure your solution delivers measurable business impact.</p>
+    <section id="process" class="process-section">
+        <div class="process-container">
+            <div class="process-wrapper">
+                <div class="process-header">
+                    <h2 class="process-title">Our Proven AI Transformation Process</h2>
+                    <p class="process-subtitle">From discovery to deployment, Revamply follows a systematic AI-first framework to ensure your solution delivers measurable business impact.</p>
                 </div>
                 
-                <div class="grid md:grid-cols-4 gap-8">
-                    <div class="text-center relative">
-                        <div class="w-24 h-24 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
-                            <i class="fa-solid fa-search text-white text-3xl"></i>
+                <div class="process-grid">
+                    <div class="process-step discover-step">
+                        <div class="process-icon discover-icon">
+                            <i class="fa-solid fa-search"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-4">Discover</h3>
-                        <p class="text-gray-300 mb-6">Deep dive into your workflows, pain points, and data to identify high-impact AI opportunities.</p>
-                        <div class="hidden md:block absolute top-12 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-pink-500"></div>
+                        <h3 class="process-step-title">Discover</h3>
+                        <p class="process-step-text">Deep dive into your workflows, pain points, and data to identify high-impact AI opportunities.</p>
+                        <div class="process-connector process-connector-1"></div>
                     </div>
                     
-                    <div class="text-center relative">
-                        <div class="w-24 h-24 bg-gradient-to-r from-pink-400 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
-                            <i class="fa-solid fa-drafting-compass text-white text-3xl"></i>
+                    <div class="process-step blueprint-step">
+                        <div class="process-icon blueprint-icon">
+                            <i class="fa-solid fa-drafting-compass"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-4">Blueprint</h3>
-                        <p class="text-gray-300 mb-6">Create a tailored technical blueprint with ML models, automation workflows, timelines, and measurable KPIs for your AI solution.</p>
-                        <div class="hidden md:block absolute top-12 -right-4 w-8 h-0.5 bg-gradient-to-r from-pink-400 to-purple-500"></div>
+                        <h3 class="process-step-title">Blueprint</h3>
+                        <p class="process-step-text">Create a tailored technical blueprint with ML models, automation workflows, timelines, and measurable KPIs for your AI solution.</p>
+                        <div class="process-connector process-connector-2"></div>
                     </div>
                     
-                    <div class="text-center relative">
-                        <div class="w-24 h-24 bg-gradient-to-r from-purple-400 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
-                            <i class="fa-solid fa-hammer text-white text-3xl"></i>
+                    <div class="process-step build-step">
+                        <div class="process-icon build-icon">
+                            <i class="fa-solid fa-hammer"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-4">Build</h3>
-                        <p class="text-gray-300 mb-6">Develop, train, and test your AI solution with continuous feedback loops to ensure accuracy, scalability, and adoption.</p>
-                        <div class="hidden md:block absolute top-12 -right-4 w-8 h-0.5 bg-gradient-to-r from-purple-400 to-green-500"></div>
+                        <h3 class="process-step-title">Build</h3>
+                        <p class="process-step-text">Develop, train, and test your AI solution with continuous feedback loops to ensure accuracy, scalability, and adoption.</p>
+                        <div class="process-connector process-connector-3"></div>
                     </div>
                     
-                    <div class="text-center">
-                        <div class="w-24 h-24 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6 pulse-glow">
-                            <i class="fa-solid fa-tools text-white text-3xl"></i>
+                    <div class="process-step maintain-step">
+                        <div class="process-icon maintain-icon">
+                            <i class="fa-solid fa-tools"></i>
                         </div>
-                        <h3 class="text-2xl font-bold text-white mb-4">Maintain</h3>
-                        <p class="text-gray-300 mb-6">Monitor, optimize, and retrain your AI systems so they keep learning and delivering value as your business evolves.</p>
+                        <h3 class="process-step-title">Maintain</h3>
+                        <p class="process-step-text">Monitor, optimize, and retrain your AI systems so they keep learning and delivering value as your business evolves.</p>
                     </div>
                 </div>
                 
-                <div class="mt-16 bg-gray-800 rounded-3xl p-10">
-                    <div class="grid md:grid-cols-2 gap-12 items-center">
-                        <div>
-                            <h3 class="text-3xl font-bold text-white mb-6">What You Can Expect</h3>
-                            <ul class="space-y-4 text-gray-300">
-                                <li class="flex items-center">
-                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                <div class="process-details-card">
+                    <div class="process-details-grid">
+                        <div class="process-expectations">
+                            <h3 class="expectations-title">What You Can Expect</h3>
+                            <ul class="expectations-list">
+                                <li class="expectations-item">
+                                    <i class="fa-solid fa-check expectations-icon"></i>
                                     Weekly progress updates & demos
                                 </li>
-                                <li class="flex items-center">
-                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                <li class="expectations-item">
+                                    <i class="fa-solid fa-check expectations-icon"></i>
                                     Direct access to your AI engineering team
                                 </li>
-                                <li class="flex items-center">
-                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                <li class="expectations-item">
+                                    <i class="fa-solid fa-check expectations-icon"></i>
                                     Hands-on training + detailed documentation
                                 </li>
-                                <li class="flex items-center">
-                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                <li class="expectations-item">
+                                    <i class="fa-solid fa-check expectations-icon"></i>
                                     30-day optimization & performance tuning post-launch
                                 </li>
-                                <li class="flex items-center">
-                                    <i class="fa-solid fa-check text-green-400 mr-3"></i>
+                                <li class="expectations-item">
+                                    <i class="fa-solid fa-check expectations-icon"></i>
                                     Ongoing support + model retraining included
                                 </li>
                             </ul>
                         </div>
-                        <div class="text-center">
-                            <div class="text-6xl font-bold text-gradient mb-4">3-5</div>
-                            <div class="text-xl text-white mb-2">Weeks Average</div>
-                            <div class="text-gray-400">From Start to Launch</div>
+                        <div class="process-timeline">
+                            <div class="timeline-number">3-5</div>
+                            <div class="timeline-label">Weeks Average</div>
+                            <div class="timeline-sublabel">From Start to Launch</div>
                         </div>
                     </div>
                 </div>
@@ -701,78 +713,78 @@
         </div>
     </section>
 
-    <section id="features-showcase" class="py-20 bg-white text-black">
-        <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="text-center mb-16">
-                    <h2 class="text-5xl font-black mb-6">Advanced AI Capabilities</h2>
-                    <p class="text-xl text-gray-700">Practical AI applications that solve real business problems — from smarter customer interactions to predictive insights that drive growth.</p>
+    <section id="features-showcase" class="features-section">
+        <div class="features-container">
+            <div class="features-wrapper">
+                <div class="features-header">
+                    <h2 class="features-title">Advanced AI Capabilities</h2>
+                    <p class="features-subtitle">Practical AI applications that solve real business problems — from smarter customer interactions to predictive insights that drive growth.</p>
                 </div>
                 
-                <div class="grid md:grid-cols-2 gap-16 items-center mb-20">
-                    <div>
-                        <h3 class="text-3xl font-bold mb-6">Natural Language Processing</h3>
-                        <p class="text-lg text-gray-600 mb-8">Our AI understands context, intent, and nuance in customer communications. This enables human-like interactions that improve trust, reduce response times, and increase conversions.</p>
-                        <ul class="space-y-4">
-                            <li class="flex items-center">
-                                <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full mr-3"></div>
+                <div class="feature-row feature-row-nlp">
+                    <div class="feature-content">
+                        <h3 class="feature-title">Natural Language Processing</h3>
+                        <p class="feature-description">Our AI understands context, intent, and nuance in customer communications. This enables human-like interactions that improve trust, reduce response times, and increase conversions.</p>
+                        <ul class="feature-list">
+                            <li class="feature-list-item">
+                                <div class="feature-bullet"></div>
                                 <span>Multi-language support</span>
                             </li>
-                            <li class="flex items-center">
-                                <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full mr-3"></div>
+                            <li class="feature-list-item">
+                                <div class="feature-bullet"></div>
                                 <span>Sentiment & emotion analysis</span>
                             </li>
-                            <li class="flex items-center">
-                                <div class="w-6 h-6 bg-gradient-to-r from-blue-400 to-pink-500 rounded-full mr-3"></div>
+                            <li class="feature-list-item">
+                                <div class="feature-bullet"></div>
                                 <span>Intent recognition & context awareness</span>
                             </li>
                         </ul>
                     </div>
-                    <div class="bg-gray-50 rounded-3xl p-10 border-glow">
-                        <div class="space-y-4">
-                            <div class="bg-blue-100 rounded-2xl p-4">
-                                <div class="text-sm text-gray-500 mb-2">Customer Query</div>
-                                <div class="font-medium">"Hi, I need a roof inspection ASAP. Storm damage yesterday."</div>
+                    <div class="feature-demo nlp-demo">
+                        <div class="demo-chat">
+                            <div class="demo-message demo-message-query">
+                                <div class="demo-message-label">Customer Query</div>
+                                <div class="demo-message-text">"Hi, I need a roof inspection ASAP. Storm damage yesterday."</div>
                             </div>
-                            <div class="bg-pink-100 rounded-2xl p-4">
-                                <div class="text-sm text-gray-500 mb-2">AI Response</div>
-                                <div class="font-medium">"I understand the urgency of storm damage. I can schedule an emergency inspection for you today. What's your address and preferred time?"</div>
+                            <div class="demo-message demo-message-response">
+                                <div class="demo-message-label">AI Response</div>
+                                <div class="demo-message-text">"I understand the urgency of storm damage. I can schedule an emergency inspection for you today. What's your address and preferred time?"</div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="grid md:grid-cols-2 gap-16 items-center mb-20">
-                    <div class="bg-gray-50 rounded-3xl p-10 border-glow order-2 md:order-1">
-                        <div class="space-y-6">
-                            <div class="flex items-center justify-between bg-white rounded-xl p-4">
+                <div class="feature-row feature-row-analytics">
+                    <div class="feature-demo analytics-demo">
+                        <div class="demo-stats">
+                            <div class="demo-stat preserve-white">
                                 <span>Lead Conversion Rate</span>
-                                <span class="text-2xl font-bold text-gradient">+85%</span>
+                                <span class="demo-stat-value">+85%</span>
                             </div>
-                            <div class="flex items-center justify-between bg-white rounded-xl p-4">
+                            <div class="demo-stat preserve-white">
                                 <span>Response Time</span>
-                                <span class="text-2xl font-bold text-gradient">&lt; 30s</span>
+                                <span class="demo-stat-value">&lt; 30s</span>
                             </div>
-                            <div class="flex items-center justify-between bg-white rounded-xl p-4">
+                            <div class="demo-stat preserve-white">
                                 <span>Customer Satisfaction</span>
-                                <span class="text-2xl font-bold text-gradient">94%</span>
+                                <span class="demo-stat-value">94%</span>
                             </div>
                         </div>
                     </div>
-                    <div class="order-1 md:order-2">
-                        <h3 class="text-3xl font-bold mb-6">Predictive Analytics</h3>
-                        <p class="text-lg text-gray-600 mb-8">Our machine learning models analyze data patterns to predict customer behavior, optimize operations, and identify new revenue opportunities before competitors do.</p>
-                        <ul class="space-y-4">
-                            <li class="flex items-center">
-                                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full mr-3"></div>
+                    <div class="feature-content">
+                        <h3 class="feature-title">Predictive Analytics</h3>
+                        <p class="feature-description">Our machine learning models analyze data patterns to predict customer behavior, optimize operations, and identify new revenue opportunities before competitors do.</p>
+                        <ul class="feature-list">
+                            <li class="feature-list-item">
+                                <div class="feature-bullet feature-bullet-alt"></div>
                                 <span>Demand forecasting</span>
                             </li>
-                            <li class="flex items-center">
-                                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full mr-3"></div>
+                            <li class="feature-list-item">
+                                <div class="feature-bullet feature-bullet-alt"></div>
                                 <span>Customer lifetime value prediction</span>
                             </li>
-                            <li class="flex items-center">
-                                <div class="w-6 h-6 bg-gradient-to-r from-pink-400 to-blue-500 rounded-full mr-3"></div>
+                            <li class="feature-list-item">
+                                <div class="feature-bullet feature-bullet-alt"></div>
                                 <span>Risk assessment automation</span>
                             </li>
                         </ul>
@@ -782,16 +794,16 @@
         </div>
     </section>
 
-    <section id="pricing-preview" class="py-20 bg-gray-900">
-        <div class="container mx-auto px-6">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-5xl font-black text-white mb-6">AI That Pays for Itself</h2>
-                <p class="text-xl text-gray-300 mb-12">Our AI solutions don’t just automate — they amplify. Clients typically see measurable ROI within months through cost savings, efficiency gains, and new revenue streams.</p>
+    <section id="pricing-preview" class="pricing-section">
+        <div class="pricing-container">
+            <div class="pricing-wrapper">
+                <h2 class="pricing-title">AI That Pays for Itself</h2>
+                <p class="pricing-subtitle">Our AI solutions don't just automate — they amplify. Clients typically see measurable ROI within months through cost savings, efficiency gains, and new revenue streams.</p>
                 
-                <div class="bg-gray-800 rounded-3xl p-10 border-glow"> 
-                    <div class="text-center">
-                        <p class="text-gray-300 mb-8 pricing-text">Every solution is custom-priced based on your specific needs and expected outcomes. Get your personalized quote today.</p>
-                        <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-12 py-4 rounded-2xl text-white text-xl font-bold hover-glow" onclick="scrollToForm()">
+                <div class="pricing-card">
+                    <div class="pricing-content">
+                        <p class="pricing-text">Every solution is custom-priced based on your specific needs and expected outcomes. Get your personalized quote today.</p>
+                        <button class="pricing-button" onclick="scrollToForm()">
                             Get Custom Pricing Quote
                         </button>
                     </div>
@@ -800,113 +812,114 @@
         </div>
     </section>
 
-    <section id="final-cta" class="py-20 bg-black relative overflow-hidden">
-        <div class="absolute inset-0">
-            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-blue-400 via-pink-500 to-blue-400 gradient-shift"></div>
-            <div class="absolute top-10 left-10 w-2 h-32 bg-gradient-to-b from-blue-400 to-transparent data-flow"></div>
-            <div class="absolute top-20 right-20 w-2 h-24 bg-gradient-to-b from-pink-500 to-transparent data-flow" style="animation-delay: 1s;"></div>
-            <div class="absolute bottom-10 left-1/4 w-2 h-40 bg-gradient-to-b from-blue-400 to-transparent data-flow" style="animation-delay: 2s;"></div>
-            <div class="absolute top-1/2 right-1/3 w-2 h-28 bg-gradient-to-b from-pink-500 to-transparent data-flow" style="animation-delay: 3s;"></div>
+    <section id="final-cta" class="final-cta-section">
+        <div class="final-cta-background">
+            <div class="final-cta-gradient"></div>
+            <div class="final-cta-flow final-cta-flow-1"></div>
+            <div class="final-cta-flow final-cta-flow-2"></div>
+            <div class="final-cta-flow final-cta-flow-3"></div>
+            <div class="final-cta-flow final-cta-flow-4"></div>
         </div>
         
-        <div class="container mx-auto px-6 relative z-10">
-            <div class="max-w-4xl mx-auto text-center">
-                <h2 class="text-5xl md:text-6xl font-black text-white mb-8">
-                    Your Business Bottlenecks <span class="text-gradient">End Here</span>
+        <div class="final-cta-container">
+            <div class="final-cta-content">
+                <h2 class="final-cta-title">
+                    <span class="final-cta-title-main">Your Business Bottlenecks</span>
+                    <span class="final-cta-title-highlight">End Here</span>
                 </h2>
                 
-                <p class="text-xl md:text-2xl text-gray-300 mb-12 leading-relaxed">
+                <p class="final-cta-description">
                     Stop wasting time and money on outdated systems. Revamply builds the AI solutions that transform your business operations, cut costs, and accelerate growth.
                 </p>
                 
-                <div class="mb-12">
-                    <button class="bg-gradient-to-r from-blue-400 to-pink-500 px-16 py-6 rounded-3xl text-white text-2xl font-bold hover-glow neon-glow transform hover:scale-105 transition-all duration-300" onclick="scrollToForm()">
-                        <i class="fa-solid fa-fire mr-4"></i>
+                <div class="final-cta-action">
+                    <button class="final-cta-button" onclick="scrollToForm()">
+                        <i class="fa-solid fa-fire final-cta-icon"></i>
                         Get My Free AI Solution Blueprint
                     </button>
                 </div>
                 
-                <div class="grid md:grid-cols-3 gap-8 text-center">
-                    <div>
-                        <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-4 pulse-glow">
-                            <i class="fa-solid fa-shield-check text-white text-xl"></i>
+                <div class="final-cta-features">
+                    <div class="final-cta-feature">
+                        <div class="final-cta-feature-icon final-cta-feature-icon-risk">
+                            <i class="fa-solid fa-shield-check"></i>
                         </div>
-                        <div class="text-white font-semibold">100% Risk-Free</div>
-                        <div class="text-gray-400">30-day satisfaction guarantee</div>
+                        <div class="final-cta-feature-label">100% Risk-Free</div>
+                        <div class="final-cta-feature-text">30-day satisfaction guarantee</div>
                     </div>
-                    <div>
-                        <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 pulse-glow">
-                            <i class="fa-solid fa-bolt text-white text-xl"></i>
+                    <div class="final-cta-feature">
+                        <div class="final-cta-feature-icon final-cta-feature-icon-fast">
+                            <i class="fa-solid fa-bolt"></i>
                         </div>
-                        <div class="text-white font-semibold">Fast Implementation</div>
-                        <div class="text-gray-400">3-5 weeks to launch</div>
+                        <div class="final-cta-feature-label">Fast Implementation</div>
+                        <div class="final-cta-feature-text">3-5 weeks to launch</div>
                     </div>
-                    <div>
-                        <div class="w-16 h-16 bg-gradient-to-r from-pink-400 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4 pulse-glow">
-                            <i class="fa-solid fa-headset text-white text-xl"></i>
+                    <div class="final-cta-feature">
+                        <div class="final-cta-feature-icon final-cta-feature-icon-support">
+                            <i class="fa-solid fa-headset"></i>
                         </div>
-                        <div class="text-white font-semibold">Lifetime Support</div>
-                        <div class="text-gray-400">We're your long-term partner</div>
+                        <div class="final-cta-feature-label">Lifetime Support</div>
+                        <div class="final-cta-feature-text">We're your long-term partner</div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer id="footer" class="bg-gray-900 py-16">
-        <div class="container mx-auto px-6">
-            <div class="max-w-6xl mx-auto">
-                <div class="grid md:grid-cols-4 gap-12 mb-12">
-                    <div class="md:col-span-2">
-                        <div class="flex items-center space-x-3 mb-6">
-                            <img src="/images/revamply-logo.png" alt="Revamply" class="h-10">
+    <footer id="footer" class="site-footer">
+        <div class="footer-container">
+            <div class="footer-wrapper">
+                <div class="footer-grid">
+                    <div class="footer-brand">
+                        <div class="footer-logo">
+                            <img src="/images/revamply-logo.png" alt="Revamply" class="footer-logo-image">
                         </div>
-                        <p class="text-gray-400 text-lg leading-relaxed mb-6">
+                        <p class="footer-description">
                             We design, build, and maintain custom AI &amp; automation systems that remove business bottlenecks and accelerate growth.
                         </p>
-                        <div class="flex space-x-4">
-                            <a href="https://linkedin.com/company/revamply-ai" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-500 transition-colors">
-                                <i class="fa-brands fa-linkedin text-white"></i>
+                        <div class="footer-social">
+                            <a href="https://linkedin.com/company/revamply-ai" target="_blank" rel="noopener noreferrer" class="footer-social-link footer-social-linkedin">
+                                <i class="fa-brands fa-linkedin"></i>
                             </a>
-                            <span class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors cursor-pointer">
-                                <i class="fa-brands fa-twitter text-white"></i>
+                            <span class="footer-social-link footer-social-twitter">
+                                <i class="fa-brands fa-twitter"></i>
                             </span>
-                            <span class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-pink-500 transition-colors cursor-pointer">
-                                <i class="fa-brands fa-instagram text-white"></i>
+                            <span class="footer-social-link footer-social-instagram">
+                                <i class="fa-brands fa-instagram"></i>
                             </span>
                         </div>
                     </div>
                     
-                    <div>
-                        <h4 class="text-white font-bold text-lg mb-6">Solutions</h4>
-                        <ul class="space-y-3 text-gray-400">
-                            <li><a href="/agentic-ai-agents.html" class="hover:text-white transition-colors">Agentic AI Agents</a></li>
-                            <li><a href="/ai-chatbots.html" class="hover:text-white transition-colors">AI Chatbots</a></li>
-                            <li><a href="/process-automation.html" class="hover:text-white transition-colors">Process Automation</a></li>
-                            <li><a href="/predictive-analytics.html" class="hover:text-white transition-colors">Predictive Analytics</a></li>
-                            <li><a href="/custom-ai-platforms.html" class="hover:text-white transition-colors">Custom AI Platforms</a></li>
+                    <div class="footer-links">
+                        <h4 class="footer-links-title">Solutions</h4>
+                        <ul class="footer-links-list">
+                            <li><a href="/agentic-ai-agents.html" class="footer-link">Agentic AI Agents</a></li>
+                            <li><a href="/ai-chatbots.html" class="footer-link">AI Chatbots</a></li>
+                            <li><a href="/process-automation.html" class="footer-link">Process Automation</a></li>
+                            <li><a href="/predictive-analytics.html" class="footer-link">Predictive Analytics</a></li>
+                            <li><a href="/custom-ai-platforms.html" class="footer-link">Custom AI Platforms</a></li>
                         </ul>
                     </div>
                     
-                    <div>
-                        <h4 class="text-white font-bold text-lg mb-6">Company</h4>
-                        <ul class="space-y-3 text-gray-400">
-                            <li><a href="/about.html" class="hover:text-white transition-colors">About Us</a></li>
-                            <li><a href="/case-studies.html" class="hover:text-white transition-colors">Case Studies</a></li>
-                            <li><a href="/careers.html" class="hover:text-white transition-colors">Careers</a></li>
-                            <li><a href="/contact.html" class="hover:text-white transition-colors">Contact</a></li>
+                    <div class="footer-links">
+                        <h4 class="footer-links-title">Company</h4>
+                        <ul class="footer-links-list">
+                            <li><a href="/about.html" class="footer-link">About Us</a></li>
+                            <li><a href="/case-studies.html" class="footer-link">Case Studies</a></li>
+                            <li><a href="/careers.html" class="footer-link">Careers</a></li>
+                            <li><a href="/contact.html" class="footer-link">Contact</a></li>
                         </ul>
                     </div>
                 </div>
                 
-                <div class="border-t border-gray-800 pt-8">
-                    <div class="flex flex-col md:flex-row justify-between items-center">
-                        <div class="text-gray-400 mb-4 md:mb-0">
+                <div class="footer-bottom">
+                    <div class="footer-bottom-content">
+                        <div class="footer-copyright">
                         </div>
-                        <div class="flex space-x-6 text-gray-400">
-                            <a href="/privacy-policy.html" class="hover:text-white transition-colors">Privacy Policy</a>
-                            <a href="/terms-of-service.html" class="hover:text-white transition-colors">Terms of Service</a>
-                            <a href="/cookie-policy.html" class="hover:text-white transition-colors">Cookie Policy</a>
+                        <div class="footer-legal">
+                            <a href="/privacy-policy.html" class="footer-legal-link">Privacy Policy</a>
+                            <a href="/terms-of-service.html" class="footer-legal-link">Terms of Service</a>
+                            <a href="/cookie-policy.html" class="footer-legal-link">Cookie Policy</a>
                         </div>
                     </div>
                 </div>
@@ -1367,7 +1380,7 @@
                     
                     // Hide only the form and header, keep section visible
                     const businessForm = document.getElementById('business-form');
-                    const formHeader = document.querySelector('#form-section .text-center.mb-16');
+                    const formHeader = document.querySelector('#form-section .form-header');
 
                     // Fade out form and header
                     businessForm.style.transition = 'opacity 0.3s ease-out';
