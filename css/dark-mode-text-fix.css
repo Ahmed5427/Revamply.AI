@@ -1,0 +1,145 @@
+/* ===============================================
+   DARK MODE TEXT FIX - Add this to fix black text issues
+   =============================================== */
+
+/* FIX 1: Override .font-medium black color in dark mode */
+@media (prefers-color-scheme: dark) {
+    .font-medium {
+        color: #111827 !important; /* Dark gray for light backgrounds */
+    }
+    
+    /* Make font-medium white on dark backgrounds */
+    .bg-gray-800 .font-medium,
+    .bg-gray-900 .font-medium,
+    .bg-black .font-medium,
+    section:not(.bg-white):not(.bg-gray-50) .font-medium {
+        color: #ffffff !important;
+    }
+    
+    /* Specifically fix the stats cards */
+    .bg-gray-50 .bg-white .font-medium,
+    .bg-white .font-medium {
+        color: #1f2937 !important; /* Dark text on white cards */
+    }
+}
+
+/* FIX 2: Fix the very dark gray color on dark backgrounds */
+@media (prefers-color-scheme: dark) {
+    .bg-gray-800 p,
+    .bg-gray-800 li,
+    .bg-gray-900 p,
+    .bg-gray-900 li,
+    .bg-black p,
+    .bg-black li {
+        color: #e5e7eb !important; /* Light gray instead of #424953 */
+    }
+    
+    /* Fix span elements inside dark backgrounds */
+    .bg-gray-800 span,
+    .bg-gray-900 span,
+    .bg-black span {
+        color: #e5e7eb !important;
+    }
+}
+
+/* FIX 3: Fix text-gray-500 class specifically for labels */
+@media (prefers-color-scheme: dark) {
+    .text-gray-500 {
+        color: #9ca3af !important; /* Medium gray that's visible */
+    }
+    
+    /* But make it lighter on dark blue/black backgrounds */
+    .bg-gray-800 .text-gray-500,
+    .bg-gray-900 .text-gray-500,
+    section[class*="bg-"]:not(.bg-white):not(.bg-gray-50) .text-gray-500 {
+        color: #d1d5db !important; /* Lighter gray */
+    }
+}
+
+/* FIX 4: Ensure all text inside stat cards is visible */
+@media (prefers-color-scheme: dark) {
+    /* Stats cards with bg-white inside dark sections */
+    .bg-gray-50 .bg-white,
+    section .bg-white {
+        background: #ffffff !important;
+    }
+    
+    .bg-gray-50 .bg-white span,
+    section .bg-white span {
+        color: #1f2937 !important; /* Dark text on white background */
+    }
+    
+    .bg-gray-50 .bg-white .text-sm,
+    section .bg-white .text-sm {
+        color: #6b7280 !important; /* Gray labels on white background */
+    }
+}
+
+/* FIX 5: Chat box labels specifically */
+@media (prefers-color-scheme: dark) {
+    /* Customer Query and AI Response labels */
+    .bg-blue-100 .text-gray-500,
+    .bg-pink-100 .text-gray-500 {
+        color: #6b7280 !important; /* Darker gray on light blue/pink */
+    }
+    
+    .bg-blue-100 .font-medium,
+    .bg-pink-100 .font-medium {
+        color: #1f2937 !important; /* Dark text on light backgrounds */
+    }
+}
+
+/* FIX 6: Predictive Analytics section stats */
+@media (prefers-color-scheme: dark) {
+    /* The dark cards with stats */
+    .bg-gray-50.rounded-3xl .bg-white span:not(.text-gradient),
+    [class*="rounded-xl"] span {
+        color: #1f2937 !important;
+    }
+    
+    /* Ensure percentage values are visible */
+    .text-2xl.font-bold.text-gradient {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
+}
+
+/* FIX 7: General dark mode span fix */
+@media (prefers-color-scheme: dark) {
+    /* Default span color on dark sections */
+    section:not(.bg-white):not(.bg-gray-50) span {
+        color: #e5e7eb !important;
+    }
+    
+    /* But keep dark text on light cards */
+    .bg-white span:not(.text-gradient):not([class*="text-"]),
+    .bg-gray-50 .bg-white span:not(.text-gradient):not([class*="text-"]) {
+        color: #374151 !important;
+    }
+}
+
+/* Mobile specific fixes */
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+    /* Ensure mobile has same contrast fixes */
+    .font-medium {
+        color: #e5e7eb !important;
+    }
+    
+    .bg-white .font-medium,
+    .bg-gray-50 .bg-white .font-medium {
+        color: #1f2937 !important;
+    }
+    
+    /* All spans on dark backgrounds should be light */
+    section:not(.bg-white):not(.bg-gray-50) span {
+        color: #e5e7eb !important;
+    }
+    
+    /* All spans on white backgrounds should be dark */
+    .bg-white span:not(.text-gradient),
+    .bg-gray-50 .bg-white span:not(.text-gradient) {
+        color: #1f2937 !important;
+    }
+}
