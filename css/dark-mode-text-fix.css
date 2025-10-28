@@ -1,30 +1,118 @@
 /* ===============================================
-   DARK MODE TEXT FIX - Add this to fix black text issues
+   DARK MODE TEXT FIX V2 - IMPROVED CONTRAST
+   This fixes black text issues while maintaining proper contrast
    =============================================== */
 
-/* FIX 1: Override .font-medium black color in dark mode */
+/* CRITICAL: Reset the problematic rules first */
 @media (prefers-color-scheme: dark) {
+    
+    /* FIX 1: Override .font-medium - context-aware coloring */
     .font-medium {
-        color: #111827 !important; /* Dark gray for light backgrounds */
+        font-weight: 500;
+        /* Don't set a global color - let it inherit or be set by parent */
     }
     
-    /* Make font-medium white on dark backgrounds */
+    /* Dark text on WHITE backgrounds */
+    .bg-white .font-medium,
+    .bg-gray-50 .bg-white .font-medium,
+    .bg-blue-100 .font-medium,
+    .bg-pink-100 .font-medium {
+        color: #1f2937 !important;
+    }
+    
+    /* Light text on DARK backgrounds */
     .bg-gray-800 .font-medium,
     .bg-gray-900 .font-medium,
-    .bg-black .font-medium,
-    section:not(.bg-white):not(.bg-gray-50) .font-medium {
+    section:not(.bg-white):not(.bg-gray-50) > * > .font-medium {
         color: #ffffff !important;
     }
     
-    /* Specifically fix the stats cards */
-    .bg-gray-50 .bg-white .font-medium,
-    .bg-white .font-medium {
-        color: #1f2937 !important; /* Dark text on white cards */
+    /* FIX 2: List items (bullets) - context-aware */
+    /* Light text on dark section backgrounds */
+    section:not(.bg-white):not(.bg-gray-50) > div > ul > li,
+    section:not(.bg-white):not(.bg-gray-50) li {
+        color: #e5e7eb !important;
     }
-}
-
-/* FIX 2: Fix the very dark gray color on dark backgrounds */
-@media (prefers-color-scheme: dark) {
+    
+    /* Dark text on white cards */
+    .bg-white li,
+    .bg-gray-50 .bg-white li,
+    .bg-blue-100 li,
+    .bg-pink-100 li {
+        color: #374151 !important;
+    }
+    
+    /* FIX 3: Span elements - highly context-aware */
+    /* Default: light text on dark backgrounds */
+    section:not(.bg-white):not(.bg-gray-50) > div > span,
+    section:not(.bg-white):not(.bg-gray-50) > div > div > span {
+        color: #e5e7eb !important;
+    }
+    
+    /* Dark text inside white cards */
+    .bg-white span:not(.text-gradient):not([class*="text-"]),
+    .bg-gray-50 .bg-white span:not(.text-gradient):not([class*="text-"]),
+    .bg-blue-100 span,
+    .bg-pink-100 span {
+        color: #1f2937 !important;
+    }
+    
+    /* Keep gradient text working */
+    .text-gradient span,
+    span.text-gradient {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
+    
+    /* FIX 4: Headings inside white cards should be DARK */
+    .bg-white h1,
+    .bg-white h2,
+    .bg-white h3,
+    .bg-white h4,
+    .bg-gray-50 .bg-white h1,
+    .bg-gray-50 .bg-white h2,
+    .bg-gray-50 .bg-white h3,
+    .bg-gray-50 .bg-white h4 {
+        color: #111827 !important;
+    }
+    
+    /* FIX 5: Paragraphs inside white cards should be DARK */
+    .bg-white p,
+    .bg-gray-50 .bg-white p,
+    .bg-blue-100 p,
+    .bg-pink-100 p {
+        color: #374151 !important;
+    }
+    
+    /* FIX 6: Text color utility classes on white backgrounds */
+    .bg-white .text-gray-500,
+    .bg-gray-50 .bg-white .text-gray-500 {
+        color: #6b7280 !important;
+    }
+    
+    /* FIX 7: Form labels should be visible */
+    label,
+    .field-label {
+        color: #d1d5db !important;
+    }
+    
+    /* But form labels on white backgrounds should be dark */
+    .bg-white label,
+    .bg-white .field-label {
+        color: #374151 !important;
+    }
+    
+    /* FIX 8: Specific fixes for stat cards */
+    /* The white cards inside dark sections showing stats */
+    section .bg-white.rounded-xl span,
+    .bg-gray-50 .bg-white.rounded-xl span {
+        color: #1f2937 !important;
+    }
+    
+    /* FIX 9: Fix the overly dark text in cards */
+    /* Override the #424953 color */
     .bg-gray-800 p,
     .bg-gray-800 li,
     .bg-gray-900 p,
@@ -34,112 +122,98 @@
         color: #e5e7eb !important; /* Light gray instead of #424953 */
     }
     
-    /* Fix span elements inside dark backgrounds */
-    .bg-gray-800 span,
-    .bg-gray-900 span,
-    .bg-black span {
-        color: #e5e7eb !important;
-    }
-}
-
-/* FIX 3: Fix text-gray-500 class specifically for labels */
-@media (prefers-color-scheme: dark) {
-    .text-gray-500 {
-        color: #9ca3af !important; /* Medium gray that's visible */
-    }
-    
-    /* But make it lighter on dark blue/black backgrounds */
-    .bg-gray-800 .text-gray-500,
-    .bg-gray-900 .text-gray-500,
-    section[class*="bg-"]:not(.bg-white):not(.bg-gray-50) .text-gray-500 {
-        color: #d1d5db !important; /* Lighter gray */
-    }
-}
-
-/* FIX 4: Ensure all text inside stat cards is visible */
-@media (prefers-color-scheme: dark) {
-    /* Stats cards with bg-white inside dark sections */
-    .bg-gray-50 .bg-white,
-    section .bg-white {
-        background: #ffffff !important;
-    }
-    
-    .bg-gray-50 .bg-white span,
-    section .bg-white span {
-        color: #1f2937 !important; /* Dark text on white background */
-    }
-    
-    .bg-gray-50 .bg-white .text-sm,
-    section .bg-white .text-sm {
-        color: #6b7280 !important; /* Gray labels on white background */
-    }
-}
-
-/* FIX 5: Chat box labels specifically */
-@media (prefers-color-scheme: dark) {
-    /* Customer Query and AI Response labels */
-    .bg-blue-100 .text-gray-500,
-    .bg-pink-100 .text-gray-500 {
-        color: #6b7280 !important; /* Darker gray on light blue/pink */
-    }
-    
-    .bg-blue-100 .font-medium,
-    .bg-pink-100 .font-medium {
-        color: #1f2937 !important; /* Dark text on light backgrounds */
-    }
-}
-
-/* FIX 6: Predictive Analytics section stats */
-@media (prefers-color-scheme: dark) {
-    /* The dark cards with stats */
-    .bg-gray-50.rounded-3xl .bg-white span:not(.text-gradient),
-    [class*="rounded-xl"] span {
-        color: #1f2937 !important;
-    }
-    
-    /* Ensure percentage values are visible */
-    .text-2xl.font-bold.text-gradient {
-        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
-        -webkit-background-clip: text !important;
-        -webkit-text-fill-color: transparent !important;
-        background-clip: text !important;
-    }
-}
-
-/* FIX 7: General dark mode span fix */
-@media (prefers-color-scheme: dark) {
-    /* Default span color on dark sections */
-    section:not(.bg-white):not(.bg-gray-50) span {
-        color: #e5e7eb !important;
-    }
-    
-    /* But keep dark text on light cards */
-    .bg-white span:not(.text-gradient):not([class*="text-"]),
-    .bg-gray-50 .bg-white span:not(.text-gradient):not([class*="text-"]) {
+    /* But if these are inside a white card, make them dark */
+    .bg-gray-800 .bg-white p,
+    .bg-gray-900 .bg-white p,
+    .bg-gray-800 .bg-white li,
+    .bg-gray-900 .bg-white li {
         color: #374151 !important;
     }
+    
+    /* FIX 10: Chat boxes specifically */
+    .bg-blue-100,
+    .bg-pink-100 {
+        /* These are light backgrounds, need dark text */
+    }
+    
+    .bg-blue-100 *,
+    .bg-pink-100 * {
+        color: #1f2937 !important;
+    }
+    
+    .bg-blue-100 .text-gray-500,
+    .bg-pink-100 .text-gray-500 {
+        color: #6b7280 !important;
+    }
 }
 
-/* Mobile specific fixes */
+/* Mobile-specific overrides */
 @media (max-width: 768px) and (prefers-color-scheme: dark) {
-    /* Ensure mobile has same contrast fixes */
-    .font-medium {
-        color: #e5e7eb !important;
+    
+    /* Ensure headings on white cards are dark */
+    .bg-white h1,
+    .bg-white h2, 
+    .bg-white h3,
+    .bg-white h4 {
+        color: #111827 !important;
     }
     
-    .bg-white .font-medium,
-    .bg-gray-50 .bg-white .font-medium {
-        color: #1f2937 !important;
-    }
-    
-    /* All spans on dark backgrounds should be light */
-    section:not(.bg-white):not(.bg-gray-50) span {
-        color: #e5e7eb !important;
-    }
-    
-    /* All spans on white backgrounds should be dark */
+    /* Ensure text on white cards is dark */
+    .bg-white p,
     .bg-white span:not(.text-gradient),
-    .bg-gray-50 .bg-white span:not(.text-gradient) {
-        color: #1f2937 !important;
+    .bg-white li {
+        color: #374151 !important;
+    }
+    
+    /* List items with icons on dark backgrounds should be light */
+    section:not(.bg-white):not(.bg-gray-50) li {
+        color: #e5e7eb !important;
+    }
+    
+    /* Form section fixes */
+    #form-section label,
+    #form-section .field-label,
+    #form-section h3,
+    #form-section h4 {
+        color: #f3f4f6 !important;
+    }
+}
+
+/* High specificity fixes for problematic sections */
+@media (prefers-color-scheme: dark) {
+    
+    /* Natural Language Processing section list items */
+    section ul li {
+        color: #e5e7eb !important;
+    }
+    
+    /* But white card lists should be dark */
+    .bg-white ul li,
+    .bg-gray-50 .bg-white ul li {
+        color: #374151 !important;
+    }
+    
+    /* Why Revamply section - white cards need dark text */
+    #why-revamply .bg-white h3,
+    #why-revamply .bg-white h4 {
+        color: #111827 !important;
+    }
+    
+    #why-revamply .bg-white p {
+        color: #4b5563 !important;
+    }
+    
+    /* Predictive Analytics white cards */
+    #predictive-analytics .bg-white h3,
+    #predictive-analytics .bg-white h4,
+    #predictive-analytics .bg-white span {
+        color: #111827 !important;
+    }
+    
+    /* Process section white cards */
+    #process .bg-white h3,
+    #process .bg-white h4,
+    #process .bg-white p {
+        color: #111827 !important;
     }
 }
