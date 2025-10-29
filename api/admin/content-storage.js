@@ -9,8 +9,14 @@ const CONTENT_PREFIX = 'content:';
 const HISTORY_PREFIX = 'history:';
 const MAX_HISTORY_ENTRIES = 50;
 
+// Debug: Check what KV_URL we're using
+console.log('[DEBUG] KV_URL exists:', !!process.env.KV_URL);
+console.log('[DEBUG] KV_URL value (first 20 chars):', process.env.KV_URL ? process.env.KV_URL.substring(0, 20) + '...' : 'UNDEFINED');
+
 // Create Redis client
-const redis = new Redis(process.env.KV_URL || 'redis://localhost:6379');
+const kvUrl = process.env.KV_URL || 'redis://localhost:6379';
+console.log('[DEBUG] Connecting to Redis with URL starting with:', kvUrl.substring(0, 20));
+const redis = new Redis(kvUrl);
 
 /**
  * Get all editable content
