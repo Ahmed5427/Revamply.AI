@@ -9,11 +9,11 @@
     "start": "vercel dev"
   },
   "dependencies": {
-    "ioredis": "^5.3.2",
-    "uuid": "^10.0.0",
     "bcrypt": "^5.1.1",
+    "cookie": "^0.6.0",
+    "ioredis": "^5.3.2",
     "jsonwebtoken": "^9.0.2",
-    "cookie": "^0.6.0"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@vercel/node": "^3.0.0"
