@@ -1,8 +1,12 @@
 // api/admin/initialize-content.js
 // API endpoint to initialize editable content (data sent from browser)
+// UPDATED: Uses ioredis with KV_REDIS_URL to match project setup
 
-import { kv } from '@vercel/kv';
+import Redis from 'ioredis';
 import { getTokenFromRequest, verifyToken } from './auth-utils.js';
+
+// Create Redis client using KV_REDIS_URL (same as blueprint-storage.js)
+const redis = new Redis(process.env.KV_REDIS_URL);
 
 export default async function handler(req, res) {
     // Only allow POST requests
@@ -11,7 +15,7 @@ export default async function handler(req, res) {
     }
     
     try {
-        // ✅ FIXED: Use the auth utility to get token from correct cookie name
+        // ✅ Authentication using correct cookie name
         const token = getTokenFromRequest(req);
         
         if (!token) {
@@ -19,7 +23,6 @@ export default async function handler(req, res) {
             return res.status(401).json({ success: false, message: 'Not authenticated' });
         }
         
-        // ✅ FIXED: Use the auth utility to verify token
         const decoded = verifyToken(token);
         
         if (!decoded) {
@@ -56,7 +59,8 @@ export default async function handler(req, res) {
             }
             
             // Check if this element already exists in the database
-            const existing = await kv.get(`content:${elementId}`);
+            const existingData = await redis.get(`content:${elementId}`);
+            const existing = existingData ? JSON.parse(existingData) : null;
             
             if (existing) {
                 // Update the element if text is different
@@ -66,7 +70,7 @@ export default async function handler(req, res) {
                         text,
                         updatedAt: new Date().toISOString(),
                     };
-                    await kv.set(`content:${elementId}`, updatedData);
+                    await redis.set(`content:${elementId}`, JSON.stringify(updatedData));
                     console.log(`🔄 Updated ${elementId}`);
                     updated++;
                     results.push({ elementId, action: 'updated', type });
@@ -88,14 +92,15 @@ export default async function handler(req, res) {
                 createdAt: new Date().toISOString(),
             };
             
-            // Save to database
-            await kv.set(`content:${elementId}`, contentData);
+            // Save to database using ioredis
+            await redis.set(`content:${elementId}`, JSON.stringify(contentData));
             
             // Add to content index
-            let contentIndex = await kv.get('content:index') || [];
+            const indexData = await redis.get('content:index');
+            let contentIndex = indexData ? JSON.parse(indexData) : [];
             if (!contentIndex.includes(elementId)) {
                 contentIndex.push(elementId);
-                await kv.set('content:index', contentIndex);
+                await redis.set('content:index', JSON.stringify(contentIndex));
             }
             
             console.log(`✅ Initialized ${elementId} (${type})`);
