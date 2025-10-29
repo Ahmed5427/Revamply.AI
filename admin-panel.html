@@ -39,7 +39,7 @@
         }
         
         .admin-dashboard.active {
-            display: block;
+            display: flex;
         }
         
         .sidebar {
@@ -51,18 +51,47 @@
             left: 0;
             top: 0;
             padding: 24px;
+            overflow-y: auto;
         }
         
         .main-content {
             margin-left: 280px;
             padding: 32px;
+            width: calc(100% - 280px);
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .section-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 12px;
         }
         
         .content-item {
-            background: white;
+            background: #f9fafb;
             border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
             border: 2px solid transparent;
             transition: all 0.2s;
             cursor: pointer;
@@ -71,11 +100,6 @@
         .content-item:hover {
             border-color: #667eea;
             box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.1);
-        }
-        
-        .content-item.editing {
-            border-color: #667eea;
-            background: #f3f4f6;
         }
         
         .btn {
@@ -107,6 +131,16 @@
             background: #d1d5db;
         }
         
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        
         .input-field {
             width: 100%;
             padding: 12px 16px;
@@ -122,17 +156,23 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
         
+        textarea.input-field {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
         .badge {
             display: inline-block;
             padding: 4px 12px;
             border-radius: 12px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
         }
         
         .badge-heading { background: #dbeafe; color: #1e40af; }
         .badge-paragraph { background: #dcfce7; color: #15803d; }
         .badge-span { background: #fef3c7; color: #a16207; }
+        .badge-stat { background: #fce7f3; color: #9f1239; }
         
         .modal {
             display: none;
@@ -155,7 +195,7 @@
             background: white;
             border-radius: 16px;
             padding: 32px;
-            max-width: 600px;
+            max-width: 700px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
@@ -190,13 +230,38 @@
             transform: translateX(28px);
         }
         
+        .color-picker-wrapper {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .alert {
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
         .loading-spinner {
-            border: 3px solid #f3f4f6;
+            border: 3px solid #f3f3f3;
             border-top: 3px solid #667eea;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 20px;
+            height: 20px;
             animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 8px;
         }
         
         @keyframes spin {
@@ -204,35 +269,92 @@
             100% { transform: rotate(360deg); }
         }
         
-        .alert {
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 16px;
+        .field-id {
+            font-family: 'Courier New', monospace;
+            font-size: 11px;
+            color: #6b7280;
+            background: #f3f4f6;
+            padding: 2px 6px;
+            border-radius: 4px;
         }
         
-        .alert-success {
-            background: #dcfce7;
-            color: #15803d;
-            border: 1px solid #86efac;
+        .stats-bar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
         }
         
-        .alert-error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #fca5a5;
+        .stat-item {
+            text-align: center;
         }
         
-        .color-picker-wrapper {
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        
+        .search-box {
+            margin-bottom: 20px;
+        }
+        
+        .nav-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 8px;
+            color: #374151;
+            text-decoration: none;
+            margin-bottom: 8px;
+            transition: all 0.2s;
+            cursor: pointer;
         }
         
-        .color-preview {
-            width: 40px;
-            height: 40px;
-            border-radius: 8px;
+        .nav-item:hover {
+            background: #f3f4f6;
+        }
+        
+        .nav-item.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white !important;
+        }
+        
+        .section-filter {
+            margin-bottom: 20px;
+        }
+        
+        .filter-btn {
+            display: inline-block;
+            padding: 8px 16px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
             border: 2px solid #e5e7eb;
+            background: white;
+        }
+        
+        .filter-btn:hover {
+            border-color: #667eea;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: transparent;
         }
     </style>
 </head>
@@ -242,19 +364,17 @@
 <div id="login-screen" class="login-container">
     <div class="login-card">
         <div style="text-align: center; margin-bottom: 32px;">
-            <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
-                <i class="fas fa-crown" style="font-size: 32px; color: white;"></i>
+            <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                <i class="fas fa-crown" style="font-size: 30px; color: white;"></i>
             </div>
-            <h1 style="font-size: 28px; font-weight: 800; color: #111827; margin-bottom: 8px;">Revamply Admin</h1>
-            <p style="color: #6b7280;">Content Management System</p>
+            <h1 style="font-size: 28px; font-weight: 700; color: #111827; margin-bottom: 8px;">Admin Panel</h1>
+            <p style="color: #6b7280;">Revamply Content Management</p>
         </div>
-        
-        <div id="login-alert"></div>
         
         <form id="login-form" onsubmit="handleLogin(event)">
             <div style="margin-bottom: 20px;">
                 <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Username</label>
-                <input type="text" id="username" class="input-field" placeholder="Enter admin username" required>
+                <input type="text" id="username" class="input-field" placeholder="Enter username" required>
             </div>
             
             <div style="margin-bottom: 24px;">
@@ -288,22 +408,42 @@
         </div>
         
         <nav style="margin-bottom: 32px;">
-            <a href="#" onclick="showSection('content')" class="nav-item active" data-section="content" style="display: flex; align-items: center; padding: 12px 16px; border-radius: 8px; color: #374151; text-decoration: none; margin-bottom: 8px; transition: all 0.2s;">
-                <i class="fas fa-edit" style="margin-right: 12px; width: 20px;"></i>
-                Content Editor
-            </a>
-            <a href="#" onclick="showSection('theme')" class="nav-item" data-section="theme" style="display: flex; align-items: center; padding: 12px 16px; border-radius: 8px; color: #374151; text-decoration: none; margin-bottom: 8px; transition: all 0.2s;">
-                <i class="fas fa-palette" style="margin-right: 12px; width: 20px;"></i>
-                Theme Settings
-            </a>
-            <a href="#" onclick="showSection('history')" class="nav-item" data-section="history" style="display: flex; align-items: center; padding: 12px 16px; border-radius: 8px; color: #374151; text-decoration: none; margin-bottom: 8px; transition: all 0.2s;">
-                <i class="fas fa-history" style="margin-right: 12px; width: 20px;"></i>
-                Revision History
-            </a>
-            <a href="#" onclick="showSection('export')" class="nav-item" data-section="export" style="display: flex; align-items: center; padding: 12px 16px; border-radius: 8px; color: #374151; text-decoration: none; margin-bottom: 8px; transition: all 0.2s;">
-                <i class="fas fa-download" style="margin-right: 12px; width: 20px;"></i>
-                Export / Import
-            </a>
+            <div class="nav-item active" onclick="showSection('all')">
+                <i class="fas fa-th-large" style="margin-right: 12px; width: 20px;"></i>
+                All Content
+            </div>
+            <div class="nav-item" onclick="showSection('hero')">
+                <i class="fas fa-home" style="margin-right: 12px; width: 20px;"></i>
+                Hero Section
+            </div>
+            <div class="nav-item" onclick="showSection('why-trust')">
+                <i class="fas fa-shield-check" style="margin-right: 12px; width: 20px;"></i>
+                Why Trust Us
+            </div>
+            <div class="nav-item" onclick="showSection('testimonials')">
+                <i class="fas fa-quote-left" style="margin-right: 12px; width: 20px;"></i>
+                Testimonials
+            </div>
+            <div class="nav-item" onclick="showSection('process')">
+                <i class="fas fa-diagram-project" style="margin-right: 12px; width: 20px;"></i>
+                Process
+            </div>
+            <div class="nav-item" onclick="showSection('features')">
+                <i class="fas fa-stars" style="margin-right: 12px; width: 20px;"></i>
+                Features
+            </div>
+            <div class="nav-item" onclick="showSection('pricing')">
+                <i class="fas fa-dollar-sign" style="margin-right: 12px; width: 20px;"></i>
+                Pricing
+            </div>
+            <div class="nav-item" onclick="showSection('cta')">
+                <i class="fas fa-rocket" style="margin-right: 12px; width: 20px;"></i>
+                Final CTA
+            </div>
+            <div class="nav-item" onclick="showSection('footer')">
+                <i class="fas fa-info-circle" style="margin-right: 12px; width: 20px;"></i>
+                Footer
+            </div>
         </nav>
         
         <div style="padding: 16px; background: #f3f4f6; border-radius: 12px; margin-bottom: 16px;">
@@ -321,41 +461,55 @@
     
     <!-- Main Content Area -->
     <main class="main-content">
-        <!-- Content Editor Section -->
-        <div id="section-content" class="dashboard-section active">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
-                <div>
-                    <h2 style="font-size: 28px; font-weight: 700; color: #111827; margin-bottom: 4px;">Content Editor</h2>
-                    <p style="color: #6b7280;">Manage all editable content on your website</p>
-                </div>
-                <button onclick="loadContent()" class="btn btn-primary">
-                    <i class="fas fa-sync-alt" style="margin-right: 8px;"></i>
-                    Refresh
-                </button>
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-number" id="total-elements">0</div>
+                <div class="stat-label">Total Elements</div>
             </div>
-            
-            <div id="content-alert"></div>
-            
-            <div id="content-list">
-                <!-- Content items will be loaded here -->
+            <div class="stat-item">
+                <div class="stat-number" id="total-sections">9</div>
+                <div class="stat-label">Sections</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="last-updated">--</div>
+                <div class="stat-label">Last Updated</div>
             </div>
         </div>
-        
-        <!-- Theme Settings Section -->
-        <div id="section-theme" class="dashboard-section" style="display: none;">
-            <h2 style="font-size: 28px; font-weight: 700; color: #111827; margin-bottom: 24px;">Theme Settings</h2>
-            
-            <div style="background: white; border-radius: 16px; padding: 32px;">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <h3 style="font-size: 18px; font-weight: 600; color: #111827; margin-bottom: 8px;">Website Theme</h3>
-                        <p style="color: #6b7280;">Switch between dark and light mode</p>
-                    </div>
-                    <div class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">
-                        <div class="theme-toggle-slider"></div>
-                    </div>
-                </div>
-            </div>
+
+        <!-- Search Box -->
+        <div class="search-box">
+            <input 
+                type="text" 
+                id="search-input" 
+                class="input-field" 
+                placeholder="🔍 Search by element ID or content..." 
+                onkeyup="filterContent()"
+            >
+        </div>
+
+        <!-- Action Buttons -->
+        <div style="display: flex; gap: 12px; margin-bottom: 24px;">
+            <button onclick="loadContent()" class="btn btn-primary">
+                <i class="fas fa-sync-alt" style="margin-right: 8px;"></i>
+                Refresh All
+            </button>
+            <button onclick="exportContent()" class="btn btn-secondary">
+                <i class="fas fa-download" style="margin-right: 8px;"></i>
+                Export JSON
+            </button>
+            <button onclick="bulkEdit()" class="btn btn-secondary">
+                <i class="fas fa-edit" style="margin-right: 8px;"></i>
+                Bulk Edit
+            </button>
+        </div>
+
+        <!-- Alert Container -->
+        <div id="content-alert"></div>
+
+        <!-- Content List Container -->
+        <div id="content-container">
+            <!-- Content will be dynamically loaded here -->
         </div>
     </main>
 </div>
@@ -363,20 +517,26 @@
 <!-- Edit Modal -->
 <div id="edit-modal" class="modal">
     <div class="modal-content">
-        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">Edit Content</h3>
-        
-        <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Element ID</label>
-            <input type="text" id="edit-element-id" class="input-field" readonly style="background: #f3f4f6;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <h3 style="font-size: 22px; font-weight: 700;">Edit Content</h3>
+            <button onclick="closeEditModal()" style="background: none; border: none; font-size: 24px; cursor: pointer; color: #6b7280;">×</button>
         </div>
         
         <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Text Content</label>
-            <textarea id="edit-text" class="input-field" rows="5"></textarea>
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Element ID</label>
+            <div class="field-id" id="edit-element-id" style="padding: 12px; font-size: 13px;"></div>
         </div>
         
         <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Text Color</label>
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Text Content</label>
+            <textarea id="edit-text" class="input-field" rows="6"></textarea>
+            <div style="text-align: right; font-size: 12px; color: #6b7280; margin-top: 4px;">
+                <span id="char-count">0</span> characters
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Text Color</label>
             <div class="color-picker-wrapper">
                 <input type="color" id="edit-color" style="width: 80px; height: 40px; border: none; border-radius: 8px; cursor: pointer;">
                 <input type="text" id="edit-color-hex" class="input-field" style="flex: 1;" placeholder="#000000">
@@ -384,13 +544,18 @@
         </div>
         
         <div style="margin-bottom: 20px;">
-            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Font Size (px)</label>
-            <input type="number" id="edit-font-size" class="input-field" placeholder="16">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Font Size (px)</label>
+            <input type="number" id="edit-font-size" class="input-field" placeholder="16" min="8" max="200">
         </div>
         
         <div style="display: flex; gap: 12px;">
-            <button onclick="saveContentEdit()" class="btn btn-primary" style="flex: 1;">
+            <button onclick="saveContentEdit()" class="btn btn-success" style="flex: 1;">
+                <i class="fas fa-save" style="margin-right: 8px;"></i>
                 Save Changes
+            </button>
+            <button onclick="viewHistory()" class="btn btn-secondary">
+                <i class="fas fa-history" style="margin-right: 8px;"></i>
+                History
             </button>
             <button onclick="closeEditModal()" class="btn btn-secondary">
                 Cancel
@@ -402,6 +567,129 @@
 <script>
 let currentContent = [];
 let editingElementId = null;
+let currentSection = 'all';
+
+// Element ID to Section Mapping
+const sectionMap = {
+    'hero-heading-line1': 'hero',
+    'hero-heading-line2': 'hero',
+    'hero-heading-line3': 'hero',
+    'hero-description': 'hero',
+    'hero-stat1-number': 'hero',
+    'hero-stat1-text': 'hero',
+    'hero-stat2-number': 'hero',
+    'hero-stat2-text': 'hero',
+    'hero-stat3-number': 'hero',
+    'hero-stat3-text': 'hero',
+    
+    'why-trust-heading': 'why-trust',
+    'why-trust-subtitle': 'why-trust',
+    'efficiency-title': 'why-trust',
+    'efficiency-description': 'why-trust',
+    'overhead-title': 'why-trust',
+    'overhead-description': 'why-trust',
+    'growth-title': 'why-trust',
+    'growth-description': 'why-trust',
+    'custom-title': 'why-trust',
+    'custom-description': 'why-trust',
+    'partner-title': 'why-trust',
+    'partner-description': 'why-trust',
+    'scalable-title': 'why-trust',
+    'scalable-description': 'why-trust',
+    
+    'testimonials-heading': 'testimonials',
+    'testimonials-subtitle': 'testimonials',
+    'username01': 'testimonials',
+    'user-title01': 'testimonials',
+    'user-title02': 'testimonials',
+    'testimonial-1-quote': 'testimonials',
+    'testimonial-1-number1': 'testimonials',
+    'testimonial-1-number10': 'testimonials',
+    'testimonial-1-number2': 'testimonials',
+    'testimonial-1-number20': 'testimonials',
+    'testimonial-1-number3': 'testimonials',
+    'testimonial-1-number30': 'testimonials',
+    'username10': 'testimonials',
+    'user-title10': 'testimonials',
+    'user-title11': 'testimonials',
+    'testimonial-2-quote': 'testimonials',
+    'testimonial-2-number1': 'testimonials',
+    'testimonial-2-number10': 'testimonials',
+    'testimonial-2-number2': 'testimonials',
+    'testimonial-2-number20': 'testimonials',
+    'testimonial-2-number3': 'testimonials',
+    'testimonial-2-number30': 'testimonials',
+    
+    'process-heading': 'process',
+    'process-subtitle': 'process',
+    'process-step1-title': 'process',
+    'process-step1-description': 'process',
+    'process-step2-title': 'process',
+    'process-step2-description': 'process',
+    'process-step3-title': 'process',
+    'process-step3-description': 'process',
+    'process-step4-title': 'process',
+    'process-step4-description': 'process',
+    'expectations1': 'process',
+    'expectations1-description1': 'process',
+    'expectations1-description2': 'process',
+    'expectations1-description3': 'process',
+    'expectations1-description4': 'process',
+    'expectations1-description5': 'process',
+    
+    'features-heading': 'features',
+    'features-subtitle': 'features',
+    'nlp-title': 'features',
+    'nlp-description': 'features',
+    'nlp-description2': 'features',
+    'nlp-description3': 'features',
+    'nlp-description4': 'features',
+    'nlp-conversation01': 'features',
+    'nlp-conversation02': 'features',
+    'nlp-conversation10': 'features',
+    'nlp-conversation11': 'features',
+    'nlp-details1': 'features',
+    'nlp-details2': 'features',
+    'nlp-details3': 'features',
+    'nlp-details4': 'features',
+    'nlp-details5': 'features',
+    'nlp-details6': 'features',
+    'nlp-details7': 'features',
+    'nlp-details8': 'features',
+    'nlp-details9': 'features',
+    'nlp-details10': 'features',
+    'nlp-details11': 'features',
+    
+    'pros-title': 'pricing',
+    'pros-description': 'pricing',
+    'pros-price': 'pricing',
+    'pros-btn': 'pricing',
+    
+    'solver-title': 'cta',
+    'solver-title1': 'cta',
+    'solver-description': 'cta',
+    'solver-btn': 'cta',
+    'solver-pros1': 'cta',
+    'solver-pros10': 'cta',
+    'solver-pros2': 'cta',
+    'solver-pros20': 'cta',
+    'solver-pros3': 'cta',
+    'solver-pros30': 'cta',
+    
+    'footer-description': 'footer'
+};
+
+// Section Display Names
+const sectionNames = {
+    'hero': 'Hero Section',
+    'why-trust': 'Why Trust Revamply',
+    'testimonials': 'Testimonials',
+    'process': 'Our Process',
+    'features': 'Features Showcase',
+    'pricing': 'Pricing',
+    'cta': 'Final CTA',
+    'footer': 'Footer'
+};
 
 // Login handler
 async function handleLogin(event) {
@@ -409,13 +697,9 @@ async function handleLogin(event) {
     
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-    const loginBtnText = document.getElementById('login-btn-text');
-    const loginSpinner = document.getElementById('login-spinner');
-    const loginAlert = document.getElementById('login-alert');
     
-    loginBtnText.style.display = 'none';
-    loginSpinner.style.display = 'block';
-    loginAlert.innerHTML = '';
+    document.getElementById('login-btn-text').style.display = 'none';
+    document.getElementById('login-spinner').style.display = 'inline-block';
     
     try {
         const response = await fetch('/api/admin/login', {
@@ -429,74 +713,127 @@ async function handleLogin(event) {
         if (data.success) {
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('admin-dashboard').classList.add('active');
-            document.getElementById('current-user').textContent = data.user.username;
+            document.getElementById('current-user').textContent = username;
             loadContent();
         } else {
-            loginAlert.innerHTML = `<div class="alert alert-error">${data.error}</div>`;
+            alert(data.message || 'Login failed');
         }
     } catch (error) {
-        loginAlert.innerHTML = `<div class="alert alert-error">Login failed: ${error.message}</div>`;
+        alert('Login error: ' + error.message);
     } finally {
-        loginBtnText.style.display = 'inline';
-        loginSpinner.style.display = 'none';
+        document.getElementById('login-btn-text').style.display = 'inline';
+        document.getElementById('login-spinner').style.display = 'none';
     }
 }
 
 // Logout handler
 async function handleLogout() {
+    if (!confirm('Are you sure you want to logout?')) return;
+    
     try {
         await fetch('/api/admin/logout', { method: 'POST' });
         location.reload();
     } catch (error) {
-        console.error('Logout error:', error);
         location.reload();
     }
 }
 
 // Load content
 async function loadContent() {
-    const contentList = document.getElementById('content-list');
-    contentList.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loading-spinner" style="margin: 0 auto;"></div></div>';
-    
     try {
         const response = await fetch('/api/admin/content');
         const data = await response.json();
         
         if (data.success) {
-            currentContent = data.content;
-            renderContentList(data.content);
+            currentContent = data.content || [];
+            document.getElementById('total-elements').textContent = currentContent.length;
+            
+            // Update last updated time
+            if (currentContent.length > 0) {
+                const latestUpdate = currentContent.reduce((latest, item) => {
+                    return new Date(item.updatedAt) > new Date(latest.updatedAt) ? item : latest;
+                });
+                const date = new Date(latestUpdate.updatedAt);
+                document.getElementById('last-updated').textContent = date.toLocaleDateString();
+            }
+            
+            renderContent();
+        } else {
+            showAlert('Failed to load content', 'error');
         }
     } catch (error) {
-        contentList.innerHTML = `<div class="alert alert-error">Failed to load content: ${error.message}</div>`;
+        showAlert('Error loading content: ' + error.message, 'error');
     }
 }
 
-// Render content list
-function renderContentList(content) {
-    const contentList = document.getElementById('content-list');
+// Render content grouped by sections
+function renderContent() {
+    const container = document.getElementById('content-container');
     
-    if (content.length === 0) {
-        contentList.innerHTML = '<div style="text-align: center; padding: 40px; color: #6b7280;">No content found. Add data-editable attributes to your HTML elements.</div>';
+    if (currentContent.length === 0) {
+        container.innerHTML = '<div style="text-align: center; padding: 60px; color: #6b7280;"><i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 16px;"></i><p style="font-size: 16px;">No editable content found.</p><p style="font-size: 14px; margin-top: 8px;">Add data-editable="true" attributes to your HTML elements.</p></div>';
         return;
     }
     
-    contentList.innerHTML = content.map(item => `
-        <div class="content-item" onclick="openEditModal('${item.elementId}')">
-            <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 12px;">
-                <div style="flex: 1;">
-                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-                        <span class="badge badge-${item.type}">${item.type}</span>
-                        <span style="font-size: 12px; color: #9ca3af;">${item.elementId}</span>
+    // Group content by section
+    const grouped = {};
+    currentContent.forEach(item => {
+        const section = sectionMap[item.elementId] || 'other';
+        if (!grouped[section]) grouped[section] = [];
+        grouped[section].push(item);
+    });
+    
+    // Filter by current section
+    const sectionsToShow = currentSection === 'all' ? Object.keys(grouped) : [currentSection];
+    
+    container.innerHTML = sectionsToShow.map(sectionKey => {
+        const items = grouped[sectionKey] || [];
+        if (items.length === 0) return '';
+        
+        const sectionTitle = sectionNames[sectionKey] || sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1);
+        const iconMap = {
+            'hero': 'fa-home',
+            'why-trust': 'fa-shield-check',
+            'testimonials': 'fa-quote-left',
+            'process': 'fa-diagram-project',
+            'features': 'fa-stars',
+            'pricing': 'fa-dollar-sign',
+            'cta': 'fa-rocket',
+            'footer': 'fa-info-circle'
+        };
+        const icon = iconMap[sectionKey] || 'fa-file-alt';
+        
+        return `
+            <div class="content-section" data-section="${sectionKey}">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas ${icon}" style="color: white; font-size: 18px;"></i>
                     </div>
-                    <div style="font-size: 14px; color: #374151; line-height: 1.6;">${item.text.substring(0, 150)}${item.text.length > 150 ? '...' : ''}</div>
+                    <div>
+                        <h2 style="font-size: 20px; font-weight: 700; color: #111827;">${sectionTitle}</h2>
+                        <p style="font-size: 13px; color: #6b7280;">${items.length} editable element${items.length > 1 ? 's' : ''}</p>
+                    </div>
                 </div>
-                <i class="fas fa-edit" style="color: #667eea; font-size: 18px;"></i>
+                ${items.map(item => `
+                    <div class="content-item" onclick="openEditModal('${item.elementId}')">
+                        <div style="display: flex; justify-content: space-between; align-items: start;">
+                            <div style="flex: 1;">
+                                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                    <span class="badge badge-${item.type || 'heading'}">${item.type || 'text'}</span>
+                                    <span class="field-id">${item.elementId}</span>
+                                </div>
+                                <div style="font-size: 14px; color: #111827; line-height: 1.6; margin-bottom: 8px;">${item.text.substring(0, 200)}${item.text.length > 200 ? '...' : ''}</div>
+                                <div style="font-size: 12px; color: #9ca3af;">
+                                    Last updated: ${new Date(item.updatedAt).toLocaleString()}
+                                </div>
+                            </div>
+                            <i class="fas fa-edit" style="color: #667eea; font-size: 20px; margin-left: 16px;"></i>
+                        </div>
+                    </div>
+                `).join('')}
             </div>
-            <div style="font-size: 12px; color: #9ca3af;">
-                Last updated: ${new Date(item.updatedAt).toLocaleString()}
-            </div>
-        </div>
-    `).join('');
+        `;
+    }).join('');
 }
 
 // Open edit modal
@@ -505,11 +842,13 @@ function openEditModal(elementId) {
     if (!item) return;
     
     editingElementId = elementId;
-    document.getElementById('edit-element-id').value = elementId;
+    document.getElementById('edit-element-id').textContent = elementId;
     document.getElementById('edit-text').value = item.text;
     document.getElementById('edit-color').value = item.styles?.color || '#000000';
     document.getElementById('edit-color-hex').value = item.styles?.color || '#000000';
     document.getElementById('edit-font-size').value = parseInt(item.styles?.fontSize) || '';
+    
+    updateCharCount();
     
     document.getElementById('edit-modal').classList.add('active');
 }
@@ -519,6 +858,14 @@ function closeEditModal() {
     document.getElementById('edit-modal').classList.remove('active');
     editingElementId = null;
 }
+
+// Update character count
+function updateCharCount() {
+    const text = document.getElementById('edit-text').value;
+    document.getElementById('char-count').textContent = text.length;
+}
+
+document.getElementById('edit-text')?.addEventListener('input', updateCharCount);
 
 // Save content edit
 async function saveContentEdit() {
@@ -547,46 +894,40 @@ async function saveContentEdit() {
         if (data.success) {
             closeEditModal();
             loadContent();
-            showAlert('content-alert', 'Content updated successfully!', 'success');
+            showAlert('✓ Content updated successfully!', 'success');
         } else {
-            showAlert('content-alert', 'Failed to update content', 'error');
+            showAlert('Failed to update content', 'error');
         }
     } catch (error) {
-        showAlert('content-alert', `Error: ${error.message}`, 'error');
+        showAlert('Error: ' + error.message, 'error');
     }
 }
 
 // Show alert
-function showAlert(containerId, message, type) {
-    const container = document.getElementById(containerId);
+function showAlert(message, type) {
+    const container = document.getElementById('content-alert');
     container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
     setTimeout(() => { container.innerHTML = ''; }, 5000);
 }
 
 // Show section
 function showSection(section) {
-    document.querySelectorAll('.dashboard-section').forEach(el => el.style.display = 'none');
-    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    currentSection = section;
     
-    document.getElementById(`section-${section}`).style.display = 'block';
-    document.querySelector(`[data-section="${section}"]`).classList.add('active');
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    event.target.classList.add('active');
+    
+    renderContent();
 }
 
-// Theme toggle
-async function toggleTheme() {
-    const toggle = document.getElementById('theme-toggle');
-    const isActive = toggle.classList.toggle('active');
-    const theme = isActive ? 'light' : 'dark';
+// Filter content
+function filterContent() {
+    const searchTerm = document.getElementById('search-input').value.toLowerCase();
     
-    try {
-        await fetch('/api/admin/theme', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ theme }),
-        });
-    } catch (error) {
-        console.error('Theme update error:', error);
-    }
+    document.querySelectorAll('.content-item').forEach(item => {
+        const text = item.textContent.toLowerCase();
+        item.style.display = text.includes(searchTerm) ? 'block' : 'none';
+    });
 }
 
 // Sync color picker and hex input
@@ -607,6 +948,31 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// Export content as JSON
+function exportContent() {
+    const dataStr = JSON.stringify(currentContent, null, 2);
+    const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    
+    const exportFileDefaultName = `revamply-content-${new Date().toISOString().split('T')[0]}.json`;
+    
+    const linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+    
+    showAlert('✓ Content exported successfully!', 'success');
+}
+
+// View history (placeholder)
+function viewHistory() {
+    alert('Revision history feature coming soon!');
+}
+
+// Bulk edit (placeholder)
+function bulkEdit() {
+    alert('Bulk edit feature coming soon!');
+}
+
 // Check session on load
 async function checkSession() {
     try {
@@ -626,17 +992,6 @@ async function checkSession() {
 
 checkSession();
 </script>
-
-<style>
-.nav-item:hover {
-    background: #f3f4f6;
-}
-
-.nav-item.active {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white !important;
-}
-</style>
 
 </body>
 </html>
