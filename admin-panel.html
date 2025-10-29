@@ -977,40 +977,7 @@ function bulkEdit() {
     alert('Bulk edit feature coming soon!');
 }
 
-// Initialize content from index.html
-async function initializeContent() {
-    if (!confirm('This will scan index.html and initialize all editable elements in the database. This may take a minute. Continue?')) {
-        return;
-    }
-    
-    const button = event.target;
-    const originalHTML = button.innerHTML;
-    button.disabled = true;
-    button.innerHTML = '<div class="loading-spinner"></div>Initializing...';
-    
-    try {
-        const response = await fetch('/api/admin/initialize-content', {
-            method: 'POST',
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            showAlert(
-                `✓ Successfully initialized ${data.stats.initialized} elements, updated ${data.stats.updated} elements, skipped ${data.stats.skipped} elements!`,
-                'success'
-            );
-            loadContent();
-        } else {
-            showAlert('Failed to initialize content: ' + data.message, 'error');
-        }
-    } catch (error) {
-        showAlert('Error initializing content: ' + error.message, 'error');
-    } finally {
-        button.disabled = false;
-        button.innerHTML = originalHTML;
-    }
-}
+
 
 // Check session on load
 async function checkSession() {
