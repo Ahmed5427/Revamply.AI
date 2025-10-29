@@ -1,0 +1,33 @@
+/**
+ * Light Theme - Mobile Styles
+ * Revamply.AI Admin CMS
+ * @media (max-width: 767px)
+ */
+
+@import './theme-variables.css';
+
+@media (max-width: 767px) {
+  [data-theme="light"] {
+    /* Mobile light theme inherits from light desktop with mobile adjustments */
+    .heading-hero-main {
+      font-size: var(--font-size-5xl);
+      color: var(--color-light-text-primary);
+    }
+
+    .paragraph-hero-description {
+      font-size: var(--font-size-xl);
+      color: var(--color-light-text-secondary);
+    }
+
+    /* All section headings */
+    .heading-form-main,
+    .heading-why-main,
+    .heading-testimonials-main,
+    .heading-process-main,
+    .heading-features-main,
+    .heading-pricing-main {
+      font-size: var(--font-size-4xl);
+      color: var(--color-light-text-primary);
+    }
+  }
+}

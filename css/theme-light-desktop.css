@@ -1,0 +1,51 @@
+/**
+ * Light Theme - Desktop Styles
+ * Revamply.AI Admin CMS
+ * @media (min-width: 768px)
+ */
+
+@import './theme-variables.css';
+
+@media (min-width: 768px) {
+  [data-theme="light"] {
+    /* Inherit most styles from dark theme but override colors */
+    .heading-hero-main,
+    .heading-form-main,
+    .heading-why-main,
+    .heading-testimonials-main,
+    .heading-process-main,
+    .heading-features-main,
+    .heading-pricing-main,
+    .heading-cta-main {
+      color: var(--color-light-text-primary);
+    }
+
+    .paragraph-hero-description,
+    .paragraph-form-description,
+    .paragraph-why-subtitle,
+    .paragraph-process-description,
+    .paragraph-feature-description,
+    .paragraph-cta-description {
+      color: var(--color-light-text-secondary);
+    }
+
+    /* Light theme backgrounds */
+    .section-hero,
+    .section-why,
+    .section-cta {
+      background-color: var(--color-light-bg-secondary);
+    }
+
+    .section-form,
+    .section-testimonials,
+    .section-features {
+      background-color: var(--color-light-bg-primary);
+    }
+
+    .section-process,
+    .section-pricing,
+    .section-footer {
+      background-color: var(--color-light-bg-tertiary);
+    }
+  }
+}

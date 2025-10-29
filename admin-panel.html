@@ -1,0 +1,642 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revamply Admin Panel - Content Management System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .login-card {
+            background: white;
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            max-width: 450px;
+            width: 100%;
+        }
+        
+        .admin-dashboard {
+            display: none;
+            min-height: 100vh;
+            background: #f9fafb;
+        }
+        
+        .admin-dashboard.active {
+            display: block;
+        }
+        
+        .sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 24px;
+        }
+        
+        .main-content {
+            margin-left: 280px;
+            padding: 32px;
+        }
+        
+        .content-item {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+        
+        .content-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 6px -1px rgba(102, 126, 234, 0.1);
+        }
+        
+        .content-item.editing {
+            border-color: #667eea;
+            background: #f3f4f6;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+        
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+        
+        .input-field {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        
+        .input-field:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .badge-heading { background: #dbeafe; color: #1e40af; }
+        .badge-paragraph { background: #dcfce7; color: #15803d; }
+        .badge-span { background: #fef3c7; color: #a16207; }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal.active {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 32px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        .theme-toggle {
+            width: 60px;
+            height: 32px;
+            background: #e5e7eb;
+            border-radius: 16px;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .theme-toggle.active {
+            background: #667eea;
+        }
+        
+        .theme-toggle-slider {
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: transform 0.3s;
+        }
+        
+        .theme-toggle.active .theme-toggle-slider {
+            transform: translateX(28px);
+        }
+        
+        .loading-spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .alert {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+        
+        .alert-success {
+            background: #dcfce7;
+            color: #15803d;
+            border: 1px solid #86efac;
+        }
+        
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+        
+        .color-picker-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .color-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            border: 2px solid #e5e7eb;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Login Screen -->
+<div id="login-screen" class="login-container">
+    <div class="login-card">
+        <div style="text-align: center; margin-bottom: 32px;">
+            <div style="width: 64px; height: 64px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+                <i class="fas fa-crown" style="font-size: 32px; color: white;"></i>
+            </div>
+            <h1 style="font-size: 28px; font-weight: 800; color: #111827; margin-bottom: 8px;">Revamply Admin</h1>
+            <p style="color: #6b7280;">Content Management System</p>
+        </div>
+        
+        <div id="login-alert"></div>
+        
+        <form id="login-form" onsubmit="handleLogin(event)">
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Username</label>
+                <input type="text" id="username" class="input-field" placeholder="Enter admin username" required>
+            </div>
+            
+            <div style="margin-bottom: 24px;">
+                <label style="display: block; margin-bottom: 8px; font-weight: 600; color: #374151;">Password</label>
+                <input type="password" id="password" class="input-field" placeholder="Enter password" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+                <span id="login-btn-text">Sign In</span>
+                <div id="login-spinner" class="loading-spinner" style="display: none; margin: 0 auto;"></div>
+            </button>
+        </form>
+        
+        <div style="margin-top: 24px; text-align: center; font-size: 13px; color: #6b7280;">
+            <i class="fas fa-shield-alt" style="margin-right: 6px;"></i>
+            Secured with JWT authentication
+        </div>
+    </div>
+</div>
+
+<!-- Admin Dashboard -->
+<div id="admin-dashboard" class="admin-dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div style="margin-bottom: 32px;">
+            <div style="width: 48px; height: 48px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                <i class="fas fa-crown" style="font-size: 24px; color: white;"></i>
+            </div>
+            <h2 style="font-size: 20px; font-weight: 700; color: #111827;">Admin Panel</h2>
+            <p style="font-size: 13px; color: #6b7280;">Content Management</p>
+        </div>
+        
+        <nav style="margin-bottom: 32px;">
+            <a href="#" onclick="showSection('content')" class="nav-item active" data-section="content" style="display: flex; align-items: center; padding: 12px 16px; border-radius: 8px; color: #374151; text-decoration: none; margin-bottom: 8px; transition: all 0.2s;">
+                <i class="fas fa-edit" style="margin-right: 12px; width: 20px;"></i>
+                Content Editor
+            </a>
+            <a href="#" onclick="showSection('theme')" class="nav-item" data-section="theme" style="display: flex; align-items: center; padding: 12px 16px; border-radius: 8px; color: #374151; text-decoration: none; margin-bottom: 8px; transition: all 0.2s;">
+                <i class="fas fa-palette" style="margin-right: 12px; width: 20px;"></i>
+                Theme Settings
+            </a>
+            <a href="#" onclick="showSection('history')" class="nav-item" data-section="history" style="display: flex; align-items: center; padding: 12px 16px; border-radius: 8px; color: #374151; text-decoration: none; margin-bottom: 8px; transition: all 0.2s;">
+                <i class="fas fa-history" style="margin-right: 12px; width: 20px;"></i>
+                Revision History
+            </a>
+            <a href="#" onclick="showSection('export')" class="nav-item" data-section="export" style="display: flex; align-items: center; padding: 12px 16px; border-radius: 8px; color: #374151; text-decoration: none; margin-bottom: 8px; transition: all 0.2s;">
+                <i class="fas fa-download" style="margin-right: 12px; width: 20px;"></i>
+                Export / Import
+            </a>
+        </nav>
+        
+        <div style="padding: 16px; background: #f3f4f6; border-radius: 12px; margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                <span style="font-size: 13px; font-weight: 600; color: #374151;">Logged in as:</span>
+            </div>
+            <div style="font-size: 14px; font-weight: 600; color: #667eea;" id="current-user">admin</div>
+        </div>
+        
+        <button onclick="handleLogout()" class="btn btn-secondary" style="width: 100%;">
+            <i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i>
+            Logout
+        </button>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Content Editor Section -->
+        <div id="section-content" class="dashboard-section active">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                <div>
+                    <h2 style="font-size: 28px; font-weight: 700; color: #111827; margin-bottom: 4px;">Content Editor</h2>
+                    <p style="color: #6b7280;">Manage all editable content on your website</p>
+                </div>
+                <button onclick="loadContent()" class="btn btn-primary">
+                    <i class="fas fa-sync-alt" style="margin-right: 8px;"></i>
+                    Refresh
+                </button>
+            </div>
+            
+            <div id="content-alert"></div>
+            
+            <div id="content-list">
+                <!-- Content items will be loaded here -->
+            </div>
+        </div>
+        
+        <!-- Theme Settings Section -->
+        <div id="section-theme" class="dashboard-section" style="display: none;">
+            <h2 style="font-size: 28px; font-weight: 700; color: #111827; margin-bottom: 24px;">Theme Settings</h2>
+            
+            <div style="background: white; border-radius: 16px; padding: 32px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h3 style="font-size: 18px; font-weight: 600; color: #111827; margin-bottom: 8px;">Website Theme</h3>
+                        <p style="color: #6b7280;">Switch between dark and light mode</p>
+                    </div>
+                    <div class="theme-toggle" id="theme-toggle" onclick="toggleTheme()">
+                        <div class="theme-toggle-slider"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Edit Modal -->
+<div id="edit-modal" class="modal">
+    <div class="modal-content">
+        <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 24px;">Edit Content</h3>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Element ID</label>
+            <input type="text" id="edit-element-id" class="input-field" readonly style="background: #f3f4f6;">
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Text Content</label>
+            <textarea id="edit-text" class="input-field" rows="5"></textarea>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Text Color</label>
+            <div class="color-picker-wrapper">
+                <input type="color" id="edit-color" style="width: 80px; height: 40px; border: none; border-radius: 8px; cursor: pointer;">
+                <input type="text" id="edit-color-hex" class="input-field" style="flex: 1;" placeholder="#000000">
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; margin-bottom: 8px; font-weight: 600;">Font Size (px)</label>
+            <input type="number" id="edit-font-size" class="input-field" placeholder="16">
+        </div>
+        
+        <div style="display: flex; gap: 12px;">
+            <button onclick="saveContentEdit()" class="btn btn-primary" style="flex: 1;">
+                Save Changes
+            </button>
+            <button onclick="closeEditModal()" class="btn btn-secondary">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentContent = [];
+let editingElementId = null;
+
+// Login handler
+async function handleLogin(event) {
+    event.preventDefault();
+    
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+    const loginBtnText = document.getElementById('login-btn-text');
+    const loginSpinner = document.getElementById('login-spinner');
+    const loginAlert = document.getElementById('login-alert');
+    
+    loginBtnText.style.display = 'none';
+    loginSpinner.style.display = 'block';
+    loginAlert.innerHTML = '';
+    
+    try {
+        const response = await fetch('/api/admin/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('admin-dashboard').classList.add('active');
+            document.getElementById('current-user').textContent = data.user.username;
+            loadContent();
+        } else {
+            loginAlert.innerHTML = `<div class="alert alert-error">${data.error}</div>`;
+        }
+    } catch (error) {
+        loginAlert.innerHTML = `<div class="alert alert-error">Login failed: ${error.message}</div>`;
+    } finally {
+        loginBtnText.style.display = 'inline';
+        loginSpinner.style.display = 'none';
+    }
+}
+
+// Logout handler
+async function handleLogout() {
+    try {
+        await fetch('/api/admin/logout', { method: 'POST' });
+        location.reload();
+    } catch (error) {
+        console.error('Logout error:', error);
+        location.reload();
+    }
+}
+
+// Load content
+async function loadContent() {
+    const contentList = document.getElementById('content-list');
+    contentList.innerHTML = '<div style="text-align: center; padding: 40px;"><div class="loading-spinner" style="margin: 0 auto;"></div></div>';
+    
+    try {
+        const response = await fetch('/api/admin/content');
+        const data = await response.json();
+        
+        if (data.success) {
+            currentContent = data.content;
+            renderContentList(data.content);
+        }
+    } catch (error) {
+        contentList.innerHTML = `<div class="alert alert-error">Failed to load content: ${error.message}</div>`;
+    }
+}
+
+// Render content list
+function renderContentList(content) {
+    const contentList = document.getElementById('content-list');
+    
+    if (content.length === 0) {
+        contentList.innerHTML = '<div style="text-align: center; padding: 40px; color: #6b7280;">No content found. Add data-editable attributes to your HTML elements.</div>';
+        return;
+    }
+    
+    contentList.innerHTML = content.map(item => `
+        <div class="content-item" onclick="openEditModal('${item.elementId}')">
+            <div style="display: flex; justify-content: between; align-items: start; margin-bottom: 12px;">
+                <div style="flex: 1;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                        <span class="badge badge-${item.type}">${item.type}</span>
+                        <span style="font-size: 12px; color: #9ca3af;">${item.elementId}</span>
+                    </div>
+                    <div style="font-size: 14px; color: #374151; line-height: 1.6;">${item.text.substring(0, 150)}${item.text.length > 150 ? '...' : ''}</div>
+                </div>
+                <i class="fas fa-edit" style="color: #667eea; font-size: 18px;"></i>
+            </div>
+            <div style="font-size: 12px; color: #9ca3af;">
+                Last updated: ${new Date(item.updatedAt).toLocaleString()}
+            </div>
+        </div>
+    `).join('');
+}
+
+// Open edit modal
+function openEditModal(elementId) {
+    const item = currentContent.find(c => c.elementId === elementId);
+    if (!item) return;
+    
+    editingElementId = elementId;
+    document.getElementById('edit-element-id').value = elementId;
+    document.getElementById('edit-text').value = item.text;
+    document.getElementById('edit-color').value = item.styles?.color || '#000000';
+    document.getElementById('edit-color-hex').value = item.styles?.color || '#000000';
+    document.getElementById('edit-font-size').value = parseInt(item.styles?.fontSize) || '';
+    
+    document.getElementById('edit-modal').classList.add('active');
+}
+
+// Close edit modal
+function closeEditModal() {
+    document.getElementById('edit-modal').classList.remove('active');
+    editingElementId = null;
+}
+
+// Save content edit
+async function saveContentEdit() {
+    const text = document.getElementById('edit-text').value;
+    const color = document.getElementById('edit-color').value;
+    const fontSize = document.getElementById('edit-font-size').value;
+    
+    try {
+        const response = await fetch('/api/admin/content', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                elementId: editingElementId,
+                contentData: {
+                    text,
+                    styles: {
+                        color,
+                        fontSize: fontSize ? `${fontSize}px` : undefined,
+                    },
+                },
+            }),
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            closeEditModal();
+            loadContent();
+            showAlert('content-alert', 'Content updated successfully!', 'success');
+        } else {
+            showAlert('content-alert', 'Failed to update content', 'error');
+        }
+    } catch (error) {
+        showAlert('content-alert', `Error: ${error.message}`, 'error');
+    }
+}
+
+// Show alert
+function showAlert(containerId, message, type) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = `<div class="alert alert-${type}">${message}</div>`;
+    setTimeout(() => { container.innerHTML = ''; }, 5000);
+}
+
+// Show section
+function showSection(section) {
+    document.querySelectorAll('.dashboard-section').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    
+    document.getElementById(`section-${section}`).style.display = 'block';
+    document.querySelector(`[data-section="${section}"]`).classList.add('active');
+}
+
+// Theme toggle
+async function toggleTheme() {
+    const toggle = document.getElementById('theme-toggle');
+    const isActive = toggle.classList.toggle('active');
+    const theme = isActive ? 'light' : 'dark';
+    
+    try {
+        await fetch('/api/admin/theme', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ theme }),
+        });
+    } catch (error) {
+        console.error('Theme update error:', error);
+    }
+}
+
+// Sync color picker and hex input
+document.addEventListener('DOMContentLoaded', () => {
+    const colorPicker = document.getElementById('edit-color');
+    const colorHex = document.getElementById('edit-color-hex');
+    
+    if (colorPicker && colorHex) {
+        colorPicker.addEventListener('input', () => {
+            colorHex.value = colorPicker.value;
+        });
+        
+        colorHex.addEventListener('input', () => {
+            if (/^#[0-9A-F]{6}$/i.test(colorHex.value)) {
+                colorPicker.value = colorHex.value;
+            }
+        });
+    }
+});
+
+// Check session on load
+async function checkSession() {
+    try {
+        const response = await fetch('/api/admin/verify-session');
+        const data = await response.json();
+        
+        if (data.authenticated) {
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('admin-dashboard').classList.add('active');
+            document.getElementById('current-user').textContent = data.user.username;
+            loadContent();
+        }
+    } catch (error) {
+        // Not authenticated, show login
+    }
+}
+
+checkSession();
+</script>
+
+<style>
+.nav-item:hover {
+    background: #f3f4f6;
+}
+
+.nav-item.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white !important;
+}
+</style>
+
+</body>
+</html>

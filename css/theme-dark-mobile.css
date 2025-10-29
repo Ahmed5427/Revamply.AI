@@ -1,0 +1,58 @@
+/**
+ * Dark Theme - Mobile Styles
+ * Revamply.AI Admin CMS
+ * @media (max-width: 767px)
+ */
+
+@import './theme-variables.css';
+
+@media (max-width: 767px) {
+  [data-theme="dark"] {
+    /* Mobile-optimized typography */
+    .heading-hero-main {
+      font-size: var(--font-size-5xl);
+      font-weight: var(--font-weight-black);
+      line-height: var(--line-height-tight);
+      padding: 0 var(--spacing-md);
+    }
+
+    .paragraph-hero-description {
+      font-size: var(--font-size-xl);
+      line-height: var(--line-height-normal);
+      padding: 0 var(--spacing-md);
+    }
+
+    .heading-form-main,
+    .heading-why-main,
+    .heading-testimonials-main,
+    .heading-process-main,
+    .heading-features-main,
+    .heading-pricing-main {
+      font-size: var(--font-size-4xl);
+      padding: 0 var(--spacing-md);
+    }
+
+    .heading-cta-main {
+      font-size: var(--font-size-5xl);
+      padding: 0 var(--spacing-md);
+    }
+
+    /* Mobile stats */
+    .stat-hero-number {
+      font-size: var(--font-size-2xl);
+    }
+
+    /* Mobile spacing adjustments */
+    section {
+      padding-top: var(--spacing-2xl);
+      padding-bottom: var(--spacing-2xl);
+    }
+
+    /* Touch-friendly editable elements */
+    [data-editable="true"]::after {
+      width: 32px;
+      height: 32px;
+      font-size: 16px;
+    }
+  }
+}
