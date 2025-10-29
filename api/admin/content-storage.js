@@ -64,8 +64,11 @@ export async function saveContent(elementId, contentData) {
       updatedAt: new Date().toISOString(),
     };
 
-    // Save content
-    await kv.set(`${CONTENT_PREFIX}${elementId}`, content);
+    // Save content with no expiry (10 years = effectively permanent)
+    // This overrides the database's default 7-day TTL
+    await kv.set(`${CONTENT_PREFIX}${elementId}`, content, {
+      ex: 315360000 // 10 years in seconds (365 * 10 * 24 * 60 * 60)
+    });
 
     // Save to history if content existed before
     if (existingContent) {
@@ -118,8 +121,10 @@ async function saveToHistory(elementId, content) {
       history = history.slice(0, MAX_HISTORY_ENTRIES);
     }
 
-    // Save updated history
-    await kv.set(historyKey, history);
+    // Save updated history with no expiry (10 years = effectively permanent)
+    await kv.set(historyKey, history, {
+      ex: 315360000 // 10 years in seconds
+    });
 
     return true;
   } catch (error) {
