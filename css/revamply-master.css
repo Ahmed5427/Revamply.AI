@@ -1,0 +1,526 @@
+/* ===============================================
+   REVAMPLY - MASTER CSS FILE
+   Handles all modes: dark/light, desktop/mobile
+   =============================================== */
+
+/* Import Tailwind first */
+@import url('https://cdn.tailwindcss.com');
+
+/* ===============================================
+   BASE STYLES (Applied to all modes)
+   =============================================== */
+.page-body {
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ===============================================
+   DARK MODE STYLES
+   =============================================== */
+@media (prefers-color-scheme: dark) {
+    .page-body {
+        background-color: #000000;
+        color: #ffffff;
+    }
+    
+    /* Header */
+    .site-header {
+        background-color: rgba(0, 0, 0, 0.9);
+        border-bottom-color: #1f2937;
+    }
+    
+    .nav-link {
+        color: #d1d5db;
+    }
+    
+    .nav-link:hover {
+        color: #ffffff;
+    }
+    
+    /* Hero Section */
+    .hero-section {
+        background-color: #000000;
+    }
+    
+    .hero-title-line1,
+    .hero-title-line3 {
+        color: #ffffff;
+    }
+    
+    .hero-title-line2 {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .hero-description {
+        color: #d1d5db;
+    }
+    
+    .hero-stat-number {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .hero-stat-text {
+        color: #9ca3af;
+    }
+    
+    /* Form Section - Keep WHITE background */
+    .form-section {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    .form-title,
+    .form-subtitle,
+    .step-title {
+        color: #000000 !important;
+    }
+    
+    .field-label {
+        color: #374151 !important;
+    }
+    
+    .field-input {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border-color: #d1d5db !important;
+    }
+    
+    /* Why Section */
+    .why-section {
+        background-color: #000000;
+    }
+    
+    .why-title {
+        color: #ffffff;
+    }
+    
+    .why-subtitle {
+        color: #d1d5db;
+    }
+    
+    .why-card {
+        background-color: #ffffff;
+    }
+    
+    .why-card-title {
+        color: #000000;
+    }
+    
+    .why-card-text {
+        color: #6b7280;
+    }
+    
+    /* Social Proof Section - WHITE background */
+    .social-proof-section {
+        background-color: #ffffff !important;
+    }
+    
+    .social-proof-title {
+        color: #000000 !important;
+    }
+    
+    .social-proof-subtitle {
+        color: #374151 !important;
+    }
+    
+    .testimonial-card {
+        background-color: #f9fafb;
+    }
+    
+    .testimonial-name {
+        color: #000000;
+    }
+    
+    .testimonial-role,
+    .testimonial-project {
+        color: #6b7280;
+    }
+    
+    .testimonial-quote {
+        color: #374151;
+    }
+    
+    .testimonial-stat-value {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .testimonial-stat-label {
+        color: #6b7280;
+    }
+    
+    /* Process Section */
+    .process-section {
+        background-color: #1f2937;
+    }
+    
+    .process-title {
+        color: #ffffff;
+    }
+    
+    .process-subtitle {
+        color: #d1d5db;
+    }
+    
+    .process-step-title {
+        color: #ffffff;
+    }
+    
+    .process-step-text {
+        color: #d1d5db;
+    }
+    
+    .expectations-title {
+        color: #ffffff;
+    }
+    
+    .expectations-item {
+        color: #d1d5db;
+    }
+    
+    .timeline-label {
+        color: #ffffff;
+    }
+    
+    .timeline-sublabel {
+        color: #9ca3af;
+    }
+    
+    /* Features Section - WHITE background */
+    .features-section {
+        background-color: #ffffff !important;
+    }
+    
+    .features-title {
+        color: #000000 !important;
+    }
+    
+    .features-subtitle {
+        color: #374151 !important;
+    }
+    
+    .feature-title {
+        color: #000000 !important;
+    }
+    
+    .feature-description {
+        color: #6b7280 !important;
+    }
+    
+    .demo-message-text {
+        color: #000000 !important;
+    }
+    
+    /* CRITICAL: Preserve white backgrounds for stats */
+    .preserve-white,
+    .demo-stat {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+    }
+    
+    .demo-stat * {
+        color: #000000 !important;
+    }
+    
+    .demo-stat-value {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
+    
+    /* Pricing Section */
+    .pricing-section {
+        background-color: #1f2937;
+    }
+    
+    .pricing-title {
+        color: #ffffff;
+    }
+    
+    .pricing-subtitle,
+    .pricing-text {
+        color: #d1d5db;
+    }
+    
+    /* Final CTA Section */
+    .final-cta-section {
+        background-color: #000000;
+    }
+    
+    .final-cta-title-main {
+        color: #ffffff;
+    }
+    
+    .final-cta-title-highlight {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .final-cta-description {
+        color: #d1d5db;
+    }
+    
+    .final-cta-feature-label {
+        color: #ffffff;
+    }
+    
+    .final-cta-feature-text {
+        color: #9ca3af;
+    }
+    
+    /* Footer */
+    .site-footer {
+        background-color: #1f2937;
+    }
+    
+    .footer-description {
+        color: #9ca3af;
+    }
+    
+    .footer-links-title {
+        color: #ffffff;
+    }
+    
+    .footer-link {
+        color: #9ca3af;
+    }
+    
+    .footer-link:hover {
+        color: #ffffff;
+    }
+    
+    .footer-copyright {
+        color: #9ca3af;
+    }
+    
+    .footer-legal-link {
+        color: #9ca3af;
+    }
+    
+    .footer-legal-link:hover {
+        color: #ffffff;
+    }
+}
+
+/* ===============================================
+   LIGHT MODE STYLES
+   =============================================== */
+@media (prefers-color-scheme: light) {
+    .page-body {
+        background-color: #ffffff;
+        color: #000000;
+    }
+    
+    /* Header */
+    .site-header {
+        background-color: rgba(255, 255, 255, 0.95);
+        border-bottom-color: #e5e7eb;
+    }
+    
+    .nav-link {
+        color: #4b5563;
+    }
+    
+    .nav-link:hover {
+        color: #000000;
+    }
+    
+    /* Hero Section - Dark in light mode */
+    .hero-section {
+        background-color: #0f1419;
+    }
+    
+    .hero-title-line1,
+    .hero-title-line3 {
+        color: #ffffff;
+    }
+    
+    .hero-title-line2 {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .hero-description {
+        color: #d1d5db;
+    }
+    
+    /* All other sections use standard light mode colors */
+    .form-section,
+    .why-section,
+    .social-proof-section,
+    .features-section {
+        background-color: #ffffff;
+        color: #000000;
+    }
+    
+    .process-section,
+    .pricing-section,
+    .final-cta-section {
+        background-color: #f9fafb;
+    }
+}
+
+/* ===============================================
+   MOBILE RESPONSIVE STYLES
+   =============================================== */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem !important;
+    }
+    
+    .hero-description {
+        font-size: 1.125rem !important;
+    }
+    
+    .form-title,
+    .why-title,
+    .social-proof-title,
+    .process-title,
+    .features-title,
+    .pricing-title,
+    .final-cta-title {
+        font-size: 2rem !important;
+    }
+    
+    .form-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .why-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .testimonial-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .process-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .main-nav {
+        display: none !important;
+    }
+}
+
+/* ===============================================
+   COMMON STYLES (All Modes)
+   =============================================== */
+.cta-button,
+.hero-cta-button,
+.step-button-next,
+.step-button-submit,
+.pricing-button,
+.final-cta-button {
+    background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover,
+.hero-cta-button:hover,
+.step-button-next:hover,
+.step-button-submit:hover,
+.pricing-button:hover,
+.final-cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(96, 165, 250, 0.4);
+}
+
+/* Icon colors */
+.why-icon-efficiency {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.why-icon-overhead {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.why-icon-growth {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.why-icon-custom {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.why-icon-partner {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+}
+
+.why-icon-scalable {
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+}
+
+/* Animations */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+/* Form validation */
+.form-field.error .field-input {
+    border-color: #ef4444 !important;
+}
+
+.error-text {
+    color: #ef4444;
+    font-size: 0.875rem;
+    display: none;
+}
+
+.form-field.error .error-text {
+    display: block;
+}
+
+/* Progress bar */
+.progress-bar {
+    background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%);
+    transition: width 0.5s ease;
+}
+
+/* Spinner */
+.spinner {
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
