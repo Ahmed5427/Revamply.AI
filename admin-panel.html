@@ -977,6 +977,115 @@ function bulkEdit() {
     alert('Bulk edit feature coming soon!');
 }
 
+// Initialize content from index.html
+async function initializeContent() {
+    if (!confirm('This will scan index.html and initialize all editable elements in the database. This may take a minute. Continue?')) {
+        return;
+    }
+    
+    const button = event.target;
+    const originalHTML = button.innerHTML;
+    button.disabled = true;
+    button.innerHTML = '<div class="loading-spinner"></div>Scanning HTML...';
+    
+    try {
+        // Step 1: Fetch the index.html file
+        const htmlResponse = await fetch('/');
+        const htmlText = await htmlResponse.text();
+        
+        // Step 2: Parse the HTML in the browser
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, 'text/html');
+        
+        // Step 3: Find all elements with data-editable="true"
+        const editableElements = doc.querySelectorAll('[data-editable="true"]');
+        
+        console.log(`Found ${editableElements.length} editable elements`);
+        
+        button.innerHTML = '<div class="loading-spinner"></div>Processing ' + editableElements.length + ' elements...';
+        
+        // Step 4: Extract data from each element
+        const elementsData = [];
+        editableElements.forEach(element => {
+            const elementId = element.getAttribute('data-element-id');
+            
+            if (!elementId) {
+                console.warn('Element without data-element-id:', element);
+                return;
+            }
+            
+            const text = element.textContent.trim();
+            const tagName = element.tagName.toLowerCase();
+            
+            // Determine element type
+            let type = 'text';
+            if (tagName.match(/^h[1-6]$/)) {
+                type = 'heading';
+            } else if (tagName === 'p') {
+                type = 'paragraph';
+            } else if (tagName === 'span') {
+                type = 'span';
+            } else if (tagName === 'div' && elementId.includes('stat')) {
+                type = 'stat';
+            }
+            
+            // Get computed styles
+            const styles = {
+                color: '#000000',
+                fontSize: '16px',
+            };
+            
+            elementsData.push({
+                elementId,
+                text,
+                type,
+                styles,
+            });
+        });
+        
+        if (elementsData.length === 0) {
+            showAlert('⚠️ No editable elements found in index.html. Make sure elements have data-editable="true" and data-element-id attributes.', 'error');
+            button.disabled = false;
+            button.innerHTML = originalHTML;
+            return;
+        }
+        
+        // Step 5: Send to API
+        button.innerHTML = '<div class="loading-spinner"></div>Saving to database...';
+        
+        const response = await fetch('/api/admin/initialize-content', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                elements: elementsData,
+            }),
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            showAlert(
+                `✓ Successfully initialized ${data.stats.initialized} elements, updated ${data.stats.updated} elements, skipped ${data.stats.skipped} elements!`,
+                'success'
+            );
+            // Reload content after 2 seconds
+            setTimeout(() => {
+                loadContent();
+            }, 2000);
+        } else {
+            showAlert('Failed to initialize content: ' + data.message, 'error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showAlert('Error initializing content: ' + error.message, 'error');
+    } finally {
+        button.disabled = false;
+        button.innerHTML = originalHTML;
+    }
+}
+
 
 
 // Check session on load
