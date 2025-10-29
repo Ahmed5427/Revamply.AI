@@ -2,7 +2,7 @@
 // API endpoint to initialize editable content (data sent from browser)
 
 import { kv } from '@vercel/kv';
-import jwt from 'jsonwebtoken';
+import { getTokenFromRequest, verifyToken } from './auth-utils.js';
 
 export default async function handler(req, res) {
     // Only allow POST requests
@@ -11,18 +11,23 @@ export default async function handler(req, res) {
     }
     
     try {
-        // Verify authentication
-        const token = req.cookies.adminToken;
+        // ✅ FIXED: Use the auth utility to get token from correct cookie name
+        const token = getTokenFromRequest(req);
         
         if (!token) {
+            console.error('❌ No token found in request');
             return res.status(401).json({ success: false, message: 'Not authenticated' });
         }
         
-        try {
-            jwt.verify(token, process.env.JWT_SECRET);
-        } catch (error) {
+        // ✅ FIXED: Use the auth utility to verify token
+        const decoded = verifyToken(token);
+        
+        if (!decoded) {
+            console.error('❌ Token verification failed');
             return res.status(401).json({ success: false, message: 'Invalid token' });
         }
+        
+        console.log('✅ Authentication successful for user:', decoded.username);
         
         // Get the scanned elements from the request body
         const { elements } = req.body;
@@ -117,7 +122,7 @@ export default async function handler(req, res) {
         });
         
     } catch (error) {
-        console.error('Error initializing content:', error);
+        console.error('❌ Error initializing content:', error);
         return res.status(500).json({
             success: false,
             message: 'Failed to initialize content',
