@@ -3,7 +3,7 @@
  * Handles JWT tokens, password hashing, and session management
  */
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cookie from 'cookie';
 

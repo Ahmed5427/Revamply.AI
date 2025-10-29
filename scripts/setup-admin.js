@@ -5,7 +5,7 @@
  * Usage: node scripts/setup-admin.js your-password
  */
 
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const SALT_ROUNDS = 10;
 
