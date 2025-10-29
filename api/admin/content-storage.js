@@ -3,11 +3,14 @@
  * Manages editable content storage in Vercel KV (Redis)
  */
 
-import { kv } from '@vercel/kv';
+import Redis from 'ioredis';
 
 const CONTENT_PREFIX = 'content:';
 const HISTORY_PREFIX = 'history:';
 const MAX_HISTORY_ENTRIES = 50;
+
+// Create Redis client
+const redis = new Redis(process.env.KV_URL || 'redis://localhost:6379');
 
 /**
  * Get all editable content
@@ -15,12 +18,13 @@ const MAX_HISTORY_ENTRIES = 50;
  */
 export async function getAllContent() {
   try {
-    const keys = await kv.keys(`${CONTENT_PREFIX}*`);
+    const keys = await redis.keys(`${CONTENT_PREFIX}*`);
     const contentItems = [];
 
     for (const key of keys) {
-      const content = await kv.get(key);
-      if (content) {
+      const data = await redis.get(key);
+      if (data) {
+        const content = JSON.parse(data);
         contentItems.push(content);
       }
     }
@@ -39,7 +43,8 @@ export async function getAllContent() {
  */
 export async function getContent(elementId) {
   try {
-    return await kv.get(`${CONTENT_PREFIX}${elementId}`);
+    const data = await redis.get(`${CONTENT_PREFIX}${elementId}`);
+    return data ? JSON.parse(data) : null;
   } catch (error) {
     console.error(`Error fetching content for ${elementId}:`, error);
     return null;
@@ -66,9 +71,12 @@ export async function saveContent(elementId, contentData) {
 
     // Save content with no expiry (10 years = effectively permanent)
     // This overrides the database's default 7-day TTL
-    await kv.set(`${CONTENT_PREFIX}${elementId}`, content, {
-      ex: 315360000 // 10 years in seconds (365 * 10 * 24 * 60 * 60)
-    });
+    await redis.set(
+      `${CONTENT_PREFIX}${elementId}`,
+      JSON.stringify(content),
+      'EX',
+      315360000 // 10 years in seconds (365 * 10 * 24 * 60 * 60)
+    );
 
     // Save to history if content existed before
     if (existingContent) {
@@ -89,7 +97,7 @@ export async function saveContent(elementId, contentData) {
  */
 export async function deleteContent(elementId) {
   try {
-    await kv.del(`${CONTENT_PREFIX}${elementId}`);
+    await redis.del(`${CONTENT_PREFIX}${elementId}`);
     return true;
   } catch (error) {
     console.error(`Error deleting content for ${elementId}:`, error);
@@ -108,7 +116,8 @@ async function saveToHistory(elementId, content) {
     const historyKey = `${HISTORY_PREFIX}${elementId}`;
 
     // Get existing history
-    let history = (await kv.get(historyKey)) || [];
+    const historyData = await redis.get(historyKey);
+    let history = historyData ? JSON.parse(historyData) : [];
 
     // Add new entry with timestamp
     history.unshift({
@@ -122,9 +131,12 @@ async function saveToHistory(elementId, content) {
     }
 
     // Save updated history with no expiry (10 years = effectively permanent)
-    await kv.set(historyKey, history, {
-      ex: 315360000 // 10 years in seconds
-    });
+    await redis.set(
+      historyKey,
+      JSON.stringify(history),
+      'EX',
+      315360000 // 10 years in seconds
+    );
 
     return true;
   } catch (error) {
@@ -140,7 +152,8 @@ async function saveToHistory(elementId, content) {
  */
 export async function getContentHistory(elementId) {
   try {
-    return (await kv.get(`${HISTORY_PREFIX}${elementId}`)) || [];
+    const data = await redis.get(`${HISTORY_PREFIX}${elementId}`);
+    return data ? JSON.parse(data) : [];
   } catch (error) {
     console.error(`Error fetching history for ${elementId}:`, error);
     return [];
