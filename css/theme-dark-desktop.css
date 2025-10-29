@@ -1,0 +1,392 @@
+/**
+ * Dark Theme - Desktop Styles
+ * Revamply.AI Admin CMS
+ * @media (min-width: 768px)
+ */
+
+@import './theme-variables.css';
+
+@media (min-width: 768px) {
+  [data-theme="dark"] {
+    /* ===== SEMANTIC HEADING STYLES ===== */
+
+    /* Hero Section Headings */
+    .heading-hero-main {
+      font-size: var(--font-size-7xl);
+      font-weight: var(--font-weight-black);
+      line-height: var(--line-height-tight);
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .heading-hero-line1,
+    .heading-hero-line3 {
+      color: var(--text-primary);
+    }
+
+    .heading-hero-line2 {
+      background: var(--gradient-blue-pink);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradient-shift 3s ease infinite;
+    }
+
+    /* Form Section Headings */
+    .heading-form-main {
+      font-size: var(--font-size-5xl);
+      font-weight: var(--font-weight-black);
+      color: var(--color-light-text-primary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .heading-form-step {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-light-text-primary);
+      margin-bottom: var(--spacing-lg);
+      text-align: center;
+    }
+
+    /* Why Section Headings */
+    .heading-why-main {
+      font-size: var(--font-size-5xl);
+      font-weight: var(--font-weight-black);
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .heading-why-card {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-light-text-primary);
+      margin-bottom: var(--spacing-md);
+    }
+
+    /* Testimonials Section Headings */
+    .heading-testimonials-main {
+      font-size: var(--font-size-5xl);
+      font-weight: var(--font-weight-black);
+      color: var(--color-light-text-primary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .heading-testimonial-name {
+      font-weight: var(--font-weight-bold);
+      font-size: var(--font-size-lg);
+      color: var(--color-light-text-primary);
+    }
+
+    /* Process Section Headings */
+    .heading-process-main {
+      font-size: var(--font-size-5xl);
+      font-weight: var(--font-weight-black);
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .heading-process-step {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-md);
+    }
+
+    /* Features Section Headings */
+    .heading-features-main {
+      font-size: var(--font-size-5xl);
+      font-weight: var(--font-weight-black);
+      color: var(--color-light-text-primary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .heading-feature-card {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-light-text-primary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    /* Pricing Section Headings */
+    .heading-pricing-main {
+      font-size: var(--font-size-5xl);
+      font-weight: var(--font-weight-black);
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    /* CTA Section Headings */
+    .heading-cta-main {
+      font-size: var(--font-size-6xl);
+      font-weight: var(--font-weight-black);
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    /* Footer Headings */
+    .heading-footer-section {
+      font-size: var(--font-size-lg);
+      font-weight: var(--font-weight-bold);
+      color: var(--text-primary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    /* ===== SEMANTIC PARAGRAPH STYLES ===== */
+
+    /* Hero Paragraphs */
+    .paragraph-hero-description {
+      font-size: var(--font-size-2xl);
+      line-height: var(--line-height-relaxed);
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-2xl);
+      max-width: 64rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Form Paragraphs */
+    .paragraph-form-description {
+      font-size: var(--font-size-xl);
+      line-height: var(--line-height-relaxed);
+      color: var(--color-light-text-secondary);
+      max-width: 64rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Why Section Paragraphs */
+    .paragraph-why-subtitle {
+      font-size: var(--font-size-xl);
+      line-height: var(--line-height-normal);
+      color: var(--text-secondary);
+      max-width: 48rem;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .paragraph-why-card {
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-normal);
+      color: var(--color-light-text-secondary);
+    }
+
+    /* Testimonial Paragraphs */
+    .paragraph-testimonial-quote {
+      font-size: var(--font-size-lg);
+      line-height: var(--line-height-relaxed);
+      color: var(--color-light-text-secondary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .paragraph-testimonial-role {
+      font-size: var(--font-size-base);
+      color: var(--color-light-text-tertiary);
+    }
+
+    /* Process Paragraphs */
+    .paragraph-process-description {
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-normal);
+      color: var(--text-secondary);
+    }
+
+    /* Feature Paragraphs */
+    .paragraph-feature-description {
+      font-size: var(--font-size-lg);
+      line-height: var(--line-height-normal);
+      color: var(--color-light-text-tertiary);
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    /* CTA Paragraphs */
+    .paragraph-cta-description {
+      font-size: var(--font-size-2xl);
+      line-height: var(--line-height-relaxed);
+      color: var(--text-secondary);
+      margin-bottom: var(--spacing-3xl);
+    }
+
+    /* Footer Paragraphs */
+    .paragraph-footer-description {
+      font-size: var(--font-size-lg);
+      line-height: var(--line-height-relaxed);
+      color: var(--text-tertiary);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    /* ===== STAT NUMBERS ===== */
+
+    .stat-hero-number {
+      font-size: var(--font-size-3xl);
+      font-weight: var(--font-weight-bold);
+      background: var(--gradient-blue-pink);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .stat-hero-description {
+      font-size: var(--font-size-base);
+      color: var(--text-tertiary);
+    }
+
+    .stat-testimonial-number {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+      background: var(--gradient-blue-pink);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-testimonial-label {
+      font-size: var(--font-size-sm);
+      color: var(--color-light-text-tertiary);
+    }
+
+    /* ===== BACKGROUND STYLES ===== */
+
+    /* Section Backgrounds */
+    .section-hero {
+      background-color: var(--bg-primary);
+    }
+
+    .section-form {
+      background-color: var(--color-light-bg-primary);
+      color: var(--color-light-text-primary);
+    }
+
+    .section-why {
+      background-color: var(--bg-primary);
+    }
+
+    .section-testimonials {
+      background-color: var(--color-light-bg-primary);
+      color: var(--color-light-text-primary);
+    }
+
+    .section-process {
+      background-color: var(--bg-secondary);
+    }
+
+    .section-features {
+      background-color: var(--color-light-bg-primary);
+      color: var(--color-light-text-primary);
+    }
+
+    .section-pricing {
+      background-color: var(--bg-secondary);
+    }
+
+    .section-cta {
+      background-color: var(--bg-primary);
+    }
+
+    .section-footer {
+      background-color: var(--bg-secondary);
+    }
+
+    /* ===== ANIMATIONS ===== */
+
+    @keyframes gradient-shift {
+      0%, 100% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        box-shadow: var(--glow-blue);
+        opacity: 1;
+      }
+      50% {
+        box-shadow: var(--glow-pink);
+        opacity: 0.8;
+      }
+    }
+
+    @keyframes data-flow {
+      0% {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    /* Apply animations */
+    .gradient-shift {
+      background-size: 200% 200%;
+      animation: gradient-shift 3s ease infinite;
+    }
+
+    .pulse-glow {
+      animation: pulse-glow 2s ease-in-out infinite;
+    }
+
+    .data-flow {
+      animation: data-flow 4s linear infinite;
+    }
+
+    /* ===== HOVER EFFECTS ===== */
+
+    .hover-glow {
+      transition: all var(--transition-normal);
+    }
+
+    .hover-glow:hover {
+      box-shadow: var(--glow-blue);
+      transform: translateY(-2px);
+    }
+
+    .border-glow {
+      border: 1px solid transparent;
+      transition: border-color var(--transition-normal);
+    }
+
+    .border-glow:hover {
+      border-color: var(--color-primary-blue);
+    }
+
+    /* ===== EDITABLE ELEMENTS (Admin Mode) ===== */
+
+    [data-editable="true"] {
+      position: relative;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+    }
+
+    [data-editable="true"]:hover::after {
+      content: '✎';
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      background: var(--color-primary-blue);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      box-shadow: var(--shadow-lg);
+      z-index: 10;
+    }
+
+    [data-editable="true"].editing {
+      outline: 2px solid var(--color-primary-blue);
+      outline-offset: 4px;
+      background: rgba(96, 165, 250, 0.1);
+    }
+  }
+}
