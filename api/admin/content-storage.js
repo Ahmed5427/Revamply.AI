@@ -1,8 +1,6 @@
 /**
  * Content Storage Module
  * Manages editable content storage in Vercel KV (Redis)
- * 
- * UPDATED: Now uses KV_REDIS_URL to match blueprint-storage.js
  */
 
 import Redis from 'ioredis';
@@ -11,14 +9,23 @@ const CONTENT_PREFIX = 'content:';
 const HISTORY_PREFIX = 'history:';
 const MAX_HISTORY_ENTRIES = 50;
 
-// Debug: Check what KV_REDIS_URL we're using
-console.log('[DEBUG] KV_REDIS_URL exists:', !!process.env.KV_REDIS_URL);
-console.log('[DEBUG] KV_REDIS_URL value (first 20 chars):', process.env.KV_REDIS_URL ? process.env.KV_REDIS_URL.substring(0, 20) + '...' : 'UNDEFINED');
+// ✅ FIXED: Use KV_URL instead of KV_REDIS_URL (Vercel provides KV_URL)
+const kvUrl = process.env.KV_URL || process.env.KV_REDIS_URL || 'redis://localhost:6379';
 
-// Create Redis client - using KV_REDIS_URL to match blueprint-storage.js
-const kvUrl = process.env.KV_REDIS_URL || 'redis://localhost:6379';
+console.log('[DEBUG] KV_URL exists:', !!process.env.KV_URL);
 console.log('[DEBUG] Connecting to Redis with URL starting with:', kvUrl.substring(0, 20));
+
+// Create Redis client
 const redis = new Redis(kvUrl);
+
+// Test connection
+redis.ping((err, result) => {
+  if (err) {
+    console.error('[ERROR] Redis connection failed:', err);
+  } else {
+    console.log('[SUCCESS] Redis connection established:', result);
+  }
+});
 
 /**
  * Get all editable content
@@ -27,19 +34,29 @@ const redis = new Redis(kvUrl);
 export async function getAllContent() {
   try {
     const keys = await redis.keys(`${CONTENT_PREFIX}*`);
+    console.log(`[DEBUG] Found ${keys.length} content keys`);
+    
+    // Filter out the index key
+    const contentKeys = keys.filter(key => !key.endsWith(':index'));
+    console.log(`[DEBUG] Filtered to ${contentKeys.length} actual content items`);
+    
     const contentItems = [];
 
-    for (const key of keys) {
+    for (const key of contentKeys) {
       const data = await redis.get(key);
       if (data) {
-        const content = JSON.parse(data);
-        contentItems.push(content);
+        try {
+          const content = JSON.parse(data);
+          contentItems.push(content);
+        } catch (parseError) {
+          console.error(`[ERROR] Failed to parse content for key ${key}:`, parseError);
+        }
       }
     }
 
     return contentItems.sort((a, b) => a.elementId.localeCompare(b.elementId));
   } catch (error) {
-    console.error('Error fetching content:', error);
+    console.error('[ERROR] Error fetching content:', error);
     return [];
   }
 }
@@ -54,7 +71,7 @@ export async function getContent(elementId) {
     const data = await redis.get(`${CONTENT_PREFIX}${elementId}`);
     return data ? JSON.parse(data) : null;
   } catch (error) {
-    console.error(`Error fetching content for ${elementId}:`, error);
+    console.error(`[ERROR] Error fetching content for ${elementId}:`, error);
     return null;
   }
 }
@@ -77,14 +94,17 @@ export async function saveContent(elementId, contentData) {
       updatedAt: new Date().toISOString(),
     };
 
-    // Save content with no expiry (10 years = effectively permanent)
-    // This overrides the database's default 7-day TTL
+    console.log(`[DEBUG] Saving content for ${elementId}`);
+
+    // Save content with 10 year expiry (effectively permanent)
     await redis.set(
       `${CONTENT_PREFIX}${elementId}`,
       JSON.stringify(content),
       'EX',
-      315360000 // 10 years in seconds (365 * 10 * 24 * 60 * 60)
+      315360000 // 10 years in seconds
     );
+
+    console.log(`[SUCCESS] Saved content for ${elementId}`);
 
     // Save to history if content existed before
     if (existingContent) {
@@ -93,7 +113,7 @@ export async function saveContent(elementId, contentData) {
 
     return true;
   } catch (error) {
-    console.error(`Error saving content for ${elementId}:`, error);
+    console.error(`[ERROR] Error saving content for ${elementId}:`, error);
     return false;
   }
 }
@@ -106,9 +126,10 @@ export async function saveContent(elementId, contentData) {
 export async function deleteContent(elementId) {
   try {
     await redis.del(`${CONTENT_PREFIX}${elementId}`);
+    console.log(`[SUCCESS] Deleted content for ${elementId}`);
     return true;
   } catch (error) {
-    console.error(`Error deleting content for ${elementId}:`, error);
+    console.error(`[ERROR] Error deleting content for ${elementId}:`, error);
     return false;
   }
 }
@@ -138,7 +159,7 @@ async function saveToHistory(elementId, content) {
       history = history.slice(0, MAX_HISTORY_ENTRIES);
     }
 
-    // Save updated history with no expiry (10 years = effectively permanent)
+    // Save updated history with 10 year expiry
     await redis.set(
       historyKey,
       JSON.stringify(history),
@@ -148,7 +169,7 @@ async function saveToHistory(elementId, content) {
 
     return true;
   } catch (error) {
-    console.error(`Error saving history for ${elementId}:`, error);
+    console.error(`[ERROR] Error saving history for ${elementId}:`, error);
     return false;
   }
 }
@@ -163,7 +184,7 @@ export async function getContentHistory(elementId) {
     const data = await redis.get(`${HISTORY_PREFIX}${elementId}`);
     return data ? JSON.parse(data) : [];
   } catch (error) {
-    console.error(`Error fetching history for ${elementId}:`, error);
+    console.error(`[ERROR] Error fetching history for ${elementId}:`, error);
     return [];
   }
 }
@@ -232,7 +253,7 @@ export async function exportContent() {
       content,
     };
   } catch (error) {
-    console.error('Error exporting content:', error);
+    console.error('[ERROR] Error exporting content:', error);
     throw error;
   }
 }
