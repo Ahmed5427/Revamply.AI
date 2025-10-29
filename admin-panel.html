@@ -1053,15 +1053,16 @@ async function initializeContent() {
         // Step 5: Send to API
         button.innerHTML = '<div class="loading-spinner"></div>Saving to database...';
         
-        const response = await fetch('/api/admin/initialize-content', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                elements: elementsData,
-            }),
-        });
+       const response = await fetch('/api/admin/initialize-content', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        credentials: 'include', // ✅ This sends cookies with the request
+        body: JSON.stringify({
+            elements: elementsData,
+        }),
+       });
         
         const data = await response.json();
         
