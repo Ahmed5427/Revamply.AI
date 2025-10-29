@@ -33,7 +33,7 @@ Add these to Vercel → Settings → Environment Variables:
 
 ```env
 ADMIN_USERNAME=admin
-ADMIN_PASSWORD_HASH=$2b$10$HG8XHDq.5DEXF9I7QzSrNO4YdZFLpVkyVqrSINMbwVEoPy881Yb0y
+ADMIN_PASSWORD_HASH=$2a$10$6hhjsxKcov0o/q5xph6Yjehd5pr600B6VUJlEdQq.GEPCoyk05942
 JWT_SECRET=revamply-super-secret-jwt-key-2024-change-this-now
 KV_URL=(from Vercel KV)
 KV_REST_API_URL=(from Vercel KV)
