@@ -1,12 +1,8 @@
 // api/admin/initialize-content.js
 // API endpoint to initialize editable content (data sent from browser)
-// UPDATED: Uses ioredis with KV_REDIS_URL to match project setup
 
-import Redis from 'ioredis';
 import { getTokenFromRequest, verifyToken } from './auth-utils.js';
-
-// Create Redis client using KV_REDIS_URL (same as blueprint-storage.js)
-const redis = new Redis(process.env.KV_REDIS_URL);
+import { saveContent, getContent } from './content-storage.js';
 
 export default async function handler(req, res) {
     // Only allow POST requests
@@ -15,7 +11,7 @@ export default async function handler(req, res) {
     }
     
     try {
-        // ✅ Authentication using correct cookie name
+        // ✅ Use auth utility to get token from correct cookie name
         const token = getTokenFromRequest(req);
         
         if (!token) {
@@ -23,6 +19,7 @@ export default async function handler(req, res) {
             return res.status(401).json({ success: false, message: 'Not authenticated' });
         }
         
+        // ✅ Use auth utility to verify token
         const decoded = verifyToken(token);
         
         if (!decoded) {
@@ -58,22 +55,28 @@ export default async function handler(req, res) {
                 continue;
             }
             
-            // Check if this element already exists in the database
-            const existingData = await redis.get(`content:${elementId}`);
-            const existing = existingData ? JSON.parse(existingData) : null;
+            // ✅ Use content-storage.js to check if element exists
+            const existing = await getContent(elementId);
             
             if (existing) {
                 // Update the element if text is different
                 if (existing.text !== text) {
-                    const updatedData = {
-                        ...existing,
+                    // ✅ Use content-storage.js to save
+                    const success = await saveContent(elementId, {
                         text,
-                        updatedAt: new Date().toISOString(),
-                    };
-                    await redis.set(`content:${elementId}`, JSON.stringify(updatedData));
-                    console.log(`🔄 Updated ${elementId}`);
-                    updated++;
-                    results.push({ elementId, action: 'updated', type });
+                        type: type || existing.type,
+                        styles: styles || existing.styles,
+                    });
+                    
+                    if (success) {
+                        console.log(`🔄 Updated ${elementId}`);
+                        updated++;
+                        results.push({ elementId, action: 'updated', type });
+                    } else {
+                        console.log(`❌ Failed to update ${elementId}`);
+                        skipped++;
+                        results.push({ elementId, action: 'failed', type });
+                    }
                 } else {
                     console.log(`⏭️  Skipped ${elementId} (unchanged)`);
                     skipped++;
@@ -82,30 +85,24 @@ export default async function handler(req, res) {
                 continue;
             }
             
-            // Create content object
-            const contentData = {
-                elementId,
+            // Create content object and save using content-storage.js
+            // ✅ Use content-storage.js to save new content
+            const success = await saveContent(elementId, {
                 text,
                 type: type || 'text',
                 styles: styles || { color: '#000000', fontSize: '16px' },
-                updatedAt: new Date().toISOString(),
                 createdAt: new Date().toISOString(),
-            };
+            });
             
-            // Save to database using ioredis
-            await redis.set(`content:${elementId}`, JSON.stringify(contentData));
-            
-            // Add to content index
-            const indexData = await redis.get('content:index');
-            let contentIndex = indexData ? JSON.parse(indexData) : [];
-            if (!contentIndex.includes(elementId)) {
-                contentIndex.push(elementId);
-                await redis.set('content:index', JSON.stringify(contentIndex));
+            if (success) {
+                console.log(`✅ Initialized ${elementId} (${type})`);
+                initialized++;
+                results.push({ elementId, action: 'initialized', type });
+            } else {
+                console.log(`❌ Failed to initialize ${elementId}`);
+                skipped++;
+                results.push({ elementId, action: 'failed', type });
             }
-            
-            console.log(`✅ Initialized ${elementId} (${type})`);
-            initialized++;
-            results.push({ elementId, action: 'initialized', type });
         }
         
         console.log(`✨ Initialization complete!`);
