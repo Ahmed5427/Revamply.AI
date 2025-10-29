@@ -1,10 +1,7 @@
 // api/admin/initialize-content.js
-// API endpoint to scan index.html and initialize all editable content in the database
+// API endpoint to initialize editable content (data sent from browser)
 
 import { kv } from '@vercel/kv';
-import { readFileSync } from 'fs';
-import { join } from 'path';
-import { JSDOM } from 'jsdom';
 import jwt from 'jsonwebtoken';
 
 export default async function handler(req, res) {
@@ -27,47 +24,30 @@ export default async function handler(req, res) {
             return res.status(401).json({ success: false, message: 'Invalid token' });
         }
         
-        console.log('📖 Reading index.html...');
+        // Get the scanned elements from the request body
+        const { elements } = req.body;
         
-        // Read the HTML file
-        const htmlPath = join(process.cwd(), 'index.html');
-        const html = readFileSync(htmlPath, 'utf-8');
-        const dom = new JSDOM(html);
-        const document = dom.window.document;
+        if (!elements || !Array.isArray(elements)) {
+            return res.status(400).json({ 
+                success: false, 
+                message: 'Invalid request: elements array required' 
+            });
+        }
         
-        // Find all elements with data-editable="true"
-        const editableElements = document.querySelectorAll('[data-editable="true"]');
-        
-        console.log(`Found ${editableElements.length} editable elements`);
+        console.log(`📦 Received ${elements.length} elements to initialize`);
         
         let initialized = 0;
         let skipped = 0;
         let updated = 0;
         const results = [];
         
-        for (const element of editableElements) {
-            const elementId = element.getAttribute('data-element-id');
+        for (const element of elements) {
+            const { elementId, text, type, styles } = element;
             
             if (!elementId) {
-                console.log(`⚠️  Skipping element without data-element-id`);
+                console.log(`⚠️  Skipping element without elementId`);
                 skipped++;
                 continue;
-            }
-            
-            // Get element properties
-            const text = element.textContent.trim();
-            const tagName = element.tagName.toLowerCase();
-            
-            // Determine element type
-            let type = 'text';
-            if (tagName.match(/^h[1-6]$/)) {
-                type = 'heading';
-            } else if (tagName === 'p') {
-                type = 'paragraph';
-            } else if (tagName === 'span') {
-                type = 'span';
-            } else if (tagName === 'div' && elementId.includes('stat')) {
-                type = 'stat';
             }
             
             // Check if this element already exists in the database
@@ -93,18 +73,12 @@ export default async function handler(req, res) {
                 continue;
             }
             
-            // Get basic styles
-            const styles = {
-                color: '#000000',
-                fontSize: '16px',
-            };
-            
             // Create content object
             const contentData = {
                 elementId,
                 text,
-                type,
-                styles,
+                type: type || 'text',
+                styles: styles || { color: '#000000', fontSize: '16px' },
                 updatedAt: new Date().toISOString(),
                 createdAt: new Date().toISOString(),
             };
@@ -128,13 +102,13 @@ export default async function handler(req, res) {
         console.log(`   ✅ Initialized: ${initialized} elements`);
         console.log(`   🔄 Updated: ${updated} elements`);
         console.log(`   ⏭️  Skipped: ${skipped} elements`);
-        console.log(`   📊 Total: ${editableElements.length} elements`);
+        console.log(`   📊 Total: ${elements.length} elements`);
         
         return res.status(200).json({
             success: true,
             message: 'Content initialized successfully',
             stats: {
-                total: editableElements.length,
+                total: elements.length,
                 initialized,
                 updated,
                 skipped,
