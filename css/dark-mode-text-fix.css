@@ -1,0 +1,156 @@
+/* ===============================================
+   DARK MODE FIX - UTILITY CLASS SOLUTION
+   Add this file AFTER all other CSS files
+   =============================================== */
+
+@media (prefers-color-scheme: dark) {
+    
+    /* =========================================
+       .preserve-white utility class
+       Add this to white cards that should stay white
+       ========================================= */
+    
+    .preserve-white.bg-white {
+        background: #ffffff !important;
+    }
+    
+    /* All direct children get dark text */
+    .preserve-white span,
+    .preserve-white p,
+    .preserve-white div {
+        color: #1f2937 !important;
+    }
+    
+    .preserve-white h1,
+    .preserve-white h2,
+    .preserve-white h3,
+    .preserve-white h4 {
+        color: #111827 !important;
+    }
+    
+    .preserve-white .font-medium {
+        color: #1f2937 !important;
+    }
+    
+    .preserve-white .text-gray-500 {
+        color: #6b7280 !important;
+    }
+    
+    /* BUT: Nested elements with their own backgrounds are NOT affected */
+    .preserve-white .bg-blue-100,
+    .preserve-white .bg-pink-100,
+    .preserve-white .bg-blue-100 *,
+    .preserve-white .bg-pink-100 * {
+        color: inherit !important; /* Use their own context */
+    }
+    
+    /* Gradient text still works */
+    .preserve-white .text-gradient {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        color: transparent !important;
+    }
+    
+    /* =========================================
+       .preserve-light utility class
+       Add this to light colored boxes (bg-blue-100, bg-pink-100, etc.)
+       ========================================= */
+    
+    .preserve-light.bg-blue-100 {
+        background: #dbeafe !important; /* Light blue */
+    }
+    
+    .preserve-light.bg-pink-100 {
+        background: #fce7f3 !important; /* Light pink */
+    }
+    
+    .preserve-light.bg-gray-100 {
+        background: #f3f4f6 !important; /* Light gray */
+    }
+    
+    /* All children get dark text */
+    .preserve-light * {
+        color: #1f2937 !important;
+    }
+    
+    .preserve-light .text-gray-500 {
+        color: #6b7280 !important;
+    }
+    
+    .preserve-light .font-medium {
+        color: #1f2937 !important;
+    }
+    
+    /* =========================================
+       .preserve-bg utility class (optional)
+       Keeps the background as-is without forcing dark mode changes
+       ========================================= */
+    
+    .preserve-bg.bg-gray-50 {
+        background: #f9fafb !important;
+    }
+    
+    .preserve-bg.bg-gray-100 {
+        background: #f3f4f6 !important;
+    }
+    
+    .preserve-bg * {
+        color: #1f2937 !important;
+    }
+}
+
+/* =========================================
+   MOBILE SPECIFIC
+   ========================================= */
+
+@media (max-width: 768px) and (prefers-color-scheme: dark) {
+    
+    .preserve-white.bg-white {
+        background: #ffffff !important;
+    }
+    
+    .preserve-white * {
+        color: #1f2937 !important;
+    }
+    
+    .preserve-white .text-gradient {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        color: transparent !important;
+    }
+    
+    .preserve-light.bg-blue-100 {
+        background: #dbeafe !important;
+    }
+    
+    .preserve-light.bg-pink-100 {
+        background: #fce7f3 !important;
+    }
+    
+    .preserve-light * {
+        color: #1f2937 !important;
+    }
+}
+
+/* =========================================
+   ADDITIONAL HELPER CLASSES
+   ========================================= */
+
+@media (prefers-color-scheme: dark) {
+    
+    /* Force dark text (use sparingly) */
+    .dark-text,
+    .dark-text * {
+        color: #1f2937 !important;
+    }
+    
+    /* Force light text (use sparingly) */
+    .light-text,
+    .light-text * {
+        color: #e5e7eb !important;
+    }
+}

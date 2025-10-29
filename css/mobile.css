@@ -1,0 +1,1316 @@
+/* ===============================================
+   REVAMPLY - MOBILE STYLES
+   Mobile-first responsive design and overrides
+   =============================================== */
+
+/* ===============================================
+   MOBILE BASE OVERRIDES
+   =============================================== */
+@media (max-width: 768px) {
+    body {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+    
+    /* Prevent horizontal scroll on mobile */
+    html, body {
+        overflow-x: hidden;
+        width: 100%;
+    }
+    
+    /* Mobile container adjustments */
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+/* ===============================================
+   MOBILE TYPOGRAPHY
+   =============================================== */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem !important;
+        line-height: 1.2;
+        margin-bottom: 1rem;
+    }
+    
+    h2 {
+        font-size: 2rem !important;
+        line-height: 1.3;
+        margin-bottom: 1rem;
+    }
+    
+    h3 {
+        font-size: 1.5rem !important;
+        line-height: 1.4;
+        margin-bottom: 0.75rem;
+    }
+    
+    .text-5xl,
+    .text-6xl,
+    .text-7xl {
+        font-size: 2.5rem !important;
+    }
+    
+    .text-xl,
+    .text-2xl {
+        font-size: 1.125rem !important;
+        line-height: 1.5;
+    }
+    
+    .text-lg {
+        font-size: 1rem !important;
+        color: black;
+    }
+}
+
+/* ===============================================
+   MOBILE HERO SECTION
+   =============================================== */
+@media (max-width: 768px) {
+    #hero {
+        min-height: 100vh;
+        padding: 3rem 0 2rem;
+        display: flex;
+        align-items: center;
+    }
+
+    #hero .container {
+        padding: 1.25rem;
+    }
+
+    #hero h1 {
+        font-size: 1.875rem !important;
+        margin-bottom: 1.5rem;
+        text-align: center;
+        line-height: 0.25;
+        padding: 0 0.5rem;
+    }
+
+    /* Better display for hero heading lines on mobile */
+    #hero h1 span {
+        display: block;
+        margin: 0.375rem 0;
+    }
+
+    #hero h1 .text-white {
+        font-size: 1.875rem !important;
+        color: #ffffff !important;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    #hero h1 .text-gradient {
+        font-size: 2rem !important;
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+        font-weight: 900 !important;
+        letter-spacing: -0.02em;
+        padding: 0.25rem 0;
+        line-height: 1.2;
+    }
+
+    #hero p {
+        font-size: 1rem !important;
+        margin-bottom: 2rem;
+        text-align: center;
+        padding: 0 0.75rem;
+        line-height: 1.6;
+        color: #d1d5db !important;
+    }
+
+    #hero button {
+        width: 100%;
+        max-width: 100%;
+        margin: 0 auto;
+        display: block;
+        padding: 1.125rem 1.5rem !important;
+        font-size: 0.95rem !important;
+        white-space: normal;
+        height: auto;
+        line-height: 1.4;
+    }
+
+    #hero .fa-lightbulb {
+        font-size: 3rem !important;
+    }
+
+    /* Mobile hero stats */
+    #hero .grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.75rem;
+        margin-top: 2.5rem;
+        padding: 0 0.5rem;
+    }
+
+    #hero .grid .text-center {
+        padding: 1rem;
+    }
+
+    #hero .grid .text-3xl {
+        font-size: 2rem !important;
+    }
+
+    #hero .grid .text-gray-400 {
+        color: #9ca3af !important;
+        font-size: 0.938rem;
+    }
+}
+
+/* ===============================================
+   MOBILE NAVIGATION
+   =============================================== */
+@media (max-width: 768px) {
+    #header {
+        padding: 0.875rem 1rem;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        backdrop-filter: blur(10px);
+    }
+
+    #header .container {
+        padding: 0;
+        margin: 0 auto;
+    }
+
+    #header nav {
+        display: none !important;
+    }
+
+    #header .flex {
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    #header img {
+        height: 2.25rem;
+        width: auto;
+    }
+
+    #header button {
+        padding: 0.75rem 1.25rem !important;
+        font-size: 0.813rem !important;
+        border-radius: 0.625rem;
+        white-space: nowrap;
+        min-width: auto;
+    }
+}
+
+/* ===============================================
+   MOBILE ANIMATIONS (SIMPLIFIED)
+   =============================================== */
+@media (max-width: 768px) {
+    /* Disable complex animations on mobile for performance */
+    .neon-glow {
+        animation: none;
+        box-shadow: 0 0 20px var(--primary-blue);
+    }
+    
+    .floating-particle {
+        animation-duration: 12s;
+        animation-delay: 2s;
+    }
+    
+    .data-flow {
+        animation-duration: 6s;
+    }
+    
+    .pulse-glow {
+        animation-duration: 3s;
+    }
+    
+    /* Reduce particle count on mobile */
+    .particle-container {
+        opacity: 0.5;
+    }
+    
+    /* Simplified hover effects */
+    .hover-glow:hover {
+        transform: none;
+        box-shadow: 0 4px 12px rgba(0, 229, 255, 0.3);
+    }
+}
+
+/* ===============================================
+   MOBILE FORM STYLES
+   =============================================== */
+@media (max-width: 768px) {
+    #form-section {
+        padding: 2.5rem 0;
+    }
+
+    #form-section .container {
+        padding: 1rem;
+    }
+
+    #form-section h2 {
+        font-size: 1.75rem !important;
+        margin-bottom: 1rem;
+        text-align: center;
+        line-height: 1.3;
+        padding: 0 0.5rem;
+    }
+
+    #form-section p {
+        font-size: 0.938rem !important;
+        text-align: center;
+        margin-bottom: 1.75rem;
+        padding: 0 1rem;
+        line-height: 1.5;
+    }
+
+    /* Mobile form container */
+    .bg-white.rounded-3xl {
+        border-radius: 1.25rem !important;
+        padding: 1.25rem !important;
+        margin: 0.75rem;
+    }
+
+    /* Mobile form grid */
+    .form-grid {
+        gap: 1.25rem;
+    }
+
+    .form-grid-2,
+    .form-grid-3 {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Mobile form fields */
+    .field-input {
+        padding: 0.938rem !important;
+        font-size: 16px !important; /* Prevent zoom on iOS */
+        border-radius: 0.75rem;
+        min-height: 48px;
+    }
+
+    .field-input:focus {
+        transform: none;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .field-label {
+        font-size: 0.875rem !important;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+
+    /* Mobile textarea */
+    textarea.field-input {
+        min-height: 110px;
+        resize: vertical;
+        line-height: 1.5;
+    }
+
+    /* Mobile phone input */
+    .phone-input-group {
+        flex-direction: column;
+        gap: 0.875rem;
+    }
+
+    .country-select {
+        width: 100%;
+        order: 1;
+    }
+
+    .phone-input {
+        order: 2;
+    }
+
+    /* Mobile progress bar */
+    .progress-bar {
+        height: 5px;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Mobile step navigation */
+    .flex.justify-between {
+        flex-direction: column;
+        gap: 0.875rem;
+    }
+
+    .flex.justify-between button {
+        width: 100%;
+        padding: 1rem 1.25rem !important;
+        font-size: 0.938rem !important;
+        min-height: 50px;
+    }
+
+    /* Mobile form step headers */
+    .form-step h3 {
+        font-size: 1.375rem !important;
+        text-align: center;
+        margin-bottom: 1.25rem;
+        line-height: 1.3;
+    }
+}
+
+/* ===============================================
+   MOBILE BLUEPRINT SECTION
+   =============================================== */
+@media (max-width: 768px) {
+    #blueprint-section {
+        padding: 3rem 0;
+    }
+    
+    #blueprint-section .container {
+        padding: 1rem;
+    }
+    
+    #blueprint-section h2 {
+        font-size: 2rem !important;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+    
+    /* Mobile blueprint grid */
+    #blueprint-content {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem;
+    }
+    
+    /* Mobile blueprint cards */
+    #blueprint-content .bg-white {
+        padding: 1.5rem !important;
+        border-radius: 1rem !important;
+    }
+    
+    #blueprint-content h3 {
+        font-size: 1.25rem !important;
+        margin-bottom: 1rem;
+    }
+    
+    #blueprint-content .w-16 {
+        width: 3rem !important;
+        height: 3rem !important;
+        margin-bottom: 1rem;
+    }
+    
+    /* Mobile implementation details */
+    .grid.md\\:grid-cols-2 {
+        grid-template-columns: 1fr !important;
+        gap: 2rem;
+    }
+    
+    .bg-gray-50.rounded-2xl {
+        padding: 1.5rem !important;
+        border-radius: 1rem !important;
+    }
+}
+
+/* ===============================================
+   MOBILE BLUEPRINT WAITING
+   =============================================== */
+@media (max-width: 768px) {
+    .blueprint-waiting {
+        padding: 2rem 1rem;
+        border-radius: 1rem;
+        margin: 1rem;
+    }
+    
+    .blueprint-waiting h3 {
+        font-size: 1.5rem !important;
+        margin-bottom: 1rem;
+    }
+    
+    .blueprint-waiting p {
+        font-size: 0.95rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .blueprint-waiting .spinner {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 1rem;
+    }
+    
+    .blueprint-waiting .text-sm {
+        font-size: 0.875rem;
+    }
+}
+
+/* ===============================================
+   MOBILE SECTIONS
+   =============================================== */
+@media (max-width: 768px) {
+    /* General section spacing */
+    section {
+        padding: 2.5rem 0 !important;
+    }
+
+    section h2 {
+        font-size: 1.75rem !important;
+        margin-bottom: 1.25rem;
+        padding: 0 1rem;
+        line-height: 1.3;
+    }
+
+    section p {
+        font-size: 0.938rem !important;
+        padding: 0 1rem;
+        line-height: 1.6;
+    }
+
+    /* Mobile why-revamply section */
+    #why-revamply .grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.25rem;
+        padding: 0 0.75rem;
+    }
+
+    #why-revamply .bg-white {
+        padding: 1.375rem !important;
+        border-radius: 1rem !important;
+    }
+
+    #why-revamply .w-16 {
+        width: 3.5rem !important;
+        height: 3.5rem !important;
+        margin-bottom: 1rem;
+    }
+
+    #why-revamply h3 {
+        font-size: 1.125rem !important;
+        margin-bottom: 0.75rem;
+    }
+
+    /* Mobile social proof */
+    #social-proof .grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.75rem;
+        padding: 0 0.75rem;
+    }
+
+    #social-proof .bg-gray-50 {
+        padding: 1.5rem !important;
+        border-radius: 1rem !important;
+    }
+
+    #social-proof .flex.space-x-4 {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    #social-proof .text-center div {
+        margin-bottom: 0.625rem;
+    }
+
+    #social-proof .text-3xl,
+    #social-proof .text-4xl,
+    #social-proof .text-5xl {
+        font-size: 2rem !important;
+    }
+
+    /* Mobile process section */
+    #process .grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.75rem;
+        padding: 0 0.75rem;
+    }
+
+    #process .text-center {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    #process .w-24 {
+        width: 4.5rem !important;
+        height: 4.5rem !important;
+        margin: 0 auto 1rem;
+    }
+
+    #process .bg-gray-800 {
+        padding: 1.5rem !important;
+        border-radius: 1rem !important;
+    }
+
+    #process h4 {
+        font-size: 1.125rem !important;
+    }
+
+    /* Mobile features showcase */
+    #features-showcase .grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem;
+        padding: 0 0.75rem;
+    }
+
+    #features-showcase .bg-gray-50 {
+        padding: 1.5rem !important;
+        border-radius: 1rem !important;
+        order: -1;
+    }
+
+    #features-showcase h3 {
+        font-size: 1.375rem !important;
+    }
+
+    #features-showcase ul li {
+        font-size: 0.938rem;
+        padding: 0.625rem 0;
+    }
+
+    /* Mobile pricing preview */
+    #pricing-preview .grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem;
+        text-align: center;
+        padding: 0 0.75rem;
+    }
+
+    #pricing-preview .bg-gray-800 {
+        padding: 1.5rem !important;
+        border-radius: 1rem !important;
+    }
+
+    #pricing-preview .text-5xl,
+    #pricing-preview .text-6xl {
+        font-size: 2.25rem !important;
+    }
+}
+
+/* ===============================================
+   MOBILE CTA SECTION
+   =============================================== */
+@media (max-width: 768px) {
+    #final-cta {
+        padding: 3rem 0;
+    }
+    
+    #final-cta h2 {
+        font-size: 2.25rem !important;
+        line-height: 1.2;
+        margin-bottom: 1.5rem;
+    }
+    
+    #final-cta p {
+        font-size: 1rem !important;
+        margin-bottom: 2rem;
+        padding: 0 0.5rem;
+    }
+    
+    #final-cta button {
+        width: 100%;
+        max-width: 350px;
+        margin: 0 auto 2rem;
+        display: block;
+        padding: 1.25rem 1.5rem;
+        font-size: 1.125rem;
+    }
+    
+    #final-cta .grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.5rem;
+        text-align: center;
+    }
+    
+    #final-cta .w-16 {
+        width: 3rem !important;
+        height: 3rem !important;
+        margin: 0 auto 1rem;
+    }
+}
+
+/* ===============================================
+   MOBILE FOOTER
+   =============================================== */
+@media (max-width: 768px) {
+    #footer {
+        padding: 2.5rem 0 2rem;
+    }
+
+    #footer .container {
+        padding: 0 1.25rem;
+    }
+
+    #footer .grid {
+        grid-template-columns: 1fr !important;
+        gap: 2.5rem;
+        text-align: center;
+    }
+
+    #footer .md\\:col-span-2 {
+        order: 1;
+        padding: 0 1rem;
+    }
+
+    #footer h4 {
+        font-size: 1.125rem !important;
+        margin-bottom: 1.25rem;
+    }
+
+    #footer ul {
+        padding: 0;
+    }
+
+    #footer li {
+        margin-bottom: 0.875rem;
+        font-size: 0.938rem;
+    }
+
+    #footer p {
+        font-size: 0.938rem !important;
+        line-height: 1.6;
+        padding: 0 0.5rem;
+    }
+
+    #footer .flex.space-x-4 {
+        justify-content: center;
+        margin-top: 1.25rem;
+        gap: 1rem;
+    }
+
+    #footer .flex.space-x-4 a,
+    #footer .flex.space-x-4 span {
+        width: 44px;
+        height: 44px;
+    }
+
+    #footer .flex.flex-col {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.25rem;
+    }
+
+    #footer .flex.space-x-6 {
+        flex-direction: column;
+        gap: 1.125rem;
+        align-items: center;
+        margin-top: 1.5rem;
+    }
+
+    #footer img {
+        height: 2.5rem !important;
+        width: auto;
+    }
+}
+
+/* ===============================================
+   MOBILE TOUCH OPTIMIZATIONS
+   =============================================== */
+@media (max-width: 768px) {
+    /* Larger touch targets */
+    button,
+    .btn-primary,
+    input[type="submit"],
+    a[role="button"] {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 1rem;
+        touch-action: manipulation;
+    }
+    
+    /* Better form controls for mobile */
+    select,
+    input,
+    textarea {
+        min-height: 48px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+    
+    /* iOS specific fixes */
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea {
+        -webkit-border-radius: 0.75rem;
+        border-radius: 0.75rem;
+    }
+    
+    /* Prevent zoom on input focus for iOS */
+    input,
+    select,
+    textarea {
+        font-size: 16px !important;
+    }
+}
+
+/* ===============================================
+   MOBILE PERFORMANCE OPTIMIZATIONS
+   =============================================== */
+@media (max-width: 768px) {
+    /* Reduce complex backgrounds */
+    #hero::before {
+        display: none;
+    }
+    
+    /* Simplify gradients */
+    .gradient-shift {
+        background: linear-gradient(45deg, var(--primary-blue), var(--primary-pink));
+        animation: none;
+    }
+    
+    /* Optimize shadows */
+    .shadow-2xl,
+    .shadow-xl {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    }
+    
+    /* Reduce backdrop filters for performance */
+    .backdrop-blur-sm {
+        backdrop-filter: none;
+        background: rgba(0, 0, 0, 0.9);
+    }
+}
+
+/* ===============================================
+   MOBILE LANDSCAPE ORIENTATION
+   =============================================== */
+@media (max-width: 768px) and (orientation: landscape) {
+    #hero {
+        min-height: auto;
+        padding: 1rem 0;
+    }
+    
+    #hero h1 {
+        font-size: 2rem !important;
+        margin-bottom: 1rem;
+    }
+    
+    #hero p {
+        font-size: 0.95rem !important;
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-step h3 {
+        font-size: 1.25rem !important;
+        margin-bottom: 1rem;
+    }
+    
+    section {
+        padding: 2rem 0 !important;
+    }
+}
+
+/* ===============================================
+   SMALL MOBILE DEVICES (320px and below)
+   =============================================== */
+@media (max-width: 320px) {
+    .container {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
+    
+    h1 {
+        font-size: 2rem !important;
+    }
+    
+    h2 {
+        font-size: 1.75rem !important;
+    }
+    
+    .bg-white.rounded-3xl {
+        margin: 0.5rem;
+        padding: 1rem !important;
+    }
+    
+    .field-input {
+        padding: 0.875rem;
+    }
+    
+    button {
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+    }
+}
+
+/* ===============================================
+   MOBILE ACCESSIBILITY
+   =============================================== */
+@media (max-width: 768px) {
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+        .field-input {
+            border-width: 3px;
+        }
+        
+        .text-gradient {
+            -webkit-text-fill-color: unset;
+            color: var(--primary-blue);
+        }
+    }
+    
+    /* Dark mode considerations */
+    @media (prefers-color-scheme: dark) {
+        .bg-white {
+            background: #1f2937 !important;
+            color: white;
+        }
+        
+        .text-black {
+            color: rgb(167 120 208) !important;
+        }
+        
+        .text-gray-600,
+        .text-gray-700 {
+            color: #d1d5db !important;
+        }
+    }
+    
+    /* Focus visibility */
+    button:focus,
+    input:focus,
+    textarea:focus,
+    select:focus {
+        outline: 3px solid var(--primary-blue);
+        outline-offset: 2px;
+    }
+}
+
+/* ===============================================
+   MOBILE PWA CONSIDERATIONS
+   =============================================== */
+@media (max-width: 768px) {
+    /* Safe area for notched devices */
+    .mobile-safe-top {
+        padding-top: env(safe-area-inset-top);
+    }
+    
+    .mobile-safe-bottom {
+        padding-bottom: env(safe-area-inset-bottom);
+    }
+    
+    /* Fullscreen app considerations */
+    @media (display-mode: standalone) {
+        #header {
+            padding-top: calc(1rem + env(safe-area-inset-top));
+        }
+        
+        body {
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+    }
+}
+
+/* ===============================================
+   ADDITIONAL MOBILE ENHANCEMENTS
+   =============================================== */
+@media (max-width: 768px) {
+    /* Better image handling */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Improved card spacing */
+    .bg-white.rounded-2xl,
+    .bg-gray-50.rounded-2xl,
+    .bg-gray-800.rounded-2xl {
+        padding: 1.25rem !important;
+        margin-bottom: 1rem;
+    }
+
+    /* Better icon sizes globally */
+    .fa-2xl {
+        font-size: 1.75rem !important;
+    }
+
+    .fa-3xl {
+        font-size: 2.25rem !important;
+    }
+
+    .fa-4xl {
+        font-size: 2.75rem !important;
+    }
+
+    /* Improved button spacing */
+    button,
+    .btn,
+    a[role="button"] {
+        margin: 0.5rem 0;
+    }
+
+    /* Better list spacing */
+    ul li,
+    ol li {
+        margin-bottom: 0.75rem;
+        line-height: 1.5;
+    }
+
+    /* Improved text readability */
+    p {
+        margin-bottom: 1rem;
+    }
+
+    /* Better spacing for text sections */
+    .max-w-4xl,
+    .max-w-5xl,
+    .max-w-6xl {
+        padding: 0 1rem;
+    }
+
+    /* Improved container max-width on mobile */
+    .container {
+        max-width: 100%;
+    }
+
+    /* Better spacing between sections */
+    section + section {
+        margin-top: 0;
+    }
+
+    /* Optimized grid gaps */
+    .grid {
+        gap: 1.25rem !important;
+    }
+
+    /* Better flex spacing */
+    .flex.gap-4 {
+        gap: 1rem !important;
+    }
+
+    .flex.gap-6 {
+        gap: 1.25rem !important;
+    }
+
+    .flex.gap-8 {
+        gap: 1.5rem !important;
+    }
+
+    /* Improved padding for containers */
+    .px-6 {
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
+    }
+
+    .py-12,
+    .py-16,
+    .py-20 {
+        padding-top: 2.5rem !important;
+        padding-bottom: 2.5rem !important;
+    }
+
+    /* Better margin spacing */
+    .mb-8,
+    .mb-10,
+    .mb-12 {
+        margin-bottom: 2rem !important;
+    }
+
+    .mt-8,
+    .mt-10,
+    .mt-12 {
+        margin-top: 2rem !important;
+    }
+}
+
+/* ===============================================
+   VERY SMALL DEVICES (max 375px)
+   =============================================== */
+@media (max-width: 375px) {
+    h1 {
+        font-size: 1.75rem !important;
+    }
+
+    h2 {
+        font-size: 1.5rem !important;
+    }
+
+    h3 {
+        font-size: 1.25rem !important;
+    }
+
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    #hero button {
+        font-size: 0.875rem !important;
+        padding: 1rem !important;
+    }
+
+    .field-input {
+        padding: 0.75rem !important;
+    }
+
+    .bg-white.rounded-3xl {
+        padding: 1rem !important;
+        margin: 0.5rem;
+    }
+
+    section {
+        padding: 2rem 0 !important;
+    }
+
+    #footer {
+        padding: 2rem 0 1.5rem;
+    }
+}
+
+/* ===============================================
+   MOBILE COLOR IMPROVEMENTS FOR BETTER VISIBILITY
+   =============================================== */
+@media (max-width: 768px) {
+    /* Ensure all white text is truly visible */
+    .text-white {
+        color: #ffffff !important;
+    }
+
+    /* Better gray text visibility */
+    .text-gray-300 {
+        color: #d1d5db !important;
+    }
+      .pricing-text {
+    color: #383838 !important;
+   }
+    .text-gray-400 {
+        color: #9ca3af !important;
+    }
+
+    .text-gray-500 {
+        color: #ffffff !important;
+    }
+
+    .text-gray-600 {
+        color: #4b5563 !important;
+    }
+
+    .text-gray-700 {
+        color: #374151 !important;
+    }
+
+    /* Ensure gradient text is visible */
+    .text-gradient {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
+
+    /* Better gradient shift animation */
+    .gradient-shift {
+        background: linear-gradient(135deg, #60a5fa 0%, #ec4899 100%) !important;
+        -webkit-background-clip: text !important;
+        -webkit-text-fill-color: transparent !important;
+        background-clip: text !important;
+    }
+
+    /* Section headings visibility */
+    section h2 {
+        color: #ffffff !important;
+    }
+
+    section h3 {
+        color: #ffffff !important;
+    }
+
+    section h4 {
+        color: #ffffff !important;
+    }
+
+    /* Form section text colors */
+    #form-section h2 {
+        color: #ffffff !important;
+    }
+
+    #form-section p {
+        color: #8796aa !important;
+    }
+
+    .text-gray-600 {
+        color: #8d98a7 !important;
+    }
+
+    .text-gray-500 {
+        color: #8e98ab !important;
+    }
+
+    .field-label {
+        color: #afb6c5 !important;
+    }
+
+    /* Blueprint section colors */
+    #blueprint-section h2,
+    #blueprint-section h3,
+    #blueprint-section h4 {
+        color: #111827 !important;
+    }
+
+    #blueprint-section p {
+        color: #4b5563 !important;
+    }
+
+    /* Social proof section */
+    #social-proof h2, #social-proof h3 {
+        color: #ffffff !important;
+    }
+
+    #social-proof p {
+        color: #a2aebf !important;
+    }
+
+    #social-proof .text-center div {
+        margin-bottom: 0rem;
+    }
+
+    /* Process section - dark background */
+    #process h2,
+    #process h3,
+    #process h4 {
+        color: #ffffff !important;
+    }
+
+    #process p {
+        color: #d1d5db !important;
+    }
+
+    /* Features showcase section */
+    #features-showcase h2 {
+        color: #ffffff !important;
+    }
+
+    #features-showcase h3 {
+        color: #ffffff !important;
+    }
+
+    #features-showcase p {
+        color: #a7b3c4 !important;
+    }
+
+    .font-medium {
+        font-weight: 500;
+        color: black;
+    }
+
+    /* Why Revamply section */
+    #why-revamply h2 {
+        color: #ffffff !important;
+    }
+
+    #why-revamply h3 {
+        color: #ffffff !important;
+    }
+
+    #why-revamply p {
+        color: #a5b1c2 !important;
+    }
+
+    /* CTA section colors */
+    #final-cta h2,
+    #final-cta h3 {
+        color: #ffffff !important;
+    }
+
+    #final-cta p {
+        color: #d1d5db !important;
+    }
+
+    /* Footer text colors */
+    #footer h4 {
+        color: #ffffff !important;
+    }
+
+    #footer p {
+        color: #9ca3af !important;
+    }
+
+    #footer a {
+        color: #9ca3af !important;
+    }
+
+    #footer a:hover {
+        color: #ffffff !important;
+    }
+
+    /* Button text always white */
+    button {
+        color: #ffffff !important;
+    }
+
+    /* Better link visibility */
+    a.text-cyan-600,
+    a.text-blue-600 {
+        color: #0891b2 !important;
+    }
+
+    /* Stats and metrics visibility */
+    .text-3xl,
+    .text-4xl,
+    .text-5xl,
+    .text-6xl {
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Card text visibility on white backgrounds */
+    .bg-white h3,
+    .bg-white h4 {
+        color: #111827 !important;
+    }
+
+    .bg-white p,
+    .bg-white li {
+        color: #4b5563 !important;
+    }
+
+    /* Card text visibility on gray backgrounds */
+    .bg-gray-50 h3,
+    .bg-gray-50 h4 {
+        color: #111827 !important;
+    }
+
+    .bg-gray-50 p,
+    .bg-gray-50 li {
+        color: #4b5563 !important;
+    }
+
+    /* Card text visibility on dark backgrounds */
+    .bg-gray-800 h3,
+    .bg-gray-800 h4,
+    .bg-gray-900 h3,
+    .bg-gray-900 h4,
+    .bg-black h3,
+    .bg-black h4 {
+        color: #ffffff !important;
+    }
+
+    .bg-gray-800 p, .bg-gray-800 li, .bg-gray-900 p, .bg-gray-900 li, .bg-black p, .bg-black li {
+        color: #424953 !important;
+    }
+
+    /* Error messages visibility */
+    .error-text,
+    .text-red-500 {
+        color: #ef4444 !important;
+    }
+
+    /* Success messages visibility */
+    .text-green-500 {
+        color: #22c55e !important;
+    }
+
+    /* Info messages visibility */
+    .text-blue-500 {
+        color: #3b82f6 !important;
+    }
+}
+
+/* ===============================================
+   MOBILE TEXT SHADOW FOR BETTER READABILITY
+   =============================================== */
+@media (max-width: 768px) {
+    /* Add subtle text shadow to headings on dark backgrounds */
+    #hero h1,
+    #hero h2 {
+        text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Better button text visibility */
+    button,
+    .btn {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Footer text shadow */
+    #footer h4,
+    #footer a {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    }
+}
