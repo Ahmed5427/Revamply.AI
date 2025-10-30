@@ -1,5 +1,9 @@
 {
-  "version": 2,
+  "buildCommand": null,
+  "devCommand": null,
+  "installCommand": null,
+  "framework": null,
+  "outputDirectory": null,
   "cleanUrls": true,
   "trailingSlash": false,
   "headers": [
