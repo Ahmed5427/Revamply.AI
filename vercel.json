@@ -1,32 +1,11 @@
 {
   "version": 2,
-  "public": true,
   "cleanUrls": true,
   "trailingSlash": false,
-  "routes": [
+  "rewrites": [
     {
-      "src": "/js/(.*)",
-      "dest": "/public/js/$1"
-    },
-    {
-      "src": "/css/(.*)",
-      "dest": "/css/$1"
-    },
-    {
-      "src": "/images/(.*)",
-      "dest": "/images/$1"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
-    },
-    {
-      "src": "/admin-panel.html",
-      "dest": "/admin-panel.html"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/$1"
+      "source": "/js/(.*)",
+      "destination": "/public/js/$1"
     }
   ],
   "headers": [
@@ -40,7 +19,7 @@
       ]
     },
     {
-      "source": "/js/(.*)",
+      "source": "/(.*).js",
       "headers": [
         {
           "key": "Cache-Control",
@@ -49,7 +28,7 @@
       ]
     },
     {
-      "source": "/css/(.*)",
+      "source": "/(.*).css",
       "headers": [
         {
           "key": "Cache-Control",
